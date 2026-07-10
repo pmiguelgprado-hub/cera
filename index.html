@@ -42,8 +42,8 @@
     <div class="campo">
       <label for="potenciaContratadaKw">Potencia contratada</label>
       <div class="campo-unidad">
-        <input type="number" id="potenciaContratadaKw" name="potenciaContratadaKw"
-               inputmode="decimal" min="1" max="1000" step="0.1" value="15" required>
+        <input type="text" id="potenciaContratadaKw" name="potenciaContratadaKw"
+               inputmode="decimal" autocomplete="off" value="15" required>
         <span class="unidad">kW</span>
       </div>
       <p class="error" id="error-potenciaContratadaKw" role="alert" hidden></p>
@@ -82,8 +82,8 @@
     <div class="campo">
       <label for="precioElectricidad">Precio medio de tu electricidad</label>
       <div class="campo-unidad">
-        <input type="number" id="precioElectricidad" name="precioElectricidad"
-               inputmode="decimal" min="0.05" max="0.60" step="0.01" value="0.18" required>
+        <input type="text" id="precioElectricidad" name="precioElectricidad"
+               inputmode="decimal" autocomplete="off" value="0,18" required>
         <span class="unidad">EUR/kWh</span>
       </div>
       <p class="error" id="error-precioElectricidad" role="alert" hidden></p>

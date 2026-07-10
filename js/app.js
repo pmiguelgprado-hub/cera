@@ -33,7 +33,8 @@ const TIPOS = {
 
 function leerFormulario() {
   const fd = new FormData(form);
-  const num = (k) => parseFloat(fd.get(k));
+  // Acepta coma o punto decimal: "0,18" y "0.18" valen igual.
+  const num = (k) => parseFloat(String(fd.get(k)).trim().replace(',', '.'));
   return {
     consumoAnualKwh: num('consumoAnualKwh'),
     potenciaContratadaKw: num('potenciaContratadaKw'),

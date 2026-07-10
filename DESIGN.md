@@ -32,11 +32,13 @@ Prohibido `#000`/`#fff` puros. Sin gradientes, sin glass, sin side-stripes.
 
 ## Tipografía
 
-Una sola familia: pila de sistema (`system-ui, -apple-system, "Segoe UI",
-sans-serif`). Base 18 px (accesibilidad rural). Escala 1.2 en rem fijos:
-`1rem / 1.2rem / 1.44rem / 1.75rem / 2.1rem`. Peso 400 texto, 600 etiquetas y
-cifras, 700 titulares. Cifras de resultado con `font-variant-numeric:
-tabular-nums`.
+Dos niveles. Display: **Bricolage Grotesque** (self-hosted,
+`assets/fonts/bricolage-grotesque-latin.woff2`, subset latin, pesos 600-800)
+para marca, titulares, veredicto y botones — carácter humanista, elegida
+explícitamente contra el look plantilla-IA (nada de Inter/Manrope). Texto:
+pila de sistema. Base 18 px (accesibilidad rural). Escala 1.2 en rem fijos.
+Peso 400 texto, 600 etiquetas y cifras, 700-800 titulares. Cifras de resultado
+con `font-variant-numeric: tabular-nums` (pila de sistema, no Bricolage).
 
 ## Layout
 
@@ -44,8 +46,13 @@ tabular-nums`.
   pegajosos (dcha.). Móvil: apilado, resultados tras el botón Calcular.
 - Máx. 72ch para prosa. Sin cards anidadas; los resultados son una lista de
   definición con filas separadas por borde de 1 px, no una rejilla de tarjetas.
-- Veredicto del semáforo: banda superior del panel de resultados, con punto de
-  color + frase-veredicto. Nunca un "big number hero".
+- Veredicto del semáforo: banda superior del panel de resultados con fondo
+  tintado según nivel (`--verde-tinte` / `--solar-tinte` / `--alerta-tinte`),
+  punto de color + frase-veredicto. Nunca un "big number hero".
+- Cabecera con borde superior de 5 px `--solar` y marca en amarillo solar
+  (contraste 7,76:1 sobre verde-900, medido).
+- Filas de resultado con aparición escalonada (40 ms por fila, `backwards`);
+  desactivado bajo `prefers-reduced-motion`.
 
 ## Componentes
 

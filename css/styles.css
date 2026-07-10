@@ -13,8 +13,9 @@
   --verde-700: oklch(0.42 0.07 155);
   --verde-tinte: oklch(0.93 0.035 150);
   --crudo: oklch(0.975 0.008 90);
-  --arena-100: oklch(0.93 0.02 85);
-  --arena-300: oklch(0.85 0.03 85);
+  --azul-100: oklch(0.93 0.03 245);
+  --azul-300: oklch(0.84 0.05 245);
+  --azul-700: oklch(0.45 0.09 248);
   --tinta: oklch(0.25 0.02 155);
   --tinta-suave: oklch(0.44 0.02 155);
   --solar: oklch(0.85 0.16 90);
@@ -24,7 +25,8 @@
   --alerta-tinte: oklch(0.95 0.025 30);
 
   --display: 'Bricolage Grotesque', system-ui, sans-serif;
-  --radio: 8px;
+  --radio: 12px;
+  --pildora: 999px;
   --transicion: 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -45,9 +47,19 @@ body {
 .cabecera {
   background: var(--verde-900);
   color: oklch(0.96 0.01 90);
-  padding: 2.5rem 1.5rem 2.75rem;
+  padding: 2.5rem 1.5rem 1.25rem;
   border-top: 5px solid var(--solar);
 }
+
+.onda {
+  display: block;
+  width: 100%;
+  height: 3.5rem;
+  background: var(--crudo);
+  margin-top: -1px;
+}
+
+.onda svg { display: block; width: 100%; height: 100%; }
 
 .cabecera-int {
   max-width: 62rem;
@@ -66,7 +78,7 @@ body {
 .cabecera h1 {
   margin: 0 0 0.75rem;
   font-family: var(--display);
-  font-size: 2.3rem;
+  font-size: 2.6rem;
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -88,6 +100,15 @@ body {
   padding: 2.5rem 1.5rem 3rem;
   display: grid;
   gap: 2.5rem;
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+  .formulario .campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5rem;
+  }
+  input[type="number"], input[type="text"] { max-width: none; }
 }
 
 @media (min-width: 960px) {
@@ -147,7 +168,7 @@ select {
   font-variant-numeric: tabular-nums;
   color: var(--tinta);
   background: oklch(0.99 0.004 90);
-  border: 1.5px solid var(--arena-300);
+  border: 1.5px solid var(--azul-300);
   border-radius: var(--radio);
   transition: border-color var(--transicion), box-shadow var(--transicion);
 }
@@ -180,8 +201,8 @@ button:focus-visible,
 
 .segmentado {
   display: inline-flex;
-  border: 1.5px solid var(--arena-300);
-  border-radius: var(--radio);
+  border: 1.5px solid var(--azul-300);
+  border-radius: var(--pildora);
   overflow: hidden;
   background: oklch(0.99 0.004 90);
 }
@@ -203,7 +224,7 @@ button:focus-visible,
   min-height: 46px;
   padding: 0 1rem;
   cursor: pointer;
-  border-right: 1.5px solid var(--arena-300);
+  border-right: 1.5px solid var(--azul-300);
   transition: background var(--transicion), color var(--transicion);
 }
 
@@ -231,8 +252,8 @@ button {
   font-family: var(--display);
   font-weight: 600;
   min-height: 48px;
-  padding: 0 1.4rem;
-  border-radius: var(--radio);
+  padding: 0 1.6rem;
+  border-radius: var(--pildora);
   cursor: pointer;
   transition: background var(--transicion), border-color var(--transicion),
     transform var(--transicion), box-shadow var(--transicion);
@@ -256,7 +277,7 @@ button {
 .secundario {
   background: transparent;
   color: var(--verde-900);
-  border: 1.5px solid var(--arena-300);
+  border: 1.5px solid var(--azul-300);
 }
 
 .secundario:hover:not(:disabled) {
@@ -273,8 +294,8 @@ button {
 /* ---- Resultados ---- */
 
 .resultados {
-  background: var(--arena-100);
-  border: 1px solid var(--arena-300);
+  background: var(--azul-100);
+  border: 1px solid var(--azul-300);
   border-radius: var(--radio);
   padding: 1.5rem 1.5rem 1.75rem;
   animation: aparecer 220ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -300,8 +321,8 @@ button {
 
 .veredicto .punto {
   flex: none;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1.1rem;
+  height: 1.1rem;
   border-radius: 50%;
   transform: translateY(0.1rem);
 }
@@ -328,7 +349,7 @@ button {
   align-items: baseline;
   gap: 1rem;
   padding: 0.55rem 0;
-  border-bottom: 1px solid var(--arena-300);
+  border-bottom: 1px solid var(--azul-300);
   animation: aparecer 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
@@ -387,7 +408,7 @@ button {
   color: var(--verde-900);
 }
 
-.hipotesis summary:hover { color: var(--verde-700); }
+.hipotesis summary:hover { color: var(--azul-700); }
 
 .hipotesis ul { padding-left: 1.2rem; margin: 0.75rem 0; }
 
@@ -401,7 +422,7 @@ button {
 /* ---- Pie ---- */
 
 .pie {
-  border-top: 1px solid var(--arena-300);
+  border-top: 1px solid var(--azul-300);
   padding: 1.5rem;
   text-align: center;
   color: var(--tinta-suave);
@@ -428,7 +449,7 @@ button {
 
 @media print {
   html { font-size: 12pt; }
-  .formulario, .acciones { display: none; }
+  .formulario, .acciones, .onda { display: none; }
   .cabecera { background: none; color: var(--tinta); padding: 0 0 1rem; border-top: none; }
   .cabecera h1 { font-size: 1.6rem; }
   .marca { color: var(--verde-900); }
@@ -441,7 +462,7 @@ button {
     animation: none;
   }
   .cifras > div { animation: none; break-inside: avoid; }
-  .veredicto { border: 1px solid var(--arena-300); }
+  .veredicto { border: 1px solid var(--azul-300); }
   .print-datos { display: block; margin-top: 1.5rem; }
   .hipotesis { margin-top: 1rem; }
   .hipotesis summary { list-style: none; }

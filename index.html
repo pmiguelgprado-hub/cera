@@ -22,6 +22,13 @@
   </div>
 </header>
 
+<div class="onda" aria-hidden="true">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,0 L1440,0 L1440,30 C1200,10 960,46 720,26 C480,6 240,58 0,22 Z"
+          fill="oklch(0.32 0.06 155)"/>
+  </svg>
+</div>
+
 <main class="principal">
 
   <form id="formulario" class="formulario" novalidate>
@@ -29,6 +36,7 @@
     <p class="ayuda-form">Usa datos aproximados o ficticios. No introduzcas
     direcciones, CUPS ni datos de factura.</p>
 
+    <div class="campos">
     <div class="campo">
       <label for="consumoAnualKwh">Consumo eléctrico anual</label>
       <div class="campo-unidad">
@@ -87,6 +95,7 @@
         <span class="unidad">EUR/kWh</span>
       </div>
       <p class="error" id="error-precioElectricidad" role="alert" hidden></p>
+    </div>
     </div>
 
     <fieldset class="campo escenarios">

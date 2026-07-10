@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CERA — Calculadora de Energía Rural Agrivoltaica</title>
+  <meta name="description" content="Previabilidad orientativa de autoconsumo fotovoltaico para comunidades energéticas rurales y explotaciones agrarias de Asturias.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23163e2b'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f2c94c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="cabecera-int">
+    <p class="marca">CERA</p>
+    <h1>Calculadora de Energía Rural Agrivoltaica</h1>
+    <p class="entradilla">
+      Previabilidad orientativa de autoconsumo fotovoltaico para comunidades
+      energéticas rurales, cooperativas y explotaciones agrarias de Asturias.
+      Siete datos, un primer número honesto. Sin registros y sin datos personales.
+    </p>
+  </div>
+</header>
+
+<main class="principal">
+
+  <form id="formulario" class="formulario" novalidate>
+    <h2>Datos de partida</h2>
+    <p class="ayuda-form">Usa datos aproximados o ficticios. No introduzcas
+    direcciones, CUPS ni datos de factura.</p>
+
+    <div class="campo">
+      <label for="consumoAnualKwh">Consumo eléctrico anual</label>
+      <div class="campo-unidad">
+        <input type="number" id="consumoAnualKwh" name="consumoAnualKwh"
+               inputmode="numeric" min="500" max="1000000" step="100" value="25000" required>
+        <span class="unidad">kWh/año</span>
+      </div>
+      <p class="error" id="error-consumoAnualKwh" role="alert" hidden></p>
+    </div>
+
+    <div class="campo">
+      <label for="potenciaContratadaKw">Potencia contratada</label>
+      <div class="campo-unidad">
+        <input type="number" id="potenciaContratadaKw" name="potenciaContratadaKw"
+               inputmode="decimal" min="1" max="1000" step="0.1" value="15" required>
+        <span class="unidad">kW</span>
+      </div>
+      <p class="error" id="error-potenciaContratadaKw" role="alert" hidden></p>
+    </div>
+
+    <div class="campo">
+      <label for="superficieM2">Superficie disponible</label>
+      <div class="campo-unidad">
+        <input type="number" id="superficieM2" name="superficieM2"
+               inputmode="numeric" min="10" max="100000" step="10" value="200" required>
+        <span class="unidad">m²</span>
+      </div>
+      <p class="error" id="error-superficieM2" role="alert" hidden></p>
+    </div>
+
+    <div class="campo">
+      <label for="tipoSuperficie">Tipo de superficie</label>
+      <select id="tipoSuperficie" name="tipoSuperficie">
+        <option value="cubierta">Cubierta o tejado</option>
+        <option value="suelo">Suelo agrario (agrivoltaica)</option>
+        <option value="aparcamiento">Aparcamiento (marquesina)</option>
+      </select>
+      <p class="error" id="error-tipoSuperficie" role="alert" hidden></p>
+    </div>
+
+    <div class="campo">
+      <label for="participantes">Participantes en la iniciativa</label>
+      <div class="campo-unidad">
+        <input type="number" id="participantes" name="participantes"
+               inputmode="numeric" min="1" max="10" step="1" value="1" required>
+        <span class="unidad">de 1 a 10</span>
+      </div>
+      <p class="error" id="error-participantes" role="alert" hidden></p>
+    </div>
+
+    <div class="campo">
+      <label for="precioElectricidad">Precio medio de tu electricidad</label>
+      <div class="campo-unidad">
+        <input type="number" id="precioElectricidad" name="precioElectricidad"
+               inputmode="decimal" min="0.05" max="0.60" step="0.01" value="0.18" required>
+        <span class="unidad">EUR/kWh</span>
+      </div>
+      <p class="error" id="error-precioElectricidad" role="alert" hidden></p>
+    </div>
+
+    <fieldset class="campo escenarios">
+      <legend>Escenario de producción</legend>
+      <div class="segmentado" role="radiogroup">
+        <label><input type="radio" name="escenario" value="conservador"><span>Conservador</span></label>
+        <label><input type="radio" name="escenario" value="central" checked><span>Central</span></label>
+        <label><input type="radio" name="escenario" value="favorable"><span>Favorable</span></label>
+      </div>
+      <p class="error" id="error-escenario" role="alert" hidden></p>
+    </fieldset>
+
+    <div class="acciones">
+      <button type="submit" class="primario">Calcular previabilidad</button>
+      <button type="button" class="secundario" id="imprimir" disabled>Imprimir informe</button>
+    </div>
+  </form>
+
+  <section id="resultados" class="resultados" aria-live="polite" hidden>
+    <div id="veredicto" class="veredicto">
+      <span class="punto" aria-hidden="true"></span>
+      <p id="veredicto-texto"></p>
+    </div>
+
+    <h2>Resultados orientativos</h2>
+    <dl class="cifras">
+      <div><dt>Potencia fotovoltaica recomendada</dt><dd><span id="r-potencia"></span> <small>kWp</small></dd></div>
+      <div><dt>Producción anual estimada</dt><dd><span id="r-produccion"></span> <small>kWh/año</small></dd></div>
+      <div><dt>Energía autoconsumida</dt><dd><span id="r-autoconsumo"></span> <small>kWh/año</small></dd></div>
+      <div><dt>Cobertura de tu consumo</dt><dd><span id="r-cobertura"></span> <small>%</small></dd></div>
+      <div><dt>Excedentes vertidos a red</dt><dd><span id="r-excedentes"></span> <small>kWh/año</small></dd></div>
+      <div><dt>Ahorro económico anual</dt><dd><span id="r-ahorro"></span> <small>EUR/año</small></dd></div>
+      <div id="fila-reparto" hidden><dt>Ahorro por participante</dt><dd><span id="r-reparto"></span> <small>EUR/año</small></dd></div>
+      <div><dt>Emisiones evitadas</dt><dd><span id="r-co2"></span> <small>kg CO₂/año</small></dd></div>
+      <div><dt>Retorno simple estimado</dt><dd><span id="r-payback"></span> <small>años</small></dd></div>
+    </dl>
+
+    <ul id="avisos" class="avisos"></ul>
+
+    <details class="hipotesis" id="hipotesis">
+      <summary>Hipótesis y límites de esta estimación</summary>
+      <ul id="lista-hipotesis"></ul>
+      <p class="descargo">
+        Resultado orientativo y educativo, calculado con reglas simplificadas y
+        valores medios. No sustituye a una ingeniería, a un estudio de acceso y
+        conexión, a un instalador ni a una asesoría legal. Antes de decidir,
+        encarga una validación profesional.
+      </p>
+    </details>
+  </section>
+
+  <section class="print-datos" aria-hidden="true">
+    <h2>Datos introducidos</h2>
+    <dl id="print-entradas" class="cifras"></dl>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <p>CERA es una herramienta educativa de previabilidad. Los resultados son
+  orientativos y requieren validación profesional y estudio de conexión.</p>
+  <p class="pie-fecha">Informe generado el <span id="fecha-informe"></span>.</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

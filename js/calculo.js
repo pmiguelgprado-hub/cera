@@ -145,6 +145,6 @@ export function clasificarSemaforo(potenciaKwp, paybackAnios) {
   return {
     nivel: 'verde',
     veredicto:
-      'Buen punto de partida: los números orientativos salen favorables. El siguiente paso es un estudio profesional.',
+      'Viabilidad preliminar favorable. Con estas hipótesis, el caso merece avanzar a una revisión técnica y económica detallada.',
   };
 }

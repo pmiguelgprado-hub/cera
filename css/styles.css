@@ -32,10 +32,11 @@
 
 * { box-sizing: border-box; }
 
-html { font-size: 18px; }
+html { font-size: 18px; overflow-x: clip; }
 
 body {
   margin: 0;
+  overflow-x: clip;
   font-family: 'Bricolage Grotesque', system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--crudo);
   color: var(--tinta);
@@ -53,25 +54,43 @@ body {
   border-top: 5px solid var(--solar);
 }
 
-.sol {
+.cabecera::before {
+  content: '';
   position: absolute;
-  top: -3rem;
-  right: -3rem;
-  width: 16rem;
-  height: 16rem;
+  inset: 0;
   pointer-events: none;
-  opacity: 0.9;
+  background-image:
+    repeating-linear-gradient(0deg, oklch(0.97 0.01 90 / 0.05) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, oklch(0.97 0.01 90 / 0.05) 0 1px, transparent 1px 44px);
 }
-
-.sol svg { width: 100%; height: 100%; animation: girar 90s linear infinite; }
-
-@keyframes girar { to { transform: rotate(360deg); } }
 
 .cabecera-int { position: relative; }
 
-.cabecera-int > * { animation: aparecer 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
-.cabecera-int > :nth-child(2) { animation-delay: 80ms; }
-.cabecera-int > :nth-child(3) { animation-delay: 160ms; }
+.cabecera-texto > * { animation: aparecer 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.cabecera-texto > :nth-child(2) { animation-delay: 80ms; }
+.cabecera-texto > :nth-child(3) { animation-delay: 160ms; }
+
+.cabecera-ilustracion {
+  display: none;
+  animation: aparecer 500ms cubic-bezier(0.22, 1, 0.36, 1) 200ms backwards;
+}
+
+.cabecera-ilustracion svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+@media (min-width: 960px) {
+  .cabecera-int {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .cabecera-ilustracion { display: block; }
+}
 
 .onda {
   display: block;
@@ -89,6 +108,9 @@ body {
 }
 
 .marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin: 0 0 0.5rem;
   font-family: var(--display);
   font-size: 1rem;
@@ -96,6 +118,8 @@ body {
   letter-spacing: 0.22em;
   color: var(--solar);
 }
+
+.logo { flex: none; }
 
 .cabecera h1 {
   margin: 0 0 0.75rem;
@@ -391,6 +415,116 @@ button {
 
 .veredicto.rojo p { color: oklch(0.35 0.12 30); }
 
+.subtitulo-resultados {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  color: var(--tinta-suave);
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 439px) {
+  .kpis { grid-template-columns: 1fr; }
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem;
+  background: oklch(0.985 0.008 240);
+  border: 1px solid var(--azul-300);
+  border-radius: var(--radio);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+  animation: aparecer 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.kpi:nth-child(2) { animation-delay: 60ms; }
+.kpi:nth-child(3) { animation-delay: 120ms; }
+.kpi:nth-child(4) { animation-delay: 180ms; }
+
+.kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px oklch(0.45 0.09 248 / 0.18);
+}
+
+.kpi-valor {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.44rem;
+  color: var(--verde-900);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kpi-valor small {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--tinta-suave);
+}
+
+.kpi-etiqueta { font-size: 0.85rem; color: var(--tinta-suave); }
+
+/* Gráfico: destino de la energía */
+
+.grafico { margin: 0 0 1.25rem; }
+
+.grafico figcaption {
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 0.5rem;
+  color: var(--verde-900);
+}
+
+.barra-fila {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.barra {
+  height: 14px;
+  background: oklch(0.975 0.01 240);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barra-relleno {
+  height: 100%;
+  width: 0;
+  border-radius: 0 4px 4px 0;
+  transition: width 550ms cubic-bezier(0.22, 1, 0.36, 1);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.barra-relleno.autoconsumo { background: var(--ok); }
+.barra-relleno.excedentes { background: oklch(0.5 0.13 250); }
+.barra-relleno.no-cubierto { background: oklch(0.62 0.11 75); }
+
+.barra-valor {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--verde-900);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .barra-fila {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 0.25rem;
+  }
+  .barra-etiqueta { grid-column: 1 / -1; margin-bottom: -0.15rem; }
+}
+
 .cifras { margin: 1rem 0 0; }
 
 .cifras > div {
@@ -405,12 +539,7 @@ button {
 
 .cifras > div:nth-child(2) { animation-delay: 40ms; }
 .cifras > div:nth-child(3) { animation-delay: 80ms; }
-.cifras > div:nth-child(4) { animation-delay: 120ms; }
-.cifras > div:nth-child(5) { animation-delay: 160ms; }
-.cifras > div:nth-child(6) { animation-delay: 200ms; }
-.cifras > div:nth-child(7) { animation-delay: 240ms; }
-.cifras > div:nth-child(8) { animation-delay: 280ms; }
-.cifras > div:nth-child(9) { animation-delay: 320ms; }
+.cifras > div:nth-child(3) { animation-delay: 80ms; }
 
 .cifras > div[hidden] { display: none; }
 
@@ -485,6 +614,14 @@ button {
 
 .pie p { max-width: 72ch; margin: 0 auto 0.4rem; }
 
+.pie .logo-mono {
+  display: block;
+  margin: 0 auto 0.75rem;
+  color: oklch(0.85 0.02 90);
+}
+
+.pie-enlaces a { color: var(--solar); }
+
 .pie-fecha { display: none; }
 
 /* Bloque solo-impresión con los datos de entrada */
@@ -504,7 +641,10 @@ button {
 @media print {
   html { font-size: 12pt; }
   .pie { background: none; color: var(--tinta-suave); }
-  .formulario, .acciones, .onda, .onda-pie, .sol { display: none; }
+  .pie .logo-mono { color: var(--verde-900); }
+  .kpi { break-inside: avoid; }
+  .formulario, .acciones, .onda, .onda-pie, .cabecera-ilustracion, .pie-enlaces { display: none; }
+  .cabecera::before { display: none; }
   .principal::before, .principal::after { display: none; }
   .cabecera { background: none; color: var(--tinta); padding: 0 0 1rem; border-top: none; }
   .cabecera h1 { font-size: 1.6rem; }

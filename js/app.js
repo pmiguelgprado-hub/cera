@@ -87,16 +87,16 @@ function pintarResultado(r, datos) {
 
   animarCifra('r-potencia', r.potenciaKwp, fmt1);
   animarCifra('r-produccion', r.produccionAnualKwh, fmt);
-  animarCifra('r-autoconsumo', r.autoconsumoKwh, fmt);
-  animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt);
-  animarCifra('r-excedentes', r.excedentesKwh, fmt);
   animarCifra('r-ahorro', r.ahorroAnualEur, fmt);
   animarCifra('r-co2', r.co2EvitadoKg, fmt);
+  animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt);
   animarCifra('r-payback', r.paybackAnios, fmt1);
 
   const filaReparto = $('fila-reparto');
   filaReparto.hidden = datos.participantes < 2;
   animarCifra('r-reparto', r.ahorroPorParticipanteEur, fmt);
+
+  pintarGrafico(r, datos);
 
   const avisos = $('avisos');
   avisos.replaceChildren(
@@ -112,6 +112,27 @@ function pintarResultado(r, datos) {
 
   resultados.hidden = false;
   btnImprimir.disabled = false;
+}
+
+// Gráfico de barras horizontales: a dónde va la energía (kWh/año).
+function pintarGrafico(r, datos) {
+  const noCubierto = Math.max(datos.consumoAnualKwh - r.autoconsumoKwh, 0);
+  const series = [
+    ['autoconsumo', r.autoconsumoKwh],
+    ['excedentes', r.excedentesKwh],
+    ['no-cubierto', noCubierto],
+  ];
+  const maximo = Math.max(...series.map(([, v]) => v), 1);
+  for (const [clave, valor] of series) {
+    $(`barra-${clave}`).style.width = `${(valor / maximo) * 100}%`;
+    $(`valor-${clave}`).textContent = `${fmt.format(valor)} kWh`;
+  }
+  $('grafico').setAttribute(
+    'aria-label',
+    `Destino de la energía: autoconsumo ${fmt.format(r.autoconsumoKwh)} kWh, ` +
+      `excedentes a red ${fmt.format(r.excedentesKwh)} kWh, ` +
+      `consumo no cubierto ${fmt.format(noCubierto)} kWh al año.`
+  );
 }
 
 function pintarHipotesis(datos) {

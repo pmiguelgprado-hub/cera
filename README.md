@@ -13,6 +13,12 @@ evitadas y un semáforo de viabilidad con todas las hipótesis a la vista.
 conexión ni asesoramiento legal. Es el primer análisis, honesto y educativo,
 que permite decidir si merece la pena encargar un estudio profesional.
 
+## Demo
+
+App pública: **<https://pmiguelgprado-hub.github.io/cera/>**
+
+Caso de estudio con datos simulados: [`docs/caso-estudio.md`](docs/caso-estudio.md).
+
 ## Uso
 
 Abrir `index.html` en un navegador, o servir el directorio con cualquier

@@ -59,25 +59,44 @@ function pintarErrores(errores) {
   }
 }
 
+// Cuenta ascendente al revelar una cifra; salta al valor final si el usuario
+// prefiere movimiento reducido.
+const REDUCIR = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function animarCifra(id, valor, formateador) {
+  const el = $(id);
+  if (REDUCIR.matches || !Number.isFinite(valor)) {
+    el.textContent = Number.isFinite(valor) ? formateador.format(valor) : '—';
+    return;
+  }
+  const duracion = 550;
+  const inicio = performance.now();
+  const paso = (ahora) => {
+    const t = Math.min((ahora - inicio) / duracion, 1);
+    const suavizado = 1 - (1 - t) ** 3;
+    el.textContent = formateador.format(valor * suavizado);
+    if (t < 1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+}
+
 function pintarResultado(r, datos) {
   const veredicto = $('veredicto');
   veredicto.className = `veredicto ${r.semaforo.nivel}`;
   $('veredicto-texto').textContent = r.semaforo.veredicto;
 
-  $('r-potencia').textContent = fmt1.format(r.potenciaKwp);
-  $('r-produccion').textContent = fmt.format(r.produccionAnualKwh);
-  $('r-autoconsumo').textContent = fmt.format(r.autoconsumoKwh);
-  $('r-cobertura').textContent = fmt.format(r.coberturaConsumo * 100);
-  $('r-excedentes').textContent = fmt.format(r.excedentesKwh);
-  $('r-ahorro').textContent = fmt.format(r.ahorroAnualEur);
-  $('r-co2').textContent = fmt.format(r.co2EvitadoKg);
-  $('r-payback').textContent = Number.isFinite(r.paybackAnios)
-    ? fmt1.format(r.paybackAnios)
-    : '—';
+  animarCifra('r-potencia', r.potenciaKwp, fmt1);
+  animarCifra('r-produccion', r.produccionAnualKwh, fmt);
+  animarCifra('r-autoconsumo', r.autoconsumoKwh, fmt);
+  animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt);
+  animarCifra('r-excedentes', r.excedentesKwh, fmt);
+  animarCifra('r-ahorro', r.ahorroAnualEur, fmt);
+  animarCifra('r-co2', r.co2EvitadoKg, fmt);
+  animarCifra('r-payback', r.paybackAnios, fmt1);
 
   const filaReparto = $('fila-reparto');
   filaReparto.hidden = datos.participantes < 2;
-  $('r-reparto').textContent = fmt.format(r.ahorroPorParticipanteEur);
+  animarCifra('r-reparto', r.ahorroPorParticipanteEur, fmt);
 
   const avisos = $('avisos');
   avisos.replaceChildren(

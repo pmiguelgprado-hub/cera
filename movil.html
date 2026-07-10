@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CERA — demo en móvil</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23163e2b'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f2c94c'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --verde-900: oklch(0.32 0.06 155);
+      --crudo: oklch(0.975 0.008 90);
+      --solar: oklch(0.85 0.16 90);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 2rem 1rem;
+      background: var(--verde-900);
+      font-family: system-ui, sans-serif;
+      color: oklch(0.9 0.02 90);
+    }
+    h1 { margin: 0; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.04em; }
+    h1 span { color: var(--solar); }
+    p { margin: 0; font-size: 0.85rem; opacity: 0.8; max-width: 42ch; text-align: center; }
+    .telefono {
+      position: relative;
+      width: 406px;
+      height: 860px;
+      max-width: 96vw;
+      max-height: 82vh;
+      aspect-ratio: 406 / 860;
+      background: oklch(0.2 0.01 260);
+      border-radius: 54px;
+      padding: 8px;
+      box-shadow:
+        0 0 0 2px oklch(0.35 0.01 260),
+        0 24px 60px oklch(0.1 0.02 155 / 0.55);
+    }
+    /* Botones laterales */
+    .telefono::before {
+      content: '';
+      position: absolute;
+      left: -3px;
+      top: 180px;
+      width: 3px;
+      height: 130px;
+      background: oklch(0.3 0.01 260);
+      border-radius: 2px 0 0 2px;
+      box-shadow: 0 160px 0 oklch(0.3 0.01 260);
+    }
+    .telefono::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: 230px;
+      width: 3px;
+      height: 90px;
+      background: oklch(0.3 0.01 260);
+      border-radius: 0 2px 2px 0;
+    }
+    .pantalla {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 46px;
+      background: var(--crudo);
+    }
+    .isla {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 34px;
+      background: oklch(0.18 0.01 260);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    a { color: var(--solar); }
+  </style>
+</head>
+<body>
+  <h1><span>CERA</span> — así se ve en un móvil</h1>
+  <div class="telefono">
+    <iframe class="pantalla" src="index.html" title="CERA en pantalla de móvil"></iframe>
+    <div class="isla" aria-hidden="true"></div>
+  </div>
+  <p>La app real, dentro de un marco de teléfono (viewport ~390 px).
+     Es interactiva: rellena y calcula aquí mismo.
+     <a href="index.html">Abrir a pantalla completa</a>.</p>
+</body>
+</html>

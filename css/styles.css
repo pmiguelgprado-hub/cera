@@ -3,7 +3,7 @@
 @font-face {
   font-family: 'Bricolage Grotesque';
   font-style: normal;
-  font-weight: 600 800;
+  font-weight: 200 800;
   font-display: swap;
   src: url('../assets/fonts/bricolage-grotesque-latin.woff2') format('woff2');
 }
@@ -36,7 +36,7 @@ html { font-size: 18px; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: 'Bricolage Grotesque', system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--crudo);
   color: var(--tinta);
   line-height: 1.55;
@@ -45,11 +45,33 @@ body {
 /* ---- Cabecera ---- */
 
 .cabecera {
+  position: relative;
+  overflow: hidden;
   background: var(--verde-900);
   color: oklch(0.96 0.01 90);
   padding: 2.5rem 1.5rem 1.25rem;
   border-top: 5px solid var(--solar);
 }
+
+.sol {
+  position: absolute;
+  top: -3rem;
+  right: -3rem;
+  width: 16rem;
+  height: 16rem;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.sol svg { width: 100%; height: 100%; animation: girar 90s linear infinite; }
+
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.cabecera-int { position: relative; }
+
+.cabecera-int > * { animation: aparecer 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.cabecera-int > :nth-child(2) { animation-delay: 80ms; }
+.cabecera-int > :nth-child(3) { animation-delay: 160ms; }
 
 .onda {
   display: block;
@@ -95,11 +117,39 @@ body {
 /* ---- Estructura ---- */
 
 .principal {
+  position: relative;
+  isolation: isolate;
   max-width: 62rem;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 3rem;
   display: grid;
   gap: 2.5rem;
+}
+
+.principal::before,
+.principal::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.principal::before {
+  width: 22rem;
+  height: 18rem;
+  left: -8rem;
+  top: 14rem;
+  background: var(--solar-tinte);
+  border-radius: 58% 42% 64% 36% / 48% 60% 40% 52%;
+}
+
+.principal::after {
+  width: 18rem;
+  height: 15rem;
+  right: -7rem;
+  bottom: 2rem;
+  background: var(--azul-100);
+  border-radius: 42% 58% 38% 62% / 55% 40% 60% 45%;
 }
 
 @media (min-width: 600px) and (max-width: 959px) {
@@ -368,7 +418,8 @@ button {
 
 .cifras dd {
   margin: 0;
-  font-weight: 600;
+  font-family: var(--display);
+  font-weight: 700;
   font-size: 1.2rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -421,11 +472,14 @@ button {
 
 /* ---- Pie ---- */
 
+.onda-pie { background: var(--crudo); margin-top: 0; margin-bottom: -1px; }
+.onda-pie svg { transform: scaleY(-1); }
+
 .pie {
-  border-top: 1px solid var(--azul-300);
-  padding: 1.5rem;
+  background: var(--verde-900);
+  padding: 1.5rem 1.5rem 2rem;
   text-align: center;
-  color: var(--tinta-suave);
+  color: oklch(0.85 0.02 90);
   font-size: 0.88rem;
 }
 
@@ -449,7 +503,9 @@ button {
 
 @media print {
   html { font-size: 12pt; }
-  .formulario, .acciones, .onda { display: none; }
+  .pie { background: none; color: var(--tinta-suave); }
+  .formulario, .acciones, .onda, .onda-pie, .sol { display: none; }
+  .principal::before, .principal::after { display: none; }
   .cabecera { background: none; color: var(--tinta); padding: 0 0 1rem; border-top: none; }
   .cabecera h1 { font-size: 1.6rem; }
   .marca { color: var(--verde-900); }

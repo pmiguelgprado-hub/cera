@@ -47,16 +47,24 @@ Prohibido `#000`/`#fff` puros. Sin gradientes, sin glass, sin side-stripes.
   plantilla; nada de PNG ni brochazos literales.
 - Titulares grandes y rotundos (Bricolage 800), más grandes que en la v1.
 - El punto del semáforo crece y la banda del veredicto gana radio.
+- **Sol dibujado** (SVG línea, amarillo solar translúcido) en la esquina de la
+  cabecera, rotación de 90 s. **Dos blobs orgánicos** (solar-tinte y azul-100)
+  asoman tras el contenido con `z-index: -1`. **Pie en banda verde oscura**
+  con onda invertida, cerrando la página como la abre la cabecera.
+- **Cifras con cuenta ascendente** (550 ms, ease-out cúbico) al calcular —
+  revelado de estado, no decoración. Todo lo animado respeta
+  `prefers-reduced-motion` y desaparece en impresión.
+- **Demo móvil**: `movil.html` — la app embebida en un marco de teléfono CSS
+  (iframe, viewport ~390 px) para enseñarla en pantalla grande.
 
 ## Tipografía
 
-Dos niveles. Display: **Bricolage Grotesque** (self-hosted,
-`assets/fonts/bricolage-grotesque-latin.woff2`, subset latin, pesos 600-800)
-para marca, titulares, veredicto y botones — carácter humanista, elegida
-explícitamente contra el look plantilla-IA (nada de Inter/Manrope). Texto:
-pila de sistema. Base 18 px (accesibilidad rural). Escala 1.2 en rem fijos.
-Peso 400 texto, 600 etiquetas y cifras, 700-800 titulares. Cifras de resultado
-con `font-variant-numeric: tabular-nums` (pila de sistema, no Bricolage).
+Una sola familia en toda la app: **Bricolage Grotesque variable** (self-hosted,
+`assets/fonts/bricolage-grotesque-latin.woff2`, subset latin, eje 200-800) —
+carácter humanista, elegida explícitamente contra el look plantilla-IA (nada
+de Inter/Manrope). Pila de sistema solo como fallback. Base 18 px
+(accesibilidad rural). Escala 1.2 en rem fijos. Peso 400 texto, 600 etiquetas,
+700 cifras de resultado, 800 el h1.
 
 ## Layout
 

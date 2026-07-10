@@ -17,6 +17,10 @@ que permite decidir si merece la pena encargar un estudio profesional.
 
 App pública: **<https://pmiguelgprado-hub.github.io/cera/>**
 
+Vista móvil sin salir del escritorio:
+**<https://pmiguelgprado-hub.github.io/cera/movil.html>** (la app dentro de un
+marco de teléfono, interactiva).
+
 Caso de estudio con datos simulados: [`docs/caso-estudio.md`](docs/caso-estudio.md).
 
 ## Uso

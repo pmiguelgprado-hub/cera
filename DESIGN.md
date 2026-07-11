@@ -20,8 +20,9 @@ transparencia del cálculo y conexión sutil con el territorio rural.
 | `--crema` | `#F7F4ED` | Fondo de página |
 | `--blanco` | `#FFFFFF` | Tarjetas, formulario, KPI |
 | `--solar` | `#F7C640` | Acento: foco, eyebrow, CTA topbar, sol del isotipo |
-| `--azul-datos` | `#DCECF8` | Panel de resultados |
-| `--azul` | `#1769AA` | Énfasis de datos, barra excedentes, enlaces |
+| `--azul-datos` | `#DCECF8` | Celdas del isotipo sobre fondo oscuro |
+| `--azul` | `#1769AA` | Solo serie de datos (excedentes) y enlaces — nunca superficies |
+| `--campo-borde` | `#B9C6B7` | Bordes de inputs, select, segmentado, botón secundario |
 | `--ambar` | `#B87912` | Barra consumo no cubierto, borde punto ámbar |
 | `--ambar-texto` | `#8A5A0D` | Ámbar sobre fondos claros (texto, AA) |
 | `--tinta` | `#13231D` | Texto principal |
@@ -62,7 +63,9 @@ Significado: parcela + generación + horizonte asturiano.
   opacidad 4 % máx. Altura contenida: el formulario asoma sin scroll largo.
 - **Calculadora**: desktop 2 col (form 26rem + resultados sticky bajo la
   topbar); tablet campos a 2 col; móvil apilado con scroll al resultado.
-- **Bandas ancla**: `#como-funciona` (3 pasos en tarjetas) y `#caso`
+- **Bandas ancla**: `#como-funciona` (mapa interactivo: la ilustración del
+  pueblo con 3 puntos numerados; cada punto activa su explicación en el
+  panel lateral — la ilustración ES la explicación) y `#caso`
   (datos + lectura + botón que precarga el caso; también `?caso=ganaderia`).
 - Máx. 72ch prosa. Semáforo = banda tintada + punto + veredicto; nunca
   "big number hero".
@@ -98,14 +101,20 @@ Números siempre `tabular-nums` + `Intl.NumberFormat('es-ES')`.
 
 ## Componentes
 
-- Inputs 48 px mín., borde 1.5 px `--azul-borde`, foco anillo `--solar` 3 px.
+- Inputs 48 px mín., borde 1.5 px `--campo-borde` (hover verde), foco
+  anillo `--solar` 3 px.
 - Botones rectos (`--radio-s: 7px`) — la píldora queda retirada en V3
   (más sobrio); el segmentado de escenarios también es recto.
 - Formulario en tarjeta blanca con sombra suave (`--sombra`).
-- **Ruta del proyecto** en cabecera del formulario: 3 pasos con el paso 1
-  («Datos precargados») ya marcado ✓ (gradiente de meta — nunca se empieza
-  en cero). Paso 3 «Estudio profesional» enlaza con el descargo: CERA es
-  el paso intermedio, no el final.
+- **Ruta del proyecto** en cabecera del formulario: grid de 3 columnas
+  (número arriba, etiqueta debajo — nunca envuelve), conector horizontal
+  con el tramo recorrido en verde, paso 1 («Datos precargados») ✓ con
+  animación de brote, paso actual con anillo solar. Gradiente de meta —
+  nunca se empieza en cero. Paso 3 «Estudio profesional» enlaza con el
+  descargo: CERA es el paso intermedio, no el final.
+- **Panel de resultados** blanco (como el formulario) — el azul de
+  superficie se retiró en favor de sobriedad B2B. KPI en teselas crema
+  con borde izquierdo verde de 3 px.
 - Hipótesis: `<details>`, abierto al imprimir.
 
 ## Motion

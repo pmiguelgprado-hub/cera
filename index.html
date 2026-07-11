@@ -79,8 +79,8 @@
       </div>
       <div class="hero-metricas">
         <div><strong data-cifra="18.5" data-dec="1">18,5</strong><small>kWp</small><span>Potencia FV</span></div>
-        <div><strong data-cifra="23077">23.077</strong><small>kWh/año</small><span>Producción</span></div>
-        <div><strong data-cifra="3035">3.035</strong><small>EUR/año</small><span>Ahorro</span></div>
+        <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
+        <div><strong data-cifra="2549">2.549</strong><small>EUR/año</small><span>Ahorro</span></div>
       </div>
       <svg class="hero-territorio" viewBox="0 0 320 96" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 66 Q90 44 180 58 Q260 68 320 56 L320 96 L0 96 Z" fill="#164C3A" opacity="0.16"/>
@@ -106,9 +106,9 @@
 
   <form id="formulario" class="formulario" novalidate>
     <ol class="ruta" aria-label="Camino del proyecto">
-      <li class="hecha"><span class="ruta-num" aria-hidden="true">✓</span>Datos precargados</li>
-      <li class="actual" aria-current="step"><span class="ruta-num" aria-hidden="true">2</span>Ajusta tu caso</li>
-      <li><span class="ruta-num" aria-hidden="true">3</span>Estudio profesional</li>
+      <li class="hecha"><span class="ruta-num" aria-hidden="true">✓</span><span class="ruta-tit">Datos precargados</span></li>
+      <li class="actual" aria-current="step"><span class="ruta-num" aria-hidden="true">2</span><span class="ruta-tit">Ajusta tu caso</span></li>
+      <li><span class="ruta-num" aria-hidden="true">3</span><span class="ruta-tit">Estudio profesional</span></li>
     </ol>
     <h2>Datos de partida</h2>
     <p class="ayuda-form">Usa datos aproximados o ficticios. No introduzcas
@@ -283,39 +283,31 @@
 <section id="como-funciona" class="banda">
   <div class="banda-int">
     <h2>Cómo funciona</h2>
-    <p class="banda-sub">Tres pasos, cálculo transparente y ningún dato personal.</p>
-    <ol class="pasos">
-      <li>
-        <span class="paso-num" aria-hidden="true">1</span>
-        <h3>Introduce siete datos</h3>
-        <p>Consumo anual, potencia contratada, superficie, tipo de superficie,
-        participantes, precio de la electricidad y escenario de producción.
-        Valen datos aproximados.</p>
-      </li>
-      <li>
-        <span class="paso-num" aria-hidden="true">2</span>
-        <h3>Revisa el diagnóstico</h3>
-        <p>Potencia recomendada, producción, ahorro, emisiones evitadas y
-        retorno simple, con semáforo de viabilidad y avisos según tu caso.
-        Todo se recalcula al instante al cambiar un dato.</p>
-      </li>
-      <li>
-        <span class="paso-num" aria-hidden="true">3</span>
-        <h3>Contrasta las hipótesis</h3>
-        <p>Cada resultado publica las hipótesis exactas del cálculo. El informe
-        imprimible las incluye para que un técnico pueda validarlas o
-        corregirlas en el estudio profesional.</p>
-      </li>
-    </ol>
+    <p class="banda-sub">Tres pasos, cálculo transparente y ningún dato personal.
+    Recorre el pueblo: cada punto explica un paso.</p>
+    <div class="mapa">
+      <div class="mapa-marco">
+        <img src="assets/pueblo-energetico.webp" width="1600" height="893" loading="lazy"
+             alt="Ilustración de un pueblo asturiano como comunidad energética: casas de
+             piedra con paneles solares en los tejados, torre, hórreo y los Picos de
+             Europa al fondo.">
+        <button type="button" class="punto-mapa activo" data-paso="0" style="--x: 27%; --y: 34%"
+                aria-label="Paso 1: introduce siete datos"><span aria-hidden="true">1</span></button>
+        <button type="button" class="punto-mapa" data-paso="1" style="--x: 61%; --y: 47%"
+                aria-label="Paso 2: revisa el diagnóstico"><span aria-hidden="true">2</span></button>
+        <button type="button" class="punto-mapa" data-paso="2" style="--x: 84%; --y: 56%"
+                aria-label="Paso 3: contrasta las hipótesis"><span aria-hidden="true">3</span></button>
+      </div>
+      <div class="mapa-panel" aria-live="polite">
+        <p class="mapa-paso" id="mapa-paso">Paso 1 de 3</p>
+        <h3 id="mapa-titulo">Introduce siete datos</h3>
+        <p id="mapa-texto">Consumo anual, potencia contratada, superficie, tipo
+        de superficie, participantes, precio de la electricidad y escenario de
+        producción. Valen datos aproximados.</p>
+      </div>
+    </div>
   </div>
 </section>
-
-<figure class="banda-ilustracion">
-  <img src="assets/pueblo-energetico.webp" width="1600" height="893" loading="lazy"
-       alt="Ilustración de un pueblo asturiano como comunidad energética: casas de
-       piedra con paneles solares en los tejados, torre, hórreo y los Picos de
-       Europa al fondo.">
-</figure>
 
 <section id="caso" class="banda banda-clara">
   <div class="banda-int">
@@ -333,8 +325,8 @@
       <div class="caso-lectura">
         <p>La superficie limita la instalación a 18,5 kWp: la producción no
         cubre todo el consumo y CERA lo avisa. En el escenario central, el
-        ahorro estimado ronda los 3.035 EUR/año — unos 759 EUR por participante —
-        con un retorno simple de 6,7 años.</p>
+        ahorro estimado ronda los 2.549 EUR/año — unos 637 EUR por participante —
+        con un retorno simple de 8,0 años.</p>
         <button type="button" class="boton primario" id="cargar-caso">Probar este caso en la calculadora</button>
       </div>
     </div>

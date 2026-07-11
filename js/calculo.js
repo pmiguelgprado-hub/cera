@@ -5,11 +5,14 @@
 export const CONFIG = {
   // Superficie necesaria por kWp instalado (m²/kWp), fuente: regla de prototipo.
   m2PorKwp: 6.5,
-  // Rendimiento específico anual (kWh/kWp) según escenario.
+  // Rendimiento específico anual (kWh/kWp) según escenario. Calibrado para
+  // Asturias: CENSOLAR da 10,9 MJ/m²·día en horizontal (≈1.105 kWh/m²·año);
+  // con inclinación óptima (~+10 %) y performance ratio 0,75-0,85 resulta
+  // un rango de 900-1.200 kWh/kWp·año, coherente con PVGIS para la región.
   rendimiento: {
-    conservador: 1050,
-    central: 1250,
-    favorable: 1400,
+    conservador: 900,
+    central: 1050,
+    favorable: 1200,
   },
   // Fracción de la producción que se autoconsume de forma simultánea.
   fraccionAutoconsumo: 0.65,

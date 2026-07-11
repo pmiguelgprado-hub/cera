@@ -21,10 +21,10 @@ test('caso central: fórmulas del spec', () => {
   const r = calcular(base);
   assert.equal(r.ok, true);
 
-  // Potencia: min(200/6.5 = 30,77; 25000/1250 = 20) = 20 kWp
-  assert.ok(Math.abs(r.potenciaKwp - 20) < 1e-9);
-  // Producción: 20 * 1250 = 25 000 kWh
-  assert.equal(r.produccionAnualKwh, 25000);
+  // Potencia: min(200/6.5 = 30,77; 25000/1050 = 23,81) = 23,81 kWp
+  assert.ok(Math.abs(r.potenciaKwp - 25000 / 1050) < 1e-9);
+  // Producción: (25000/1050) * 1050 = 25 000 kWh (dimensionada por consumo)
+  assert.ok(Math.abs(r.produccionAnualKwh - 25000) < 1e-9);
   // Autoconsumo: min(25000 * 0.65, 25000) = 16 250 kWh
   assert.equal(r.autoconsumoKwh, 16250);
   // Excedentes: 25 000 − 16 250 = 8 750 kWh

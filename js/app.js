@@ -305,10 +305,58 @@ for (const el of document.querySelectorAll('.hero-metricas strong[data-cifra]'))
   animarEl(el, parseFloat(el.dataset.cifra), el.dataset.dec === '1' ? fmt1 : fmt);
 }
 
+// Cómo funciona: mapa interactivo sobre la ilustración del pueblo.
+// Cada punto es un paso; el panel lateral muestra su explicación.
+const PASOS_MAPA = [
+  {
+    titulo: 'Introduce siete datos',
+    texto:
+      'Consumo anual, potencia contratada, superficie, tipo de superficie, ' +
+      'participantes, precio de la electricidad y escenario de producción. ' +
+      'Valen datos aproximados.',
+  },
+  {
+    titulo: 'Revisa el diagnóstico',
+    texto:
+      'Potencia recomendada, producción, ahorro, emisiones evitadas y retorno ' +
+      'simple, con semáforo de viabilidad y avisos según tu caso. Todo se ' +
+      'recalcula al instante al cambiar un dato.',
+  },
+  {
+    titulo: 'Contrasta las hipótesis',
+    texto:
+      'Cada resultado publica las hipótesis exactas del cálculo. El informe ' +
+      'imprimible las incluye para que un técnico pueda validarlas o ' +
+      'corregirlas en el estudio profesional.',
+  },
+];
+
+const puntosMapa = document.querySelectorAll('.punto-mapa');
+const panelMapa = document.querySelector('.mapa-panel');
+
+function mostrarPaso(indice) {
+  const paso = PASOS_MAPA[indice];
+  $('mapa-paso').textContent = `Paso ${indice + 1} de 3`;
+  $('mapa-titulo').textContent = paso.titulo;
+  $('mapa-texto').textContent = paso.texto;
+  for (const punto of puntosMapa) {
+    punto.classList.toggle('activo', Number(punto.dataset.paso) === indice);
+  }
+  if (!REDUCIR.matches) {
+    panelMapa.classList.remove('cambia');
+    void panelMapa.offsetWidth;
+    panelMapa.classList.add('cambia');
+  }
+}
+
+for (const punto of puntosMapa) {
+  punto.addEventListener('click', () => mostrarPaso(Number(punto.dataset.paso)));
+}
+
 // Revelado al hacer scroll de las bandas informativas (una sola vez por
 // elemento; sin JS o con movimiento reducido, todo queda visible).
 if (!REDUCIR.matches && 'IntersectionObserver' in window) {
-  const objetivos = document.querySelectorAll('.pasos li, .caso-datos, .caso-lectura');
+  const objetivos = document.querySelectorAll('.mapa, .caso-datos, .caso-lectura');
   const observador = new IntersectionObserver((entradas) => {
     for (const entrada of entradas) {
       if (!entrada.isIntersecting) continue;

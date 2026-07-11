@@ -29,6 +29,7 @@
   --solar-tinte: #FBF0D2;
   --alerta-tinte: #F8E9E6;
   --azul-borde: #B7D2E8;
+  --campo-borde: #B9C6B7;
   --linea: #DDD8CC;
 
   --display: 'Bricolage Grotesque', system-ui, sans-serif;
@@ -259,7 +260,7 @@ body {
   line-height: 1.15;
 }
 
-.hero-metricas small { font-size: 0.72rem; color: var(--azul); font-weight: 600; }
+.hero-metricas small { font-size: 0.72rem; color: var(--tinta-suave); font-weight: 600; }
 
 .hero-metricas span { font-size: 0.78rem; color: var(--tinta-suave); margin-top: 0.15rem; }
 
@@ -302,7 +303,7 @@ body {
 .boton.secundario {
   background: transparent;
   color: var(--verde);
-  border: 1.5px solid var(--azul-borde);
+  border: 1.5px solid var(--campo-borde);
 }
 
 .boton.secundario:hover:not(:disabled) {
@@ -365,43 +366,67 @@ h2 {
 
 .ruta {
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   padding: 0;
-  margin: 0 0 1.4rem;
-  font-size: 0.8rem;
+  margin: 0 0 1.6rem;
+  font-size: 0.74rem;
+  line-height: 1.25;
   color: var(--tinta-suave);
+  text-align: center;
 }
 
-.ruta li { display: inline-flex; align-items: center; gap: 0.4rem; }
+.ruta li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  animation: aparecer 400ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
 
+.ruta li:nth-child(2) { animation-delay: 100ms; }
+.ruta li:nth-child(3) { animation-delay: 200ms; }
+
+/* Conector entre pasos; el tramo ya recorrido se pinta en verde */
 .ruta li + li::before {
   content: '';
-  width: 1.1rem;
+  position: absolute;
+  top: 0.75rem;
+  right: 50%;
+  left: -50%;
   height: 1.5px;
   background: var(--linea);
-  margin-right: 0.35rem;
 }
 
+.ruta li.actual::before { background: var(--verde-exito); }
+
 .ruta-num {
-  flex: none;
-  width: 1.4rem;
-  height: 1.4rem;
+  position: relative;
+  z-index: 1;
+  width: 1.55rem;
+  height: 1.55rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: var(--blanco);
   border: 1.5px solid var(--linea);
   border-radius: 50%;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
+}
+
+@keyframes brotar {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.22); }
+  100% { transform: scale(1); }
 }
 
 .ruta .hecha .ruta-num {
   background: var(--verde-exito);
   border-color: var(--verde-exito);
   color: var(--blanco);
+  animation: brotar 480ms cubic-bezier(0.22, 1, 0.36, 1) 300ms backwards;
 }
 
 .ruta .actual { color: var(--verde); font-weight: 600; }
@@ -410,7 +435,10 @@ h2 {
   border-color: var(--solar);
   background: var(--solar-tinte);
   color: var(--verde);
+  box-shadow: 0 0 0 3px rgb(247 198 64 / 0.25);
 }
+
+.ruta-tit { max-width: 12ch; }
 
 /* ---- Formulario ---- */
 
@@ -461,12 +489,12 @@ select {
   font-variant-numeric: tabular-nums;
   color: var(--tinta);
   background: var(--blanco);
-  border: 1.5px solid var(--azul-borde);
+  border: 1.5px solid var(--campo-borde);
   border-radius: var(--radio-s);
   transition: border-color var(--transicion), box-shadow var(--transicion);
 }
 
-input:hover, select:hover { border-color: var(--azul); }
+input:hover, select:hover { border-color: var(--verde); }
 
 select { max-width: 20rem; }
 
@@ -489,7 +517,7 @@ a:focus-visible,
     box-shadow: 0 0 0 3px rgb(30 123 69 / 0.16);
   }
   100% {
-    border-color: var(--azul-borde);
+    border-color: var(--campo-borde);
     box-shadow: none;
   }
 }
@@ -515,7 +543,7 @@ a:focus-visible,
 
 .segmentado {
   display: inline-flex;
-  border: 1.5px solid var(--azul-borde);
+  border: 1.5px solid var(--campo-borde);
   border-radius: var(--radio-s);
   overflow: hidden;
   background: var(--blanco);
@@ -535,7 +563,7 @@ a:focus-visible,
   min-height: 46px;
   padding: 0 1rem;
   cursor: pointer;
-  border-right: 1.5px solid var(--azul-borde);
+  border-right: 1.5px solid var(--campo-borde);
   transition: background var(--transicion), color var(--transicion);
 }
 
@@ -559,9 +587,10 @@ a:focus-visible,
 /* ---- Resultados ---- */
 
 .resultados {
-  background: var(--azul-datos);
-  border: 1px solid var(--azul-borde);
+  background: var(--blanco);
+  border: 1px solid var(--linea);
   border-radius: var(--radio);
+  box-shadow: var(--sombra);
   padding: 1.5rem 1.5rem 1.75rem;
   animation: aparecer 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -618,7 +647,7 @@ a:focus-visible,
   margin: 0 0 0.2rem;
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--azul);
+  color: var(--tinta-suave);
   font-variant-numeric: tabular-nums;
 }
 
@@ -644,8 +673,9 @@ a:focus-visible,
   flex-direction: column;
   gap: 0.15rem;
   padding: 0.85rem 1rem;
-  background: var(--blanco);
-  border: 1px solid var(--azul-borde);
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--verde);
   border-radius: var(--radio-s);
   transition: transform var(--transicion), box-shadow var(--transicion);
   animation: aparecer 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
@@ -657,7 +687,7 @@ a:focus-visible,
 
 .kpi:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgb(23 105 170 / 0.18);
+  box-shadow: 0 4px 14px rgb(11 42 32 / 0.14);
 }
 
 .kpi-valor {
@@ -711,8 +741,8 @@ a:focus-visible,
 
 .barra {
   height: 14px;
-  background: var(--blanco);
-  border: 1px solid var(--azul-borde);
+  background: var(--crema);
+  border: 1px solid var(--linea);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -763,7 +793,7 @@ a:focus-visible,
   align-items: baseline;
   gap: 1rem;
   padding: 0.55rem 0;
-  border-bottom: 1px solid var(--azul-borde);
+  border-bottom: 1px solid var(--linea);
   animation: aparecer 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
@@ -838,21 +868,84 @@ a:focus-visible,
 
 .descargo { margin: 0.75rem 0 0; color: var(--tinta-suave); }
 
-/* ---- Banda ilustración: comunidad energética asturiana ---- */
+/* ---- Cómo funciona: mapa interactivo sobre la ilustración ---- */
 /* El cielo de la ilustración es --crema: se funde con el fondo de página. */
 
-.banda-ilustracion {
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  max-width: var(--ancho-max);
+.mapa { display: grid; gap: 1.25rem; align-items: start; }
+
+@media (min-width: 860px) {
+  .mapa { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
 }
 
-.banda-ilustracion img {
+.mapa-marco { position: relative; }
+
+.mapa-marco img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radio);
 }
+
+.punto-mapa {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  width: 2.3rem;
+  height: 2.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--crema);
+  background: var(--verde-noche);
+  border: 2px solid var(--crema);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgb(11 42 32 / 0.4);
+  transition: transform var(--transicion), background var(--transicion),
+    color var(--transicion);
+}
+
+.punto-mapa:hover { transform: translate(-50%, -50%) scale(1.12); }
+
+.punto-mapa.activo {
+  background: var(--solar);
+  color: var(--tinta);
+}
+
+/* Halo que respira en el punto activo — señal de "tócame", no decoración */
+@keyframes halo {
+  0% { box-shadow: 0 0 0 0 rgb(247 198 64 / 0.55); }
+  100% { box-shadow: 0 0 0 14px rgb(247 198 64 / 0); }
+}
+
+.punto-mapa.activo { animation: halo 1800ms ease-out infinite; }
+
+.mapa-panel {
+  background: var(--blanco);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.25rem 1.35rem 1.4rem;
+}
+
+.mapa-panel.cambia { animation: aparecer 260ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+.mapa-paso {
+  margin: 0 0 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ambar-texto);
+}
+
+.mapa-panel h3 { margin: 0 0 0.4rem; font-size: 1.1rem; color: var(--verde); }
+
+.mapa-panel p:last-child { margin: 0; font-size: 0.94rem; color: var(--tinta-suave); }
 
 /* ---- Bandas: cómo funciona y caso ---- */
 
@@ -871,41 +964,6 @@ a:focus-visible,
   color: var(--tinta-suave);
   max-width: 64ch;
 }
-
-.pasos {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 1.25rem;
-}
-
-@media (min-width: 760px) { .pasos { grid-template-columns: repeat(3, 1fr); } }
-
-.pasos li {
-  background: var(--blanco);
-  border: 1px solid var(--linea);
-  border-radius: var(--radio);
-  padding: 1.25rem 1.25rem 1.4rem;
-  box-shadow: var(--sombra);
-}
-
-.paso-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 50%;
-  background: var(--verde);
-  color: var(--blanco);
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-}
-
-.pasos h3 { margin: 0 0 0.35rem; font-size: 1.05rem; color: var(--verde); }
-
-.pasos p { margin: 0; font-size: 0.92rem; color: var(--tinta-suave); }
 
 .caso-grid { display: grid; gap: 1.75rem; align-items: start; }
 
@@ -988,7 +1046,7 @@ a:focus-visible,
   html { font-size: 12pt; }
   .topbar, .hero-acciones, .hero-panel, .hero-nota, .banda, .salto-contenido,
   .formulario, .acciones, .nota-reactiva, .pie-enlaces,
-  .banda-ilustracion, .grafico-leyenda { display: none; }
+  .grafico-leyenda { display: none; }
   .hero { background: none; color: var(--tinta); padding: 0 0 1rem; }
   .hero::before { display: none; }
   .hero h1 { font-size: 1.6rem; }
@@ -998,7 +1056,7 @@ a:focus-visible,
   .resultados { background: none; border: none; padding: 0; animation: none; }
   .kpi { break-inside: avoid; }
   .cifras > div { animation: none; break-inside: avoid; }
-  .veredicto { border: 1px solid var(--azul-borde); }
+  .veredicto { border: 1px solid var(--linea); }
   .print-datos { display: block; margin-top: 1.5rem; }
   .hipotesis { margin-top: 1rem; }
   .hipotesis summary { list-style: none; }

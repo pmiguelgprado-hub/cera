@@ -1,105 +1,113 @@
-# DESIGN.md
+# DESIGN.md — V3 corporativa
 
 Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores.
 
 ## Tema
 
-Claro. Escena: gestor de cooperativa o técnico municipal rellenando el
-formulario en un portátil de oficina o en el móvil a pie de finca, a plena luz
-de día. Tema oscuro no aplica.
+Claro. Escena: gestor de cooperativa, técnico municipal o consultora
+rellenando el formulario en portátil de oficina o en móvil a pie de finca.
+Tema oscuro no aplica. V3 busca madurez B2B: rigor de ingeniería,
+transparencia del cálculo y conexión sutil con el territorio rural.
 
-## Color (OKLCH, estrategia Committed → esencia "Bold & Poppy")
-
-Esencia adaptada de la plantilla Canva "Painting Website — Dark Green Pink
-White, Bold & Poppy" (adaptación propia, no copia literal): verde oscuro
-dominante y rotundo, un acento claro suave que respira, blanco roto, botones
-píldora y formas orgánicas. El rosa de la plantilla se sustituye por **azul
-muy claro asturiano** (derivado del azul de la bandera de Asturias, hue ~245).
-Amarillo solar queda como acento funcional: foco, semáforo ámbar, avisos.
+## Color (hex, color por función — no decoración)
 
 | Token | Valor | Uso |
 |---|---|---|
-| `--verde-900` | `oklch(0.32 0.06 155)` | Cabecera, botón primario, titulares |
-| `--verde-700` | `oklch(0.42 0.07 155)` | Hover del primario |
-| `--verde-tinte` | `oklch(0.93 0.035 150)` | Banda veredicto verde |
-| `--crudo` | `oklch(0.975 0.008 90)` | Fondo de página (blanco roto) |
-| `--azul-100` | `oklch(0.93 0.03 245)` | Panel de resultados, superficies suaves |
-| `--azul-300` | `oklch(0.84 0.05 245)` | Bordes, separadores del panel |
-| `--azul-700` | `oklch(0.45 0.09 248)` | Detalles fríos: summary hover, chips |
-| `--tinta` | `oklch(0.25 0.02 155)` | Texto principal |
-| `--tinta-suave` | `oklch(0.44 0.02 155)` | Texto secundario, unidades |
-| `--solar` | `oklch(0.85 0.16 90)` | Foco, semáforo ámbar, barra de cabecera |
-| `--solar-tinte` | `oklch(0.96 0.05 92)` | Avisos, banda veredicto ámbar |
-| `--ok` | `oklch(0.55 0.12 150)` | Semáforo verde |
-| `--alerta` | `oklch(0.5 0.15 30)` | Semáforo rojo, errores |
-| `--alerta-tinte` | `oklch(0.95 0.025 30)` | Banda veredicto rojo |
+| `--verde-noche` | `#0B2A20` | Topbar, hero, pie |
+| `--verde` | `#164C3A` | Botón primario, titulares, cifras |
+| `--verde-exito` | `#1E7B45` | Semáforo verde, barra autoconsumo, hover primario |
+| `--crema` | `#F7F4ED` | Fondo de página |
+| `--blanco` | `#FFFFFF` | Tarjetas, formulario, KPI |
+| `--solar` | `#F7C640` | Acento: foco, eyebrow, CTA topbar, sol del isotipo |
+| `--azul-datos` | `#DCECF8` | Panel de resultados |
+| `--azul` | `#1769AA` | Énfasis de datos, barra excedentes, enlaces |
+| `--ambar` | `#B87912` | Barra consumo no cubierto, borde punto ámbar |
+| `--ambar-texto` | `#8A5A0D` | Ámbar sobre fondos claros (texto, AA) |
+| `--tinta` | `#13231D` | Texto principal |
+| `--alerta` | `#B64236` | Errores, semáforo rojo (AA sobre blanco) |
 
-Los arena-* quedan retirados; el azul claro asume su papel de superficie.
-Prohibido `#000`/`#fff` puros. Sin gradientes, sin glass, sin side-stripes.
+Derivados en CSS: `tinta-suave`, `verde-tinte`, `solar-tinte`,
+`alerta-tinte`, `azul-borde`, `linea`. Prohibido `#000` puro.
+Sin gradientes decorativos ni glass. Contrastes verificados AA: texto ámbar
+usa `--ambar-texto`, no `--ambar`.
 
-## Personalidad "Bold & Poppy" (formas)
+## Marca — "Parcela solar"
 
-- **Botones y control segmentado en píldora** (`border-radius: 999px`) — firma
-  de la plantilla.
-- **Onda orgánica** entre cabecera y contenido: SVG inline (curva suave, fill
-  crudo sobre verde-900). Es la traducción sobria del brochazo de la
-  plantilla; nada de PNG ni brochazos literales.
-- Titulares grandes y rotundos (Bricolage 800), más grandes que en la v1.
-- El punto del semáforo crece y la banda del veredicto gana radio.
-- **Sol dibujado** (SVG línea, amarillo solar translúcido) en la esquina de la
-  cabecera, rotación de 90 s. **Dos blobs orgánicos** (solar-tinte y azul-100)
-  asoman tras el contenido con `z-index: -1`. **Pie en banda verde oscura**
-  con onda invertida, cerrando la página como la abre la cabecera.
-- **Cifras con cuenta ascendente** (550 ms, ease-out cúbico) al calcular —
-  revelado de estado, no decoración. Todo lo animado respeta
-  `prefers-reduced-motion` y desaparece en impresión.
-- **Demo móvil**: `movil.html` — la app embebida en un marco de teléfono CSS
-  (iframe, viewport ~390 px) para enseñarla en pantalla grande.
+Isotipo SVG inline propio (48×48): retícula solar 2×2 (celdas redondeadas,
+azul-datos sobre fondo oscuro / verde sobre claro), sol de cuarto de arco +
+disco en amarillo solar, y dos líneas de terreno curvas cerrando la base.
+Significado: parcela + generación + horizonte asturiano.
 
-## Tipografía
-
-Una sola familia en toda la app: **Bricolage Grotesque variable** (self-hosted,
-`assets/fonts/bricolage-grotesque-latin.woff2`, subset latin, eje 200-800) —
-carácter humanista, elegida explícitamente contra el look plantilla-IA (nada
-de Inter/Manrope). Pila de sistema solo como fallback. Base 18 px
-(accesibilidad rural). Escala 1.2 en rem fijos. Peso 400 texto, 600 etiquetas,
-700 cifras de resultado, 800 el h1.
+- **Logotipo horizontal** (topbar, pie): isotipo + wordmark «CERA»
+  (Bricolage 700, tracking 0.24em). Área de seguridad: gap `0.55rem`.
+- **Isotipo solo**: favicon e icono PWA (data-URI, versión 32×32
+  simplificada sobre tesela verde-noche redondeada).
+- **Monocromo**: `fill/stroke currentColor` (variante `.logo-mono` del pie);
+  funciona sobre claro y oscuro.
+- Tamaños: 34 px topbar, 26 px pie, 20 px chip del hero-panel. Mínimo 20 px;
+  por debajo, usar solo la tesela del favicon.
+- Prohibido: enchufes, rayos, hojas, paneles hiperdetallados.
 
 ## Layout
 
-- Una página, personalidad en los tres cortes:
-  - **Móvil (<600 px)**: apilado, resultados tras el botón Calcular, targets
-    ≥48 px, onda de cabecera baja.
-  - **Tablet (600–959 px)**: formulario a dos columnas de campos (grid); el
-    escenario y las acciones ocupan el ancho completo; resultados debajo.
-  - **Desktop (≥960 px)**: dos columnas — formulario (izda.) y resultados
-    pegajosos (dcha.).
-- Máx. 72ch para prosa. Sin cards anidadas; los resultados son una lista de
-  definición con filas separadas por borde de 1 px, no una rejilla de tarjetas.
-- Veredicto del semáforo: banda superior del panel de resultados con fondo
-  tintado según nivel (`--verde-tinte` / `--solar-tinte` / `--alerta-tinte`),
-  punto de color + frase-veredicto. Nunca un "big number hero".
-- Cabecera con borde superior de 5 px `--solar` y marca en amarillo solar
-  (contraste 7,76:1 sobre verde-900, medido).
-- Filas de resultado con aparición escalonada (40 ms por fila, `backwards`);
-  desactivado bajo `prefers-reduced-motion`.
+- Contenedor máximo `--ancho-max: 77rem` (~1232 px), márgenes 1.5rem.
+- **Topbar** compacta verde-noche: logo izq., anclas (Calculadora / Cómo
+  funciona / Caso demostrativo, ocultas <760 px), CTA solar «Iniciar
+  diagnóstico» dcha. Sticky solo ≥960 px (no penaliza móvil).
+- **Hero** 2 columnas ≥960 px: izq. eyebrow + H1 + entradilla 2 líneas +
+  CTA doble + nota privacidad; dcha. **mini-dashboard** (tarjeta blanca con
+  3 métricas del caso demostrativo + SVG territorial abstracto con pérgolas
+  y sol pequeño integrado). Retícula técnica solo en la mitad derecha,
+  opacidad 4 % máx. Altura contenida: el formulario asoma sin scroll largo.
+- **Calculadora**: desktop 2 col (form 26rem + resultados sticky bajo la
+  topbar); tablet campos a 2 col; móvil apilado con scroll al resultado.
+- **Bandas ancla**: `#como-funciona` (3 pasos en tarjetas) y `#caso`
+  (datos + lectura + botón que precarga el caso; también `?caso=ganaderia`).
+- Máx. 72ch prosa. Semáforo = banda tintada + punto + veredicto; nunca
+  "big number hero".
+
+## Tipografía
+
+Bricolage Grotesque variable self-hosted (subset latin, 200–800), única
+familia. Base 18 px. Peso 400 texto, 600 etiquetas, 700 cifras, 800 H1.
+Números siempre `tabular-nums` + `Intl.NumberFormat('es-ES')`.
+
+## Dashboard reactivo
+
+- Primer «Calcular previabilidad» activa el panel; después, cualquier
+  entrada válida recalcula al instante (debounce 150 ms) **sin animación**
+  de cuenta; la cuenta ascendente (550 ms) queda para el submit explícito.
+- KPI primarios: potencia, producción, ahorro, CO₂. Secundarios: cobertura,
+  retorno simple, reparto (si ≥2 participantes).
+- Gráfico de destino: ancho = `valor / consumo_anual × 100`, acotado 0–100 %.
+  Cada fila muestra valor absoluto + porcentaje. Marcas de leyenda con forma
+  distinta por serie (cuadrado/círculo/triángulo) — no depende solo del
+  color. Nota explícita cuando producción > consumo.
 
 ## Componentes
 
-- Inputs: 48 px de alto mínimo (táctil), borde 1.5 px `--arena-300`, foco con
-  anillo `--solar` de 3 px. Error: borde `--alerta` + mensaje bajo el campo.
-- Escenario: control segmentado de 3 radios estilizados.
-- Hipótesis y límites: `<details>` abierto por defecto en impresión.
-- Botón primario único («Calcular previabilidad»); secundario fantasma
-  («Imprimir informe»), deshabilitado hasta que hay resultado.
+- Inputs 48 px mín., borde 1.5 px `--azul-borde`, foco anillo `--solar` 3 px.
+- Botones rectos (`--radio-s: 7px`) — la píldora queda retirada en V3
+  (más sobrio); el segmentado de escenarios también es recto.
+- Formulario en tarjeta blanca con sombra suave (`--sombra`).
+- Hipótesis: `<details>`, abierto al imprimir.
 
 ## Motion
 
-150–200 ms ease-out solo en foco/hover y aparición del panel de resultados.
-Nada de coreografías de carga.
+150–200 ms ease-out en foco/hover y aparición del panel. Cuenta ascendente
+solo en submit. Todo respeta `prefers-reduced-motion` (incluye
+`scroll-behavior`).
+
+## PWA / offline
+
+`manifest.webmanifest` + `sw.js` (network-first con caché de respaldo,
+rutas relativas — compatible GitHub Pages). La app funciona sin cobertura
+una vez visitada: caso de uso real a pie de finca. Sin push, sin sync, sin
+datos: solo caché de estáticos.
 
 ## Impresión
 
-`@media print`: se ocultan formulario y botones; se imprimen datos de entrada,
-resultados, semáforo, hipótesis completas y aviso legal con fecha.
+`@media print`: se ocultan topbar, hero-panel, bandas y formulario; se
+imprimen datos de entrada, resultados, semáforo, hipótesis completas y
+aviso legal con fecha.

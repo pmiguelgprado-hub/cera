@@ -63,9 +63,9 @@ function pintarErrores(errores) {
 // prefiere movimiento reducido.
 const REDUCIR = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-function animarCifra(id, valor, formateador) {
+function animarCifra(id, valor, formateador, animar = true) {
   const el = $(id);
-  if (REDUCIR.matches || !Number.isFinite(valor)) {
+  if (!animar || REDUCIR.matches || !Number.isFinite(valor)) {
     el.textContent = Number.isFinite(valor) ? formateador.format(valor) : '—';
     return;
   }
@@ -80,21 +80,21 @@ function animarCifra(id, valor, formateador) {
   requestAnimationFrame(paso);
 }
 
-function pintarResultado(r, datos) {
+function pintarResultado(r, datos, animar = true) {
   const veredicto = $('veredicto');
   veredicto.className = `veredicto ${r.semaforo.nivel}`;
   $('veredicto-texto').textContent = r.semaforo.veredicto;
 
-  animarCifra('r-potencia', r.potenciaKwp, fmt1);
-  animarCifra('r-produccion', r.produccionAnualKwh, fmt);
-  animarCifra('r-ahorro', r.ahorroAnualEur, fmt);
-  animarCifra('r-co2', r.co2EvitadoKg, fmt);
-  animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt);
-  animarCifra('r-payback', r.paybackAnios, fmt1);
+  animarCifra('r-potencia', r.potenciaKwp, fmt1, animar);
+  animarCifra('r-produccion', r.produccionAnualKwh, fmt, animar);
+  animarCifra('r-ahorro', r.ahorroAnualEur, fmt, animar);
+  animarCifra('r-co2', r.co2EvitadoKg, fmt, animar);
+  animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt, animar);
+  animarCifra('r-payback', r.paybackAnios, fmt1, animar);
 
   const filaReparto = $('fila-reparto');
   filaReparto.hidden = datos.participantes < 2;
-  animarCifra('r-reparto', r.ahorroPorParticipanteEur, fmt);
+  animarCifra('r-reparto', r.ahorroPorParticipanteEur, fmt, animar);
 
   pintarGrafico(r, datos);
 
@@ -115,6 +115,8 @@ function pintarResultado(r, datos) {
 }
 
 // Gráfico de barras horizontales: a dónde va la energía (kWh/año).
+// El ancho de cada barra es el porcentaje sobre el consumo anual introducido,
+// acotado visualmente a 0–100 %.
 function pintarGrafico(r, datos) {
   const noCubierto = Math.max(datos.consumoAnualKwh - r.autoconsumoKwh, 0);
   const series = [
@@ -122,16 +124,20 @@ function pintarGrafico(r, datos) {
     ['excedentes', r.excedentesKwh],
     ['no-cubierto', noCubierto],
   ];
-  const maximo = Math.max(...series.map(([, v]) => v), 1);
+  const partes = [];
   for (const [clave, valor] of series) {
-    $(`barra-${clave}`).style.width = `${(valor / maximo) * 100}%`;
-    $(`valor-${clave}`).textContent = `${fmt.format(valor)} kWh`;
+    const pct = (valor / datos.consumoAnualKwh) * 100;
+    const pctVisual = Math.min(Math.max(pct, 0), 100);
+    $(`barra-${clave}`).style.width = `${pctVisual}%`;
+    $(`valor-${clave}`).textContent =
+      `${fmt.format(valor)} kWh · ${fmt.format(pct)} %`;
+    partes.push(`${fmt.format(valor)} kWh (${fmt.format(pct)} % del consumo)`);
   }
+  $('nota-excedentes').hidden = !(r.produccionAnualKwh > datos.consumoAnualKwh);
   $('grafico').setAttribute(
     'aria-label',
-    `Destino de la energía: autoconsumo ${fmt.format(r.autoconsumoKwh)} kWh, ` +
-      `excedentes a red ${fmt.format(r.excedentesKwh)} kWh, ` +
-      `consumo no cubierto ${fmt.format(noCubierto)} kWh al año.`
+    `Destino de la energía respecto al consumo anual: autoconsumo ${partes[0]}, ` +
+      `excedentes a red ${partes[1]}, consumo no cubierto ${partes[2]}.`
   );
 }
 
@@ -180,22 +186,76 @@ function pintarEntradasImpresion(datos) {
   );
 }
 
-form.addEventListener('submit', (evento) => {
-  evento.preventDefault();
+// Tras el primer cálculo válido, el panel se vuelve reactivo: cualquier
+// cambio válido en el formulario recalcula al instante, sin animación.
+let dashboardActivo = false;
+
+function ejecutar({ animar, desplazar }) {
   const datos = leerFormulario();
   const r = calcular(datos);
   if (!r.ok) {
     pintarErrores(r.errores);
-    resultados.hidden = true;
-    btnImprimir.disabled = true;
+    if (!dashboardActivo) {
+      resultados.hidden = true;
+      btnImprimir.disabled = true;
+    }
     return;
   }
   pintarErrores({});
-  pintarResultado(r, datos);
-  if (window.matchMedia('(max-width: 959px)').matches) {
+  pintarResultado(r, datos, animar);
+  if (!dashboardActivo) {
+    dashboardActivo = true;
+    $('nota-reactiva').hidden = false;
+  }
+  if (desplazar && window.matchMedia('(max-width: 959px)').matches) {
     resultados.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
+
+form.addEventListener('submit', (evento) => {
+  evento.preventDefault();
+  ejecutar({ animar: true, desplazar: true });
 });
+
+let temporizador;
+form.addEventListener('input', () => {
+  if (!dashboardActivo) return;
+  clearTimeout(temporizador);
+  temporizador = setTimeout(() => ejecutar({ animar: false, desplazar: false }), 150);
+});
+
+// Caso demostrativo: precarga los datos simulados de la ganadería El Cierru.
+const CASO_GANADERIA = {
+  consumoAnualKwh: '30000',
+  potenciaContratadaKw: '20',
+  superficieM2: '120',
+  tipoSuperficie: 'cubierta',
+  participantes: '4',
+  precioElectricidad: '0,17',
+};
+
+function cargarCaso() {
+  for (const [campo, valor] of Object.entries(CASO_GANADERIA)) {
+    $(campo).value = valor;
+  }
+  form.querySelector('input[name="escenario"][value="central"]').checked = true;
+  ejecutar({ animar: true, desplazar: false });
+  document.getElementById('calculadora').scrollIntoView({
+    behavior: REDUCIR.matches ? 'auto' : 'smooth',
+    block: 'start',
+  });
+}
+
+$('cargar-caso')?.addEventListener('click', cargarCaso);
+
+if (new URLSearchParams(window.location.search).get('caso') === 'ganaderia') {
+  cargarCaso();
+}
+
+// PWA: la app funciona sin cobertura una vez visitada.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 
 btnImprimir.addEventListener('click', () => {
   $('hipotesis').open = true;

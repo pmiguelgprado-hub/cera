@@ -1,7 +1,7 @@
 // CERA — capa de UI. El cálculo vive en calculo.js; aquí solo se lee el
 // formulario, se pinta el resultado y se prepara el informe imprimible.
 
-import { CONFIG, calcular } from './calculo.js';
+import { CONFIG, calcular, validar } from './calculo.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -64,7 +64,10 @@ function pintarErrores(errores) {
 const REDUCIR = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function animarCifra(id, valor, formateador, animar = true) {
-  const el = $(id);
+  animarEl($(id), valor, formateador, animar);
+}
+
+function animarEl(el, valor, formateador, animar = true) {
   if (!animar || REDUCIR.matches || !Number.isFinite(valor)) {
     el.textContent = Number.isFinite(valor) ? formateador.format(valor) : '—';
     return;
@@ -80,10 +83,27 @@ function animarCifra(id, valor, formateador, animar = true) {
   requestAnimationFrame(paso);
 }
 
+// El semáforo emite un pulso único cuando cambia de nivel: feedback visible
+// sin ser decorativo.
+let nivelAnterior = null;
+
 function pintarResultado(r, datos, animar = true) {
   const veredicto = $('veredicto');
   veredicto.className = `veredicto ${r.semaforo.nivel}`;
   $('veredicto-texto').textContent = r.semaforo.veredicto;
+  if (nivelAnterior && nivelAnterior !== r.semaforo.nivel && !REDUCIR.matches) {
+    const punto = veredicto.querySelector('.punto');
+    punto.classList.remove('pulso');
+    void punto.offsetWidth;
+    punto.classList.add('pulso');
+  }
+  nivelAnterior = r.semaforo.nivel;
+
+  // El caso es del usuario: el resumen se construye con sus propios datos.
+  $('resumen-caso').textContent =
+    `${TIPOS[datos.tipoSuperficie]} de ${fmt.format(datos.superficieM2)} m² · ` +
+    `${fmt.format(datos.consumoAnualKwh)} kWh/año · escenario ${datos.escenario}` +
+    (datos.participantes >= 2 ? ` · ${fmt.format(datos.participantes)} participantes` : '');
 
   animarCifra('r-potencia', r.potenciaKwp, fmt1, animar);
   animarCifra('r-produccion', r.produccionAnualKwh, fmt, animar);
@@ -91,6 +111,19 @@ function pintarResultado(r, datos, animar = true) {
   animarCifra('r-co2', r.co2EvitadoKg, fmt, animar);
   animarCifra('r-cobertura', r.coberturaConsumo * 100, fmt, animar);
   animarCifra('r-payback', r.paybackAnios, fmt1, animar);
+  animarCifra('r-inversion', r.capexEur, fmt, animar);
+  animarCifra('r-ahorro25', r.ahorroAnualEur * 25, fmt, animar);
+
+  // Coste de no actuar: solo cuando el proyecto tiene recorrido (verde/ámbar).
+  const notaPerdida = $('nota-perdida');
+  if (r.semaforo.nivel === 'rojo') {
+    notaPerdida.hidden = true;
+  } else {
+    notaPerdida.hidden = false;
+    notaPerdida.textContent =
+      `Cada año sin instalación deja sin aprovechar unos ` +
+      `${fmt.format(r.ahorroAnualEur)} EUR de ahorro.`;
+  }
 
   const filaReparto = $('fila-reparto');
   filaReparto.hidden = datos.participantes < 2;
@@ -150,6 +183,7 @@ function pintarHipotesis(datos) {
     `Compensación simplificada de excedentes: ${CONFIG.precioExcedentes.toLocaleString('es-ES')} EUR/kWh.`,
     `Factor de emisiones evitadas: ${CONFIG.factorCo2.toLocaleString('es-ES')} kg CO₂/kWh.`,
     `Coste orientativo llave en mano para el retorno: ${fmt.format(CONFIG.capexPorKwp)} EUR/kWp.`,
+    'Ahorro acumulado a 25 años: ahorro anual × 25, sin degradación, inflación ni costes de mantenimiento.',
     `Semáforo: verde si el retorno simple es menor de ${CONFIG.paybackVerde} años; ámbar hasta ${CONFIG.paybackAmbar}; rojo por encima o con menos de ${CONFIG.potenciaMinima} kWp.`,
     'La potencia recomendada es la menor entre la que cabe en la superficie y la que dimensiona el consumo anual.',
     'No se consideran sombras, orientación, inclinación, curva horaria real ni tramitación administrativa.',
@@ -248,8 +282,44 @@ function cargarCaso() {
 
 $('cargar-caso')?.addEventListener('click', cargarCaso);
 
+// Reciprocidad: la página entrega un resultado desde el primer segundo,
+// calculado con los datos precargados; el usuario ajusta y ve su caso.
 if (new URLSearchParams(window.location.search).get('caso') === 'ganaderia') {
   cargarCaso();
+} else {
+  ejecutar({ animar: true, desplazar: false });
+}
+
+// Confirmación sutil al salir de un campo válido (feedback sin ruido).
+form.addEventListener('focusout', (evento) => {
+  const control = evento.target;
+  if (!control.matches?.('input[type="number"], input[type="text"], select')) return;
+  if (control.value === '' || validar(leerFormulario())[control.name]) return;
+  control.classList.remove('confirmado');
+  void control.offsetWidth;
+  control.classList.add('confirmado');
+});
+
+// Las métricas del hero cuentan al cargar, una sola vez.
+for (const el of document.querySelectorAll('.hero-metricas strong[data-cifra]')) {
+  animarEl(el, parseFloat(el.dataset.cifra), el.dataset.dec === '1' ? fmt1 : fmt);
+}
+
+// Revelado al hacer scroll de las bandas informativas (una sola vez por
+// elemento; sin JS o con movimiento reducido, todo queda visible).
+if (!REDUCIR.matches && 'IntersectionObserver' in window) {
+  const objetivos = document.querySelectorAll('.pasos li, .caso-datos, .caso-lectura');
+  const observador = new IntersectionObserver((entradas) => {
+    for (const entrada of entradas) {
+      if (!entrada.isIntersecting) continue;
+      entrada.target.classList.add('visible');
+      observador.unobserve(entrada.target);
+    }
+  }, { threshold: 0.2 });
+  for (const el of objetivos) {
+    el.classList.add('revela');
+    observador.observe(el);
+  }
 }
 
 // PWA: la app funciona sin cobertura una vez visitada.

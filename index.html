@@ -78,9 +78,9 @@
         <span>Previabilidad de ejemplo</span>
       </div>
       <div class="hero-metricas">
-        <div><strong>18,5</strong><small>kWp</small><span>Potencia FV</span></div>
-        <div><strong>23.077</strong><small>kWh/año</small><span>Producción</span></div>
-        <div><strong>3.035</strong><small>EUR/año</small><span>Ahorro</span></div>
+        <div><strong data-cifra="18.5" data-dec="1">18,5</strong><small>kWp</small><span>Potencia FV</span></div>
+        <div><strong data-cifra="23077">23.077</strong><small>kWh/año</small><span>Producción</span></div>
+        <div><strong data-cifra="3035">3.035</strong><small>EUR/año</small><span>Ahorro</span></div>
       </div>
       <svg class="hero-territorio" viewBox="0 0 320 96" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 66 Q90 44 180 58 Q260 68 320 56 L320 96 L0 96 Z" fill="#164C3A" opacity="0.16"/>
@@ -105,6 +105,11 @@
 <main class="principal" id="calculadora">
 
   <form id="formulario" class="formulario" novalidate>
+    <ol class="ruta" aria-label="Camino del proyecto">
+      <li class="hecha"><span class="ruta-num" aria-hidden="true">✓</span>Datos precargados</li>
+      <li class="actual" aria-current="step"><span class="ruta-num" aria-hidden="true">2</span>Ajusta tu caso</li>
+      <li><span class="ruta-num" aria-hidden="true">3</span>Estudio profesional</li>
+    </ol>
     <h2>Datos de partida</h2>
     <p class="ayuda-form">Usa datos aproximados o ficticios. No introduzcas
     direcciones, CUPS ni datos de factura.</p>
@@ -197,6 +202,7 @@
     </div>
 
     <h2>Tu escenario energético</h2>
+    <p class="resumen-caso" id="resumen-caso"></p>
     <p class="subtitulo-resultados">Estimación anual según las hipótesis seleccionadas.</p>
 
     <div class="kpis">
@@ -247,7 +253,11 @@
       <div><dt>Cobertura de tu consumo</dt><dd><span id="r-cobertura"></span> <small>%</small></dd></div>
       <div id="fila-reparto" hidden><dt>Ahorro por participante</dt><dd><span id="r-reparto"></span> <small>EUR/año</small></dd></div>
       <div><dt>Retorno simple estimado</dt><dd><span id="r-payback"></span> <small>años</small></dd></div>
+      <div><dt>Inversión orientativa</dt><dd><span id="r-inversion"></span> <small>EUR</small></dd></div>
+      <div><dt>Ahorro acumulado en 25 años</dt><dd><span id="r-ahorro25"></span> <small>EUR</small></dd></div>
     </dl>
+
+    <p class="nota-perdida" id="nota-perdida" hidden></p>
 
     <ul id="avisos" class="avisos"></ul>
 
@@ -299,6 +309,13 @@
     </ol>
   </div>
 </section>
+
+<figure class="banda-ilustracion">
+  <img src="assets/pueblo-energetico.webp" width="1600" height="893" loading="lazy"
+       alt="Ilustración de un pueblo asturiano como comunidad energética: casas de
+       piedra con paneles solares en los tejados, torre, hórreo y los Picos de
+       Europa al fondo.">
+</figure>
 
 <section id="caso" class="banda banda-clara">
   <div class="banda-int">

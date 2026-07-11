@@ -75,11 +75,22 @@ Números siempre `tabular-nums` + `Intl.NumberFormat('es-ES')`.
 
 ## Dashboard reactivo
 
-- Primer «Calcular previabilidad» activa el panel; después, cualquier
-  entrada válida recalcula al instante (debounce 150 ms) **sin animación**
-  de cuenta; la cuenta ascendente (550 ms) queda para el submit explícito.
+- **Vivo desde la carga**: la página calcula con los datos precargados y
+  muestra el resultado sin pedir nada (reciprocidad — dar antes de pedir).
+  El usuario ajusta y ve su caso; `?caso=ganaderia` precarga el caso demo.
+- Cualquier entrada válida recalcula al instante (debounce 150 ms) **sin
+  animación** de cuenta; la cuenta ascendente (550 ms) queda para el submit
+  explícito y la primera carga.
 - KPI primarios: potencia, producción, ahorro, CO₂. Secundarios: cobertura,
-  retorno simple, reparto (si ≥2 participantes).
+  retorno simple, reparto (si ≥2 participantes), inversión orientativa y
+  ahorro acumulado a 25 años (efecto contraste: la inversión se lee junto
+  al ahorro de la vida útil, nunca aislada).
+- **Resumen del caso** bajo el H2 de resultados, construido con los datos
+  del usuario («Cubierta o tejado de 200 m² · 25.000 kWh/año · escenario
+  central») — el resultado se siente propio (efecto dotación).
+- **Nota de pérdida** tras las cifras: «Cada año sin instalación deja sin
+  aprovechar unos X EUR de ahorro» (aversión a la pérdida). Solo en
+  semáforo verde/ámbar; en rojo sería deshonesta y se oculta.
 - Gráfico de destino: ancho = `valor / consumo_anual × 100`, acotado 0–100 %.
   Cada fila muestra valor absoluto + porcentaje. Marcas de leyenda con forma
   distinta por serie (cuadrado/círculo/triángulo) — no depende solo del
@@ -91,13 +102,21 @@ Números siempre `tabular-nums` + `Intl.NumberFormat('es-ES')`.
 - Botones rectos (`--radio-s: 7px`) — la píldora queda retirada en V3
   (más sobrio); el segmentado de escenarios también es recto.
 - Formulario en tarjeta blanca con sombra suave (`--sombra`).
+- **Ruta del proyecto** en cabecera del formulario: 3 pasos con el paso 1
+  («Datos precargados») ya marcado ✓ (gradiente de meta — nunca se empieza
+  en cero). Paso 3 «Estudio profesional» enlaza con el descargo: CERA es
+  el paso intermedio, no el final.
 - Hipótesis: `<details>`, abierto al imprimir.
 
 ## Motion
 
 150–200 ms ease-out en foco/hover y aparición del panel. Cuenta ascendente
-solo en submit. Todo respeta `prefers-reduced-motion` (incluye
-`scroll-behavior`).
+en submit y primera carga (incluye métricas del hero). Micro-interacciones
+(regla pico-final — feedback, no decoración): pulso único del punto del
+semáforo al cambiar de nivel, destello verde 700 ms al salir de un campo
+válido, revelado al scroll de las bandas informativas (una vez, lo activa
+JS). Todo respeta `prefers-reduced-motion` (incluye `scroll-behavior`);
+sin JS o con movimiento reducido, nada queda oculto.
 
 ## PWA / offline
 

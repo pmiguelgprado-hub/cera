@@ -375,6 +375,81 @@ if (!REDUCIR.matches && 'IntersectionObserver' in window) {
   }
 }
 
+// Recurso solar de Asturias: mapa coroplético estilo panel de datos.
+// E_y = producción anual por kWp (PVGIS v5.2, pérdidas 14 %, inclinación
+// óptima). Cada concejo toma el punto de medida más cercano (8 puntos).
+// El rendimiento central de CERA (CONFIG.rendimiento.central) sirve de
+// referencia para el contraste por zona.
+const ZONAS = [
+  { id: 0, nombre: 'Occidente costero', punto: 'Vegadeo', ey: 1112, angulo: 36,
+    concejos: 'Castropol, Vegadeo, Tapia, Navia, Coaña, los Oscos y su entorno' },
+  { id: 1, nombre: 'Suroccidente (Narcea)', punto: 'Cangas del Narcea', ey: 1243, angulo: 35,
+    concejos: 'Cangas del Narcea, Tineo, Allande, Ibias, Degaña, Somiedo, Valdés' },
+  { id: 2, nombre: 'Avilés y bajo Nalón', punto: 'Avilés', ey: 1210, angulo: 38,
+    concejos: 'Avilés, Castrillón, Gozón, Corvera, Pravia, Cudillero, Salas' },
+  { id: 3, nombre: 'Centro (Oviedo)', punto: 'Oviedo', ey: 1182, angulo: 39,
+    concejos: 'Oviedo, Llanera, Grado, Las Regueras, Proaza y valles centrales' },
+  { id: 4, nombre: 'Gijón y Cabo Peñas', punto: 'Gijón', ey: 1201, angulo: 37,
+    concejos: 'Gijón, Carreño, Villaviciosa, Colunga, Cabranes' },
+  { id: 5, nombre: 'Cuencas del Caudal', punto: 'Mieres', ey: 1125, angulo: 35,
+    concejos: 'Mieres, Lena, Aller, Morcín, Riosa, Quirós, Teverga' },
+  { id: 6, nombre: 'Cuencas del Nalón', punto: 'Langreo', ey: 1143, angulo: 37,
+    concejos: 'Langreo, San Martín del Rey Aurelio, Laviana, Siero, Piloña, Nava' },
+  { id: 7, nombre: 'Oriente', punto: 'Llanes', ey: 1115, angulo: 38,
+    concejos: 'Llanes, Ribadesella, Cangas de Onís, Cabrales, Parres, los Picos' },
+];
+const REFERENCIA_CENTRAL = CONFIG.rendimiento.central; // 1050 kWh/kWp
+
+function seleccionarZona(id) {
+  const z = ZONAS[id];
+  if (!z) return;
+  $('rp-nombre').textContent = z.nombre;
+  animarEl($('rp-ey'), z.ey, fmt, false);
+  $('rp-punto').textContent = z.punto;
+  $('rp-angulo').textContent = `${z.angulo}°`;
+  const vs = Math.round(((z.ey - REFERENCIA_CENTRAL) / REFERENCIA_CENTRAL) * 100);
+  $('rp-vs').textContent = `${vs >= 0 ? '+' : ''}${vs} %`;
+  $('rp-concejos').textContent = `Incluye ${z.concejos}.`;
+  const svg = document.querySelector('#mapa-recurso svg');
+  if (svg) {
+    for (const p of svg.querySelectorAll('path')) {
+      p.classList.toggle('zona-activa', Number(p.dataset.zona) === id);
+    }
+  }
+}
+
+async function montarMapa() {
+  const cont = $('mapa-recurso');
+  if (!cont) return;
+  try {
+    const svgTexto = await fetch('assets/mapa-asturias.svg').then((r) => r.text());
+    // Asset propio y estático, pero se parsea con DOMParser (no innerHTML):
+    // construye nodos SVG sin ejecutar scripts embebidos.
+    const doc = new DOMParser().parseFromString(svgTexto, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg || doc.querySelector('parsererror')) throw new Error('svg no válido');
+    svg.removeAttribute('aria-hidden');
+    cont.replaceChildren(document.importNode(svg, true));
+    const svgVivo = cont.querySelector('svg');
+    for (const p of svgVivo.querySelectorAll('path')) {
+      p.setAttribute('tabindex', '0');
+      p.setAttribute('role', 'button');
+      const zi = Number(p.dataset.zona);
+      p.addEventListener('click', () => seleccionarZona(zi));
+      p.addEventListener('mouseenter', () => seleccionarZona(zi));
+      p.addEventListener('focus', () => seleccionarZona(zi));
+      p.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionarZona(zi); }
+      });
+    }
+    seleccionarZona(1); // arranca en la zona de mayor recurso
+  } catch {
+    cont.closest('#recurso')?.setAttribute('hidden', '');
+  }
+}
+
+montarMapa();
+
 // PWA: la app funciona sin cobertura una vez visitada.
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

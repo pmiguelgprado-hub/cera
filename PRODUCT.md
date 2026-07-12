@@ -38,7 +38,13 @@ conversación a proyecto.
 
 ## Strategic principles
 
-- Una sola página: formulario → resultados. Sin login, pagos, mapas, APIs ni BD.
+- Una sola página: formulario → resultados. Sin login, pagos, APIs en runtime
+  ni BD. **Excepción (V8, 2026-07-12):** se añade un mapa de recurso solar de
+  Asturias como capa educativa. No pide ni usa la ubicación del usuario (no
+  rompe la regla de cero datos personales); los valores de producción por zona
+  proceden de PVGIS (Comisión Europea), consultado **una sola vez en build**
+  (`tools/build_map.py`) y horneado a un SVG estático + datos en `js/app.js`.
+  En runtime no hay ninguna llamada externa.
 - No se pide ningún dato personal: ni direcciones, ni CUPS, ni facturas, ni
   coordenadas, ni DNI. Demo siempre con datos ficticios.
 - El cálculo vive en `js/calculo.js` (puro, testeado con `node --test`); la UI

@@ -1,7 +1,8 @@
-# DESIGN.md — V6 conversión honesta
+# DESIGN.md — criterio de diseño de CERA
 
 Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
-criterio; el CSS es la fuente de valores.
+criterio; el CSS es la fuente de valores. Historial de versiones, la más
+reciente primero.
 
 ## V7 (2026-07-12) — menos prosa, más dashboard e informe pro
 
@@ -25,6 +26,31 @@ dashboards, elementos visuales, mapa).
   línea de retorno (`print-color-adjust: exact`); fuera topbar, hero, bandas y
   formulario. `beforeprint` abre las hipótesis también con Cmd/Ctrl+P.
 - CSS `?v=7`, SW `cera-v9`.
+
+## V8 (2026-07-12) — mapa de recurso solar estilo panel de datos
+
+Pablo pidió algo similar a la app de Red Eléctrica (demanda.ree.es): mapa
+coroplético + panel lateral + leyenda de intensidad. Se traduce la **estructura**
+de REE, no su piel oscura: la banda `#recurso` es `banda-oscura` (verde-noche),
+CERA y no clon de REE.
+
+- **Datos reales, no inventados.** Producción FV por zona (E_y, kWh/kWp·año) de
+  PVGIS v5.2 (pérdidas 14 %, inclinación óptima) para 8 puntos de medida.
+  Rango real 1.112–1.243; la historia verdadera es que el recurso es alto y
+  uniforme, y que el suroccidente interior (Narcea, 1.243) supera la rasa
+  costera occidental (Vegadeo, 1.112).
+- **Geometría.** 78 concejos (ArcGIS IGN) proyectados a SVG; cada concejo toma
+  el punto PVGIS más cercano (teselación de vecino próximo — sin tabla política
+  inventada). Douglas-Peucker con anillo partido por vértice más lejano →
+  41 KB. Pipeline reproducible en `tools/build_map.py`.
+- **Rol educativo, desacoplado del cálculo.** El panel contrasta cada zona con
+  `CONFIG.rendimiento.central` (1.050) — «+18 %» en Narcea — pero el motor sigue
+  usando un rendimiento prudente común a la región; la nota lo dice. No se
+  recoge ubicación (respeta la regla de cero datos personales, ver PRODUCT.md).
+- **Interacción** REE: clic/hover/teclado sobre zona → panel (nombre, E_y,
+  punto de medida, inclinación óptima, contraste, concejos). Zona activa con
+  borde crema; foco con anillo solar. SVG parseado con DOMParser (no innerHTML).
+- CSS `?v=8`, SW `cera-v10`.
 
 ## V6 (2026-07-12) — CRO sin perder sobriedad
 

@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0B2A20">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
 </head>
 <body>
 
@@ -367,6 +367,40 @@
           </button>
         </li>
       </ol>
+    </div>
+  </div>
+</section>
+
+<section id="recurso" class="banda banda-oscura">
+  <div class="banda-int">
+    <p class="banda-eyebrow">Recurso solar</p>
+    <h2>Cuánto sol recibe cada rincón de Asturias</h2>
+    <p class="banda-sub">Producción fotovoltaica estimada por zona, con datos de
+    PVGIS (Comisión Europea). El recurso es alto y bastante uniforme: toda la
+    región supera los 1.100 kWh por cada kWp instalado y año.</p>
+    <div class="recurso-grid">
+      <figure class="recurso-mapa">
+        <div id="mapa-recurso" aria-hidden="true"></div>
+        <div class="recurso-leyenda" aria-hidden="true">
+          <span>1.112</span>
+          <span class="rl-rampa"></span>
+          <span>1.243 kWh/kWp·año</span>
+        </div>
+      </figure>
+      <aside class="recurso-panel" aria-live="polite">
+        <p class="rp-eyebrow">Zona seleccionada</p>
+        <h3 id="rp-nombre">Suroccidente (Narcea)</h3>
+        <p class="rp-valor"><strong id="rp-ey">1.243</strong> <span>kWh/kWp·año</span></p>
+        <dl class="rp-datos">
+          <div><dt>Punto de medida</dt><dd id="rp-punto">Cangas del Narcea</dd></div>
+          <div><dt>Inclinación óptima</dt><dd id="rp-angulo">35°</dd></div>
+          <div><dt>Frente al escenario central de CERA</dt><dd id="rp-vs">+18 %</dd></div>
+        </dl>
+        <p class="rp-concejos" id="rp-concejos"></p>
+        <p class="rp-nota">Pulsa una zona del mapa. La producción real depende de
+        sombras, orientación e inclinación de cada cubierta; CERA usa un
+        rendimiento prudente común a toda la región.</p>
+      </aside>
     </div>
   </div>
 </section>

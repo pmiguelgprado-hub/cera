@@ -1,0 +1,176 @@
+[
+  {
+    "id": 0,
+    "nombre": "Occidente costero",
+    "punto": "Vegadeo",
+    "lat": 43.47,
+    "lon": -7.05,
+    "eyKwhKwp": 1112,
+    "anguloOptimo": 36,
+    "color": "#F3E9C8",
+    "concejos": [
+      "Boal",
+      "Castropol",
+      "Coaña",
+      "El Franco",
+      "Illano",
+      "Navia",
+      "Pesoz",
+      "San Martín de Oscos",
+      "San Tirso de Abres",
+      "Santa Eulalia de Oscos",
+      "Tapia de Casariego",
+      "Taramundi",
+      "Vegadeo",
+      "Villanueva de Oscos",
+      "Villayón"
+    ]
+  },
+  {
+    "id": 1,
+    "nombre": "Suroccidente (Narcea)",
+    "punto": "Cangas del Narcea",
+    "lat": 43.18,
+    "lon": -6.55,
+    "eyKwhKwp": 1243,
+    "anguloOptimo": 35,
+    "color": "#1E7B45",
+    "concejos": [
+      "Allande",
+      "Belmonte de Miranda",
+      "Cangas del Narcea",
+      "Degaña",
+      "Grandas de Salime",
+      "Ibias",
+      "Somiedo",
+      "Tineo",
+      "Valdés"
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Avilés y bajo Nalón",
+    "punto": "Avilés",
+    "lat": 43.55,
+    "lon": -5.92,
+    "eyKwhKwp": 1210,
+    "anguloOptimo": 38,
+    "color": "#819740",
+    "concejos": [
+      "Avilés",
+      "Candamo",
+      "Castrillón",
+      "Corvera de Asturias",
+      "Cudillero",
+      "Gozón",
+      "Illas",
+      "Muros de Nalón",
+      "Pravia",
+      "Salas",
+      "Soto del Barco"
+    ]
+  },
+  {
+    "id": 3,
+    "nombre": "Centro (Oviedo)",
+    "punto": "Oviedo",
+    "lat": 43.36,
+    "lon": -5.85,
+    "eyKwhKwp": 1182,
+    "anguloOptimo": 39,
+    "color": "#D5AE3D",
+    "concejos": [
+      "Grado",
+      "Las Regueras",
+      "Llanera",
+      "Oviedo",
+      "Proaza",
+      "Ribera de Arriba",
+      "Santo Adriano",
+      "Yernes y Tameza"
+    ]
+  },
+  {
+    "id": 4,
+    "nombre": "Gijón y Cabo Peñas",
+    "punto": "Gijón",
+    "lat": 43.54,
+    "lon": -5.66,
+    "eyKwhKwp": 1201,
+    "anguloOptimo": 37,
+    "color": "#9C9E3F",
+    "concejos": [
+      "Cabranes",
+      "Carreño",
+      "Colunga",
+      "Gijón",
+      "Villaviciosa"
+    ]
+  },
+  {
+    "id": 5,
+    "nombre": "Cuencas del Caudal",
+    "punto": "Mieres",
+    "lat": 43.25,
+    "lon": -5.77,
+    "eyKwhKwp": 1125,
+    "anguloOptimo": 35,
+    "color": "#F0DEAC",
+    "concejos": [
+      "Aller",
+      "Lena",
+      "Mieres",
+      "Morcín",
+      "Quirós",
+      "Riosa",
+      "Teverga"
+    ]
+  },
+  {
+    "id": 6,
+    "nombre": "Cuencas del Nalón",
+    "punto": "Langreo",
+    "lat": 43.3,
+    "lon": -5.68,
+    "eyKwhKwp": 1143,
+    "anguloOptimo": 37,
+    "color": "#EBCF86",
+    "concejos": [
+      "Bimenes",
+      "Caso",
+      "Langreo",
+      "Laviana",
+      "Nava",
+      "Noreña",
+      "Piloña",
+      "San Martín del Rey Aurelio",
+      "Sariego",
+      "Siero",
+      "Sobrescobio"
+    ]
+  },
+  {
+    "id": 7,
+    "nombre": "Oriente",
+    "punto": "Llanes",
+    "lat": 43.42,
+    "lon": -4.75,
+    "eyKwhKwp": 1115,
+    "anguloOptimo": 38,
+    "color": "#F2E6C2",
+    "concejos": [
+      "Amieva",
+      "Cabrales",
+      "Cangas de Onís",
+      "Caravia",
+      "Llanes",
+      "Onís",
+      "Parres",
+      "Peñamellera Alta",
+      "Peñamellera Baja",
+      "Ponga",
+      "Ribadedeva",
+      "Ribadesella"
+    ]
+  }
+]

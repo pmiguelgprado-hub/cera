@@ -1234,6 +1234,113 @@ a:focus-visible,
 
 .mapa-paso-item.activo .mp-texto { color: var(--tinta-suave); }
 
+/* ---- Recurso solar: mapa coroplético estilo panel de datos ---- */
+
+.recurso-grid {
+  display: grid;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .recurso-grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+}
+
+.recurso-mapa { margin: 0; }
+
+#mapa-recurso svg { display: block; width: 100%; height: auto; }
+
+#mapa-recurso path {
+  cursor: pointer;
+  transition: fill-opacity var(--transicion), stroke var(--transicion);
+}
+
+#mapa-recurso path:hover { fill-opacity: 0.85; }
+
+#mapa-recurso path.zona-activa {
+  stroke: var(--crema);
+  stroke-width: 2.2;
+  stroke-opacity: 1;
+}
+
+#mapa-recurso path:focus-visible { outline: none; stroke: var(--solar); stroke-width: 2.4; stroke-opacity: 1; }
+
+.recurso-leyenda {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: rgb(247 244 237 / 0.72);
+}
+
+.rl-rampa {
+  flex: 1;
+  height: 0.55rem;
+  border-radius: var(--pildora);
+  background: linear-gradient(90deg, #F3E9C8, #E3B23C 50%, #1E7B45);
+}
+
+.recurso-panel {
+  background: rgb(247 244 237 / 0.06);
+  border: 1px solid rgb(247 244 237 / 0.16);
+  border-radius: var(--radio);
+  padding: 1.35rem 1.4rem 1.5rem;
+}
+
+.rp-eyebrow {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--solar);
+}
+
+.recurso-panel h3 { margin: 0 0 0.6rem; font-size: 1.25rem; color: var(--crema); }
+
+.rp-valor { margin: 0 0 1rem; display: flex; align-items: baseline; gap: 0.4rem; }
+
+.rp-valor strong {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--solar);
+  font-variant-numeric: tabular-nums;
+}
+
+.rp-valor span { font-size: 0.85rem; color: rgb(247 244 237 / 0.7); }
+
+.rp-datos { margin: 0 0 1rem; }
+
+.rp-datos > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgb(247 244 237 / 0.12);
+  font-size: 0.9rem;
+}
+
+.rp-datos dt { margin: 0; color: rgb(247 244 237 / 0.65); }
+
+.rp-datos dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--crema);
+  font-variant-numeric: tabular-nums;
+}
+
+.rp-concejos {
+  margin: 0 0 0.9rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgb(247 244 237 / 0.6);
+}
+
+.rp-nota { margin: 0; font-size: 0.8rem; line-height: 1.5; color: rgb(247 244 237 / 0.55); }
+
 /* ---- Bandas: cómo funciona y caso ---- */
 
 .banda { padding: 4rem 1.5rem; scroll-margin-top: 4.5rem; }

@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0B2A20">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
 
@@ -39,7 +39,7 @@
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#caso">Caso demostrativo</a>
     </div>
-    <a class="topbar-cta" href="#calculadora">Iniciar diagnóstico</a>
+    <a class="topbar-cta" href="#calculadora">Calcular mi ahorro</a>
   </div>
 </nav>
 
@@ -53,17 +53,21 @@
   </div>
   <div class="hero-int">
     <div class="hero-texto">
-      <p class="eyebrow">Previabilidad energética rural</p>
-      <h1>Calculadora de Energía Rural Agrivoltaica</h1>
+      <p class="eyebrow">CERA · Previabilidad energética rural</p>
+      <h1>¿Cuánto puede ahorrar tu explotación con placas solares?</h1>
       <p class="entradilla">
-        Siete datos, un primer número honesto. Autoconsumo fotovoltaico para
-        comunidades energéticas, cooperativas y explotaciones agrarias de Asturias.
+        Un primer número honesto en un minuto, con siete datos. Para comunidades
+        energéticas, cooperativas y explotaciones agrarias de Asturias.
       </p>
       <div class="hero-acciones">
-        <a class="boton primario" href="#calculadora">Iniciar diagnóstico</a>
+        <a class="boton primario" href="#calculadora">Calcular mi ahorro</a>
         <a class="boton fantasma" href="#caso">Ver caso demostrativo</a>
       </div>
-      <p class="hero-nota">Sin registros, sin CUPS y sin datos personales.</p>
+      <ul class="hero-confianza">
+        <li>Gratuito y sin registro</li>
+        <li>Sin datos personales ni CUPS</li>
+        <li>Cada hipótesis del cálculo, visible</li>
+      </ul>
     </div>
 
     <div class="hero-panel" aria-hidden="true">
@@ -85,9 +89,9 @@
         <span>Previabilidad de ejemplo</span>
       </div>
       <div class="hero-metricas">
-        <div><strong data-cifra="18.5" data-dec="1">18,5</strong><small>kWp</small><span>Potencia FV</span></div>
-        <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
         <div><strong data-cifra="2549">2.549</strong><small>EUR/año</small><span>Ahorro</span></div>
+        <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
+        <div><strong data-cifra="18.5" data-dec="1">18,5</strong><small>kWp</small><span>Potencia FV</span></div>
       </div>
     </div>
   </div>
@@ -203,6 +207,10 @@
     <p class="subtitulo-resultados">Estimación anual según las hipótesis seleccionadas.</p>
 
     <div class="kpis">
+      <div class="kpi destacado">
+        <span class="kpi-valor"><span id="r-ahorro"></span> <small>EUR/año</small></span>
+        <span class="kpi-etiqueta">Ahorro estimado</span>
+      </div>
       <div class="kpi">
         <span class="kpi-valor"><span id="r-potencia"></span> <small>kWp</small></span>
         <span class="kpi-etiqueta">Potencia FV recomendada</span>
@@ -210,10 +218,6 @@
       <div class="kpi">
         <span class="kpi-valor"><span id="r-produccion"></span> <small>kWh/año</small></span>
         <span class="kpi-etiqueta">Producción anual</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-valor"><span id="r-ahorro"></span> <small>EUR/año</small></span>
-        <span class="kpi-etiqueta">Ahorro estimado</span>
       </div>
       <div class="kpi">
         <span class="kpi-valor"><span id="r-co2"></span> <small>kg CO₂/año</small></span>
@@ -279,8 +283,9 @@
 
 <section id="como-funciona" class="banda banda-oscura">
   <div class="banda-int">
-    <h2>Cómo funciona</h2>
-    <p class="banda-sub">Tres pasos, cálculo transparente y ningún dato personal.
+    <p class="banda-eyebrow">Cómo funciona</p>
+    <h2>De la idea al proyecto en tres pasos</h2>
+    <p class="banda-sub">Cálculo transparente y ningún dato personal.
     Recorre el pueblo: cada punto explica un paso.</p>
     <div class="mapa">
       <div class="mapa-marco">
@@ -308,7 +313,8 @@
 
 <section id="caso" class="banda banda-clara">
   <div class="banda-int">
-    <h2>Caso demostrativo</h2>
+    <p class="banda-eyebrow">Caso demostrativo</p>
+    <h2>Una ganadería asturiana, en números</h2>
     <p class="banda-sub">Ganadería El Cierru — datos simulados de una explotación
     de leche del interior de Asturias, en autoconsumo colectivo con 4 participantes.
     <strong>Todos los valores son ficticios.</strong></p>

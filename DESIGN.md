@@ -1,7 +1,31 @@
-# DESIGN.md — V3.5 corporativa con profundidad
+# DESIGN.md — V6 conversión honesta
 
 Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores.
+
+## V6 (2026-07-12) — CRO sin perder sobriedad
+
+Tras investigación documentada en `docs/research-ui-2026-07-12.md` (benchmark
+Otovo/Octopus/Holaluz/Wise + análisis de vídeo CRO "1000 landing pages"):
+
+- **H1 de beneficio, no descriptivo**: «¿Cuánto puede ahorrar tu explotación
+  con placas solares?». El nombre CERA pasa al eyebrow y a la marca. La
+  entradilla explica qué es y añade la promesa temporal («en un minuto»).
+- **CTA de beneficio**: «Calcular mi ahorro» (hero y topbar).
+- **Reductores de FUD bajo el CTA**: lista `hero-confianza` con ✓ solar —
+  gratuito/sin registro, sin datos personales, hipótesis visibles. Sustituye
+  a la antigua `hero-nota`.
+- **Jerarquía de resultados**: el ahorro anual (la respuesta al H1) es KPI
+  destacado — fila completa, tinte solar, 2.1rem. Los tres secundarios
+  comparten fila ≥700 px. El panel del hero también ordena ahorro primero.
+  Sigue sin ser "big number hero": vive dentro de la retícula KPI.
+- **Headings de beneficio** en bandas («De la idea al proyecto en tres
+  pasos», «Una ganadería asturiana, en números») con `banda-eyebrow` que
+  conserva la etiqueta funcional.
+- **Fix crítico móvil**: `.principal > * { min-width: 0 }` + segmentado en
+  grid de 3 columnas ≤480 px. Antes el min-content del segmentado forzaba
+  422 px en viewport de 390 y el tablero se cortaba (overflow clip).
+- CSS versionado (`styles.css?v=6`) para invalidar caché HTTP/SW.
 
 ## V3.5 (2026-07-12) — profundidad atmosférica
 

@@ -266,11 +266,12 @@ body {
 
 .hero h1 {
   margin: 0 0 1rem;
-  font-size: clamp(2.3rem, 5.2vw, 3.4rem);
+  font-size: clamp(2.15rem, 4.8vw, 3.2rem);
   font-weight: 800;
-  line-height: 1.04;
+  line-height: 1.06;
   letter-spacing: -0.025em;
-  max-width: 20ch;
+  max-width: 21ch;
+  text-wrap: balance;
 }
 
 .entradilla {
@@ -283,10 +284,28 @@ body {
 
 .hero-acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-.hero-nota {
-  margin: 1rem 0 0;
+/* Reductores de duda bajo el CTA: lista con marca ✓, no párrafo */
+.hero-confianza {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.4rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
   font-size: 0.85rem;
-  color: rgb(247 244 237 / 0.65);
+  color: rgb(247 244 237 / 0.72);
+}
+
+.hero-confianza li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.hero-confianza li::before {
+  content: '✓';
+  font-weight: 700;
+  color: var(--solar);
 }
 
 /* Panel mini-dashboard del hero */
@@ -418,6 +437,11 @@ body {
   box-shadow: var(--sombra);
   scroll-margin-top: 4.5rem;
 }
+
+/* Los hijos del tablero deben poder encoger por debajo de su min-content:
+   sin esto, el segmentado de escenarios fuerza overflow en móvil (422 px
+   dentro de un viewport de 390) y el contenido se corta. */
+.principal > * { min-width: 0; }
 
 .tablero-cab {
   grid-column: 1 / -1;
@@ -668,10 +692,24 @@ a:focus-visible,
 
 .segmentado {
   display: inline-flex;
+  max-width: 100%;
   border: 1.5px solid var(--campo-borde);
   border-radius: var(--radio-s);
   overflow: hidden;
   background: var(--blanco);
+}
+
+/* En pantallas estrechas el segmentado ocupa el ancho disponible y reparte
+   los tres escenarios a partes iguales, sin desbordar. */
+@media (max-width: 480px) {
+  .segmentado { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
+  .segmentado label { min-width: 0; }
+  .segmentado span {
+    width: 100%;
+    justify-content: center;
+    padding: 0 0.4rem;
+    font-size: 0.88rem;
+  }
 }
 
 .segmentado label { margin: 0; font-weight: 400; }
@@ -789,6 +827,12 @@ a:focus-visible,
   margin-bottom: 1.5rem;
 }
 
+/* Con hueco suficiente, los tres KPI secundarios comparten fila bajo el
+   destacado; así no queda una celda huérfana. */
+@media (min-width: 700px) {
+  .kpis { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 439px) {
   .kpis { grid-template-columns: 1fr; }
 }
@@ -814,6 +858,17 @@ a:focus-visible,
   transform: translateY(-2px);
   box-shadow: 0 4px 14px rgb(11 42 32 / 0.14);
 }
+
+/* El ahorro anual es el dato que responde a la pregunta del H1: manda.
+   Ocupa la fila completa y se distingue con el acento solar — jerarquía,
+   no "big number hero": sigue dentro de la retícula de KPI. */
+.kpi.destacado {
+  grid-column: 1 / -1;
+  border-left-color: var(--solar);
+  background: var(--solar-tinte);
+}
+
+.kpi.destacado .kpi-valor { font-size: 2.1rem; }
 
 .kpi-valor {
   font-weight: 700;
@@ -1099,6 +1154,29 @@ a:focus-visible,
 
 .banda-int { max-width: var(--ancho-max); margin: 0 auto; }
 
+/* Eyebrow de banda: el H2 queda libre para comunicar beneficio */
+.banda-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ambar-texto);
+}
+
+.banda-eyebrow::before {
+  content: '';
+  width: 2rem;
+  height: 1.5px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.banda-oscura .banda-eyebrow { color: var(--solar); }
+
 .banda-sub {
   margin: 0 0 1.75rem;
   color: var(--tinta-suave);
@@ -1184,7 +1262,7 @@ a:focus-visible,
 
 @media print {
   html { font-size: 12pt; }
-  .topbar, .hero-acciones, .hero-panel, .hero-nota, .banda, .salto-contenido,
+  .topbar, .hero-acciones, .hero-panel, .hero-confianza, .banda, .salto-contenido,
   .formulario, .acciones, .nota-reactiva, .pie-enlaces, .tablero-cab,
   .hero-fondo, .hero-vida,
   .grafico-leyenda { display: none; }

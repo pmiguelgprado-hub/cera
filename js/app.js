@@ -9,10 +9,16 @@ const form = $('formulario');
 const resultados = $('resultados');
 const btnImprimir = $('imprimir');
 
-const fmt = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
+// useGrouping 'always': es-ES no separa los miles en números de 4 cifras
+// ("2549"), pero el informe debe leerse igual que el resto de cifras ("2.549").
+const fmt = new Intl.NumberFormat('es-ES', {
+  maximumFractionDigits: 0,
+  useGrouping: 'always',
+});
 const fmt1 = new Intl.NumberFormat('es-ES', {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
+  useGrouping: 'always',
 });
 
 const ETIQUETAS = {

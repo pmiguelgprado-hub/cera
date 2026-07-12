@@ -3,7 +3,7 @@
 // network-first con caché de respaldo (siempre intenta servir la última
 // versión publicada; si no hay red, sirve la copia local).
 
-const CACHE = 'cera-v6';
+const CACHE = 'cera-v7';
 const RECURSOS = [
   '.',
   'index.html',
@@ -12,7 +12,7 @@ const RECURSOS = [
   'js/app.js',
   'js/calculo.js',
   'assets/fonts/bricolage-grotesque-latin.woff2',
-  'assets/picos-cornisa.jpg',
+  'assets/picos-banner.jpg',
   'assets/pueblo-energetico.webp',
   'manifest.webmanifest',
 ];

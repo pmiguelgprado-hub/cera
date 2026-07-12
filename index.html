@@ -44,6 +44,9 @@
 </nav>
 
 <header class="hero">
+  <div class="hero-fondo" aria-hidden="true">
+    <img src="assets/picos-banner.jpg" alt="" width="1920" height="1080" decoding="async" fetchpriority="high">
+  </div>
   <div class="hero-vida" aria-hidden="true">
     <span class="vida-glow"></span>
     <span class="vida-niebla"></span>
@@ -86,13 +89,17 @@
         <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
         <div><strong data-cifra="2549">2.549</strong><small>EUR/año</small><span>Ahorro</span></div>
       </div>
-      <img class="hero-foto" src="assets/picos-cornisa.jpg" alt=""
-           width="900" height="600" decoding="async">
     </div>
   </div>
 </header>
 
 <main class="principal" id="calculadora">
+
+  <div class="tablero-cab">
+    <span class="tablero-punto" aria-hidden="true"></span>
+    <span>Diagnóstico de previabilidad</span>
+    <span class="tablero-chip">Datos orientativos</span>
+  </div>
 
   <form id="formulario" class="formulario" novalidate>
     <ol class="ruta" aria-label="Camino del proyecto">

@@ -136,6 +136,7 @@ function pintarResultado(r, datos, animar = true) {
   animarCifra('r-reparto', r.ahorroPorParticipanteEur, fmt, animar);
 
   pintarGrafico(r, datos);
+  pintarRetorno(r);
 
   const avisos = $('avisos');
   avisos.replaceChildren(
@@ -178,6 +179,31 @@ function pintarGrafico(r, datos) {
     `Destino de la energía respecto al consumo anual: autoconsumo ${partes[0]}, ` +
       `excedentes a red ${partes[1]}, consumo no cubierto ${partes[2]}.`
   );
+}
+
+// Línea de retorno: cuándo se recupera la inversión dentro de la vida útil.
+// Tramo ámbar = años amortizando; tramo verde = años de beneficio neto.
+const VIDA_UTIL = 25;
+
+function pintarRetorno(r) {
+  const figura = $('linea-retorno');
+  if (!Number.isFinite(r.paybackAnios)) {
+    figura.hidden = true;
+    return;
+  }
+  figura.hidden = false;
+  const pct = Math.min(r.paybackAnios / VIDA_UTIL, 1) * 100;
+  $('lr-pendiente').style.width = `${pct}%`;
+  $('lr-beneficio').style.width = `${100 - pct}%`;
+  $('lr-marca').style.left = `${pct}%`;
+  $('lr-marca').classList.toggle('fuera', r.paybackAnios > VIDA_UTIL);
+  $('lr-anio').textContent =
+    r.paybackAnios > VIDA_UTIL ? '+25 años' : `${fmt1.format(r.paybackAnios)} años`;
+  $('lr-lectura').textContent =
+    r.paybackAnios > VIDA_UTIL
+      ? 'Con estas hipótesis la inversión no se recupera dentro de la vida útil.'
+      : `Inversión recuperada en ${fmt1.format(r.paybackAnios)} años; ` +
+        `${fmt1.format(VIDA_UTIL - r.paybackAnios)} años restantes de ahorro neto.`;
 }
 
 function pintarHipotesis(datos) {
@@ -312,51 +338,24 @@ for (const el of document.querySelectorAll('.hero-metricas strong[data-cifra]'))
 }
 
 // Cómo funciona: mapa interactivo sobre la ilustración del pueblo.
-// Cada punto es un paso; el panel lateral muestra su explicación.
-const PASOS_MAPA = [
-  {
-    titulo: 'Introduce siete datos',
-    texto:
-      'Consumo anual, potencia contratada, superficie, tipo de superficie, ' +
-      'participantes, precio de la electricidad y escenario de producción. ' +
-      'Valen datos aproximados.',
-  },
-  {
-    titulo: 'Revisa el diagnóstico',
-    texto:
-      'Potencia recomendada, producción, ahorro, emisiones evitadas y retorno ' +
-      'simple, con semáforo de viabilidad y avisos según tu caso. Todo se ' +
-      'recalcula al instante al cambiar un dato.',
-  },
-  {
-    titulo: 'Contrasta las hipótesis',
-    texto:
-      'Cada resultado publica las hipótesis exactas del cálculo. El informe ' +
-      'imprimible las incluye para que un técnico pueda validarlas o ' +
-      'corregirlas en el estudio profesional.',
-  },
-];
-
+// Los tres pasos están siempre visibles en la lista lateral (lo oculto no se
+// lee); punto e ítem se resaltan en espejo.
 const puntosMapa = document.querySelectorAll('.punto-mapa');
-const panelMapa = document.querySelector('.mapa-panel');
+const itemsPaso = document.querySelectorAll('.mapa-paso-item');
 
 function mostrarPaso(indice) {
-  const paso = PASOS_MAPA[indice];
-  $('mapa-paso').textContent = `Paso ${indice + 1} de 3`;
-  $('mapa-titulo').textContent = paso.titulo;
-  $('mapa-texto').textContent = paso.texto;
   for (const punto of puntosMapa) {
     punto.classList.toggle('activo', Number(punto.dataset.paso) === indice);
   }
-  if (!REDUCIR.matches) {
-    panelMapa.classList.remove('cambia');
-    void panelMapa.offsetWidth;
-    panelMapa.classList.add('cambia');
-  }
+  itemsPaso.forEach((item, i) => item.classList.toggle('activo', i === indice));
 }
 
 for (const punto of puntosMapa) {
   punto.addEventListener('click', () => mostrarPaso(Number(punto.dataset.paso)));
+}
+
+for (const boton of document.querySelectorAll('.mapa-paso-item button')) {
+  boton.addEventListener('click', () => mostrarPaso(Number(boton.dataset.paso)));
 }
 
 // Revelado al hacer scroll de las bandas informativas (una sola vez por
@@ -386,8 +385,14 @@ btnImprimir.addEventListener('click', () => {
   window.print();
 });
 
-$('fecha-informe').textContent = new Date().toLocaleDateString('es-ES', {
+// También al imprimir con Cmd/Ctrl+P: el informe siempre publica sus hipótesis.
+window.addEventListener('beforeprint', () => {
+  $('hipotesis').open = true;
+});
+
+const fechaHoy = new Date().toLocaleDateString('es-ES', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
 });
+for (const el of document.querySelectorAll('.fecha-doc')) el.textContent = fechaHoy;

@@ -3,12 +3,12 @@
 // network-first con caché de respaldo (siempre intenta servir la última
 // versión publicada; si no hay red, sirve la copia local).
 
-const CACHE = 'cera-v8';
+const CACHE = 'cera-v9';
 const RECURSOS = [
   '.',
   'index.html',
   'movil.html',
-  'css/styles.css?v=6',
+  'css/styles.css?v=7',
   'js/app.js',
   'js/calculo.js',
   'assets/fonts/bricolage-grotesque-latin.woff2',

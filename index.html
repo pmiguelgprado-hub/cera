@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0B2A20">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=6">
+  <link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body>
 
@@ -100,6 +100,29 @@
   </div>
 </header>
 
+<header class="print-cab" aria-hidden="true">
+  <svg viewBox="0 0 48 48" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+    <path d="M33 10a8 8 0 0 1 8 8" fill="none" stroke="#F7C640" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="33" cy="10" r="4.2" fill="#F7C640"/>
+    <g fill="#164C3A">
+      <rect x="7" y="15" width="10" height="7.4" rx="1.6"/>
+      <rect x="19.4" y="15" width="10" height="7.4" rx="1.6"/>
+      <rect x="7" y="24.4" width="10" height="7.4" rx="1.6"/>
+      <rect x="19.4" y="24.4" width="10" height="7.4" rx="1.6"/>
+    </g>
+    <g stroke="#164C3A" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <path d="M6 38.5q18-3.6 36 0"/>
+      <path d="M10 44q14-2.8 28 0"/>
+    </g>
+  </svg>
+  <div>
+    <p class="print-cab-titulo">Informe de previabilidad energética</p>
+    <p class="print-cab-sub">CERA — Calculadora de Energía Rural Agrivoltaica ·
+    generado el <span class="fecha-doc"></span> · resultado orientativo, requiere
+    validación profesional</p>
+  </div>
+</header>
+
 <main class="principal" id="calculadora">
 
   <div class="tablero-cab">
@@ -115,8 +138,8 @@
       <li><span class="ruta-num" aria-hidden="true">3</span><span class="ruta-tit">Estudio profesional</span></li>
     </ol>
     <h2>Datos de partida</h2>
-    <p class="ayuda-form">Usa datos aproximados o ficticios. No introduzcas
-    direcciones, CUPS ni datos de factura.</p>
+    <p class="ayuda-form">Valen datos aproximados o ficticios. Nunca
+    direcciones, CUPS ni facturas.</p>
 
     <div class="campos">
     <div class="campo">
@@ -207,7 +230,6 @@
 
     <h2>Tu escenario energético</h2>
     <p class="resumen-caso" id="resumen-caso"></p>
-    <p class="subtitulo-resultados">Estimación anual según las hipótesis seleccionadas.</p>
 
     <div class="kpis">
       <div class="kpi destacado">
@@ -245,12 +267,22 @@
         <div class="barra" aria-hidden="true"><div class="barra-relleno no-cubierto" id="barra-no-cubierto"></div></div>
         <span class="barra-valor" id="valor-no-cubierto"></span>
       </div>
-      <p class="grafico-leyenda">Cada barra se expresa como porcentaje del consumo
-      anual introducido. Autoconsumo y consumo no cubierto suman tu consumo;
-      los excedentes son producción adicional que se vierte a red.</p>
+      <p class="grafico-leyenda">Porcentajes sobre tu consumo anual; los
+      excedentes son producción extra que se vierte a red.</p>
       <p class="grafico-nota" id="nota-excedentes" hidden>La producción estimada
       supera tu consumo anual: los excedentes vertidos a red son mayores que la
       energía que autoconsumes.</p>
+    </figure>
+
+    <figure class="linea-retorno" id="linea-retorno" hidden>
+      <figcaption>Recuperación de la inversión en la vida útil (25 años)</figcaption>
+      <div class="lr-pista" aria-hidden="true">
+        <div class="lr-tramo lr-pendiente" id="lr-pendiente"></div>
+        <div class="lr-tramo lr-beneficio" id="lr-beneficio"></div>
+        <span class="lr-marca" id="lr-marca"><em id="lr-anio"></em></span>
+      </div>
+      <div class="lr-ejes" aria-hidden="true"><span>Año 0</span><span>Año 25</span></div>
+      <p class="lr-lectura" id="lr-lectura"></p>
     </figure>
 
     <dl class="cifras">
@@ -303,13 +335,38 @@
         <button type="button" class="punto-mapa" data-paso="2" style="--x: 84%; --y: 56%"
                 aria-label="Paso 3: contrasta las hipótesis"><span aria-hidden="true">3</span></button>
       </div>
-      <div class="mapa-panel" aria-live="polite">
-        <p class="mapa-paso" id="mapa-paso">Paso 1 de 3</p>
-        <h3 id="mapa-titulo">Introduce siete datos</h3>
-        <p id="mapa-texto">Consumo anual, potencia contratada, superficie, tipo
-        de superficie, participantes, precio de la electricidad y escenario de
-        producción. Valen datos aproximados.</p>
-      </div>
+      <ol class="mapa-pasos" aria-label="Los tres pasos">
+        <li class="mapa-paso-item activo">
+          <button type="button" data-paso="0">
+            <span class="mp-num" aria-hidden="true">1</span>
+            <span class="mp-cuerpo">
+              <span class="mp-titulo">Introduce siete datos</span>
+              <span class="mp-texto">Consumo, potencia, superficie, participantes,
+              precio y escenario. Valen datos aproximados.</span>
+            </span>
+          </button>
+        </li>
+        <li class="mapa-paso-item">
+          <button type="button" data-paso="1">
+            <span class="mp-num" aria-hidden="true">2</span>
+            <span class="mp-cuerpo">
+              <span class="mp-titulo">Revisa el diagnóstico</span>
+              <span class="mp-texto">Ahorro, producción, retorno y semáforo de
+              viabilidad, recalculados al instante.</span>
+            </span>
+          </button>
+        </li>
+        <li class="mapa-paso-item">
+          <button type="button" data-paso="2">
+            <span class="mp-num" aria-hidden="true">3</span>
+            <span class="mp-cuerpo">
+              <span class="mp-titulo">Contrasta las hipótesis</span>
+              <span class="mp-texto">Cada resultado publica sus reglas de cálculo;
+              el informe las incluye para el estudio profesional.</span>
+            </span>
+          </button>
+        </li>
+      </ol>
     </div>
   </div>
 </section>
@@ -330,9 +387,12 @@
       </dl>
       <div class="caso-lectura">
         <p>La superficie limita la instalación a 18,5 kWp: la producción no
-        cubre todo el consumo y CERA lo avisa. En el escenario central, el
-        ahorro estimado ronda los 2.549 EUR/año — unos 637 EUR por participante —
-        con un retorno simple de 8,0 años.</p>
+        cubre todo el consumo y CERA lo avisa. En escenario central:</p>
+        <ul class="caso-stats">
+          <li><strong>2.549</strong><span>EUR/año de ahorro</span></li>
+          <li><strong>637</strong><span>EUR/año por participante</span></li>
+          <li><strong>8,0</strong><span>años de retorno simple</span></li>
+        </ul>
         <button type="button" class="boton primario" id="cargar-caso">Probar este caso en la calculadora</button>
       </div>
     </div>
@@ -360,7 +420,7 @@
     <p>CERA es una herramienta educativa de previabilidad. Los resultados son
     orientativos y requieren validación profesional y estudio de conexión.</p>
     <p class="pie-enlaces"><a href="movil.html" target="_top">Ver en marco de móvil</a></p>
-    <p class="pie-fecha">Informe generado el <span id="fecha-informe"></span>.</p>
+    <p class="pie-fecha">Informe generado el <span class="fecha-doc"></span>.</p>
   </div>
 </footer>
 

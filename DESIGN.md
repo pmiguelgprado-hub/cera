@@ -3,6 +3,29 @@
 Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores.
 
+## V7 (2026-07-12) — menos prosa, más dashboard e informe pro
+
+Feedback de Pablo: demasiado texto, poca separación entre partes, la UI debe
+contar una historia; el informe descargable debe ser más profesional (más
+dashboards, elementos visuales, mapa).
+
+- **Prosa → cifras.** El caso demostrativo ya no cierra con un párrafo con los
+  números embebidos: `caso-stats` los saca a tres teselas (ahorro / reparto /
+  retorno). Copy de ayuda del formulario y leyenda del gráfico acortados.
+- **«Cómo funciona» narrativo.** El panel único que cambiaba de texto se
+  sustituye por `mapa-pasos`: los tres pasos siempre visibles como lista
+  (lo oculto no se lee — lección 3 de la investigación), el activo iluminado
+  en espejo con el punto del mapa. Cuenta el arco de tres actos sin clic.
+- **Segundo gráfico: línea de retorno.** `linea-retorno` traza la vida útil de
+  25 años en dos tramos (ámbar = amortizando, verde = beneficio neto) con
+  marca en el año de payback. Convierte «retorno 7,6 años» en una historia
+  visual de recuperación. Se oculta si el payback no es finito.
+- **Informe imprimible = dashboard en papel.** Cabecera `print-cab` (logo +
+  título + fecha + descargo). Se conservan en color KPIs, gráfico de destino y
+  línea de retorno (`print-color-adjust: exact`); fuera topbar, hero, bandas y
+  formulario. `beforeprint` abre las hipótesis también con Cmd/Ctrl+P.
+- CSS `?v=7`, SW `cera-v9`.
+
 ## V6 (2026-07-12) — CRO sin perder sobriedad
 
 Tras investigación documentada en `docs/research-ui-2026-07-12.md` (benchmark

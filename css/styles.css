@@ -814,11 +814,7 @@ a:focus-visible,
   font-variant-numeric: tabular-nums;
 }
 
-.subtitulo-resultados {
-  margin: 0 0 1rem;
-  font-size: 0.92rem;
-  color: var(--tinta-suave);
-}
+.resumen-caso { margin-bottom: 1rem; }
 
 .kpis {
   display: grid;
@@ -966,6 +962,78 @@ a:focus-visible,
   .barra-etiqueta { grid-column: 1 / -1; margin-bottom: -0.15rem; }
 }
 
+/* Línea de retorno: la inversión leída en el tiempo (ámbar = amortizando,
+   verde = beneficio neto). Segundo gráfico del dashboard de resultados. */
+.linea-retorno { margin: 1.4rem 0 0.25rem; }
+
+.linea-retorno figcaption {
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 1.7rem; /* deja sitio a la etiqueta del año sobre la pista */
+  color: var(--verde);
+}
+
+.lr-pista {
+  position: relative;
+  display: flex;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--linea);
+  overflow: visible;
+  background: var(--crema);
+}
+
+.lr-tramo {
+  height: 100%;
+  transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.lr-pendiente { background: var(--ambar); border-radius: 3px 0 0 3px; }
+.lr-beneficio { background: var(--verde-exito); border-radius: 0 3px 3px 0; }
+
+.lr-marca {
+  position: absolute;
+  top: -0.55rem;
+  bottom: -0.55rem;
+  width: 2px;
+  background: var(--tinta);
+  transform: translateX(-1px);
+  transition: left 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lr-marca em {
+  position: absolute;
+  top: -1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  color: var(--verde);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Si el retorno cae fuera de la vida útil, la marca se pega al borde derecho
+   y la etiqueta no se sale de la pista. */
+.lr-marca.fuera em { left: auto; right: 0; transform: none; }
+
+.lr-ejes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--tinta-suave);
+}
+
+.lr-lectura {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
 .cifras { margin: 1rem 0 0; }
 
 .cifras > div {
@@ -1105,28 +1173,66 @@ a:focus-visible,
 
 .punto-mapa.activo { animation: halo 1800ms ease-out infinite; }
 
-.mapa-panel {
-  background: var(--blanco);
-  border: 1px solid var(--linea);
+/* Lista lateral: los tres pasos siempre visibles; el activo se ilumina */
+.mapa-pasos {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+}
+
+.mapa-paso-item button {
+  display: flex;
+  gap: 0.8rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  background: rgb(247 244 237 / 0.06);
+  border: 1px solid rgb(247 244 237 / 0.16);
   border-radius: var(--radio);
+  color: rgb(247 244 237 / 0.75);
+  transition: background var(--transicion), border-color var(--transicion),
+    color var(--transicion);
+}
+
+.mapa-paso-item button:hover { border-color: rgb(247 244 237 / 0.4); }
+
+.mapa-paso-item.activo button {
+  background: var(--blanco);
+  border-color: var(--blanco);
+  color: var(--tinta);
   box-shadow: var(--sombra);
-  padding: 1.25rem 1.35rem 1.4rem;
 }
 
-.mapa-panel.cambia { animation: aparecer 260ms cubic-bezier(0.22, 1, 0.36, 1); }
-
-.mapa-paso {
-  margin: 0 0 0.3rem;
-  font-size: 0.76rem;
+.mp-num {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ambar-texto);
+  font-size: 0.85rem;
+  background: rgb(247 244 237 / 0.12);
+  color: var(--crema);
 }
 
-.mapa-panel h3 { margin: 0 0 0.4rem; font-size: 1.1rem; color: var(--verde); }
+.mapa-paso-item.activo .mp-num { background: var(--solar); color: var(--tinta); }
 
-.mapa-panel p:last-child { margin: 0; font-size: 0.94rem; color: var(--tinta-suave); }
+.mp-cuerpo { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+
+.mp-titulo { font-weight: 700; }
+
+.mapa-paso-item.activo .mp-titulo { color: var(--verde); }
+
+.mp-texto { font-size: 0.88rem; line-height: 1.45; }
+
+.mapa-paso-item.activo .mp-texto { color: var(--tinta-suave); }
 
 /* ---- Bandas: cómo funciona y caso ---- */
 
@@ -1208,7 +1314,39 @@ a:focus-visible,
   color: var(--verde);
 }
 
-.caso-lectura p { margin: 0 0 1.25rem; max-width: 58ch; }
+.caso-lectura p { margin: 0 0 1rem; max-width: 58ch; }
+
+/* Resultados del caso como cifras, no como prosa */
+.caso-stats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+}
+
+.caso-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.7rem 1rem;
+  min-width: 10rem;
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--verde);
+  border-radius: var(--radio-s);
+}
+
+.caso-stats strong {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--verde);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.caso-stats span { font-size: 0.83rem; color: var(--tinta-suave); }
 
 /* ---- Pie ---- */
 
@@ -1231,7 +1369,8 @@ a:focus-visible,
 
 .pie-fecha { display: none; }
 
-/* Bloque solo-impresión con los datos de entrada */
+/* Bloques solo-impresión: cabecera de informe y datos de entrada */
+.print-cab { display: none; }
 .print-datos { display: none; }
 
 /* ---- Revelado al hacer scroll (solo lo activa JS sin reduced-motion) ---- */
@@ -1261,27 +1400,74 @@ a:focus-visible,
 /* ---- Impresión: el informe ---- */
 
 @media print {
-  html { font-size: 12pt; }
-  .topbar, .hero-acciones, .hero-panel, .hero-confianza, .banda, .salto-contenido,
-  .formulario, .acciones, .nota-reactiva, .pie-enlaces, .tablero-cab,
-  .hero-fondo, .hero-vida,
-  .grafico-leyenda { display: none; }
-  .principal { border: 0; box-shadow: none; width: auto; margin: 0; }
-  .hero { background: none; color: var(--tinta); padding: 0 0 1rem; }
-  .hero::before { display: none; }
-  .hero h1 { font-size: 1.6rem; }
-  .eyebrow { color: var(--verde); }
-  .entradilla { color: var(--tinta-suave); }
-  .principal { display: block; padding: 0; }
+  html { font-size: 11pt; }
+  body { background: #fff; }
+
+  /* Fuera todo lo interactivo y de navegación: el papel es el informe. */
+  .topbar, .hero, .banda, .salto-contenido, .formulario, .acciones,
+  .nota-reactiva, .pie-enlaces, .tablero-cab, .grafico-leyenda,
+  .lr-lectura { display: none; }
+
+  /* Cabecera de informe: logo + título + fecha + descargo corto */
+  .print-cab {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 2.5pt solid var(--verde);
+  }
+
+  .print-cab-titulo {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--verde);
+  }
+
+  .print-cab-sub { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--tinta-suave); }
+
+  .principal {
+    display: block;
+    border: 0;
+    box-shadow: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+
   .resultados { background: none; border: none; padding: 0; animation: none; }
-  .kpi { break-inside: avoid; }
+
+  .veredicto {
+    border: 1px solid var(--linea);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* El dashboard se conserva en papel: KPIs en teselas, gráfico de destino
+     y línea de retorno con sus colores. */
+  .kpis { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .kpi {
+    break-inside: avoid;
+    animation: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .kpi.destacado { grid-column: 1 / -1; }
+  .grafico, .linea-retorno { break-inside: avoid; }
   .cifras > div { animation: none; break-inside: avoid; }
-  .veredicto { border: 1px solid var(--linea); }
-  .print-datos { display: block; margin-top: 1.5rem; }
-  .hipotesis { margin-top: 1rem; }
+
+  .print-datos { display: block; margin-top: 1.25rem; break-inside: avoid; }
+  .print-datos h2 { font-size: 1.05rem; }
+
+  .hipotesis { margin-top: 1rem; break-inside: avoid; }
   .hipotesis summary { list-style: none; }
   .hipotesis summary::-webkit-details-marker { display: none; }
   .avisos li { break-inside: avoid; }
+
   .pie { background: none; color: var(--tinta-suave); text-align: left; padding: 1rem 0 0; }
   .pie .logo-mono { color: var(--verde); }
   .pie-fecha { display: block; }

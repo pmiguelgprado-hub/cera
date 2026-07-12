@@ -44,6 +44,10 @@
 </nav>
 
 <header class="hero">
+  <div class="hero-vida" aria-hidden="true">
+    <span class="vida-glow"></span>
+    <span class="vida-niebla"></span>
+  </div>
   <div class="hero-int">
     <div class="hero-texto">
       <p class="eyebrow">Previabilidad energética rural</p>
@@ -82,22 +86,8 @@
         <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
         <div><strong data-cifra="2549">2.549</strong><small>EUR/año</small><span>Ahorro</span></div>
       </div>
-      <svg class="hero-territorio" viewBox="0 0 320 96" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 66 Q90 44 180 58 Q260 68 320 56 L320 96 L0 96 Z" fill="#164C3A" opacity="0.16"/>
-        <path d="M0 80 Q110 62 220 74 Q280 80 320 74 L320 96 L0 96 Z" fill="#164C3A" opacity="0.28"/>
-        <g stroke="#8AA79A" stroke-width="2.4" stroke-linecap="round">
-          <line x1="118" y1="62" x2="118" y2="44"/><line x1="152" y1="58" x2="152" y2="40"/>
-          <line x1="196" y1="64" x2="196" y2="46"/><line x1="230" y1="62" x2="230" y2="44"/>
-        </g>
-        <path d="M106 46 L162 40 L166 28 L110 34 Z" fill="#1769AA" opacity="0.85"/>
-        <path d="M184 48 L240 42 L244 30 L188 36 Z" fill="#1769AA" opacity="0.85"/>
-        <circle cx="284" cy="20" r="6" fill="#F7C640"/>
-        <g stroke="#F7C640" stroke-width="2.2" stroke-linecap="round">
-          <line x1="284" y1="8" x2="284" y2="4"/>
-          <line x1="295" y1="14" x2="298.5" y2="12"/>
-          <line x1="273" y1="14" x2="269.5" y2="12"/>
-        </g>
-      </svg>
+      <img class="hero-foto" src="assets/picos-cornisa.jpg" alt=""
+           width="900" height="600" decoding="async">
     </div>
   </div>
 </header>
@@ -280,7 +270,7 @@
 
 </main>
 
-<section id="como-funciona" class="banda">
+<section id="como-funciona" class="banda banda-oscura">
   <div class="banda-int">
     <h2>Cómo funciona</h2>
     <p class="banda-sub">Tres pasos, cálculo transparente y ningún dato personal.

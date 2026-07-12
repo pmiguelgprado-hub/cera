@@ -180,6 +180,40 @@ body {
   -webkit-mask-image: linear-gradient(90deg, transparent, black 35%);
 }
 
+/* Capas vivas del hero: resplandor que respira + niebla que deriva.
+   Ciclos lentos (9s/26s), casi subliminales; prefers-reduced-motion las congela. */
+.hero-vida { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+.vida-glow {
+  position: absolute;
+  right: -18%;
+  bottom: -55%;
+  width: 75rem;
+  height: 42rem;
+  background: radial-gradient(closest-side, rgb(247 198 64 / 0.22), transparent 70%);
+  animation: respirar 9s ease-in-out infinite alternate;
+}
+
+@keyframes respirar {
+  from { opacity: 0.55; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.07); }
+}
+
+.vida-niebla {
+  position: absolute;
+  left: -20%;
+  top: 8%;
+  width: 90rem;
+  height: 18rem;
+  background: radial-gradient(closest-side, rgb(247 244 237 / 0.05), transparent 70%);
+  animation: derivar 26s ease-in-out infinite alternate;
+}
+
+@keyframes derivar {
+  from { transform: translateX(-3%); }
+  to { transform: translateX(5%); }
+}
+
 .hero-int {
   position: relative;
   max-width: var(--ancho-max);
@@ -292,7 +326,17 @@ body {
 
 .hero-metricas span { font-size: 0.78rem; color: var(--tinta-suave); margin-top: 0.15rem; }
 
-.hero-territorio { display: block; width: 100%; height: auto; margin-top: 0.25rem; }
+/* Foto real de lugar (Picos de Europa, licencia en docs/LICENSES.md):
+   sangra hasta los bordes del panel y cierra la tarjeta. */
+.hero-foto {
+  display: block;
+  width: calc(100% + 2.4rem);
+  margin: 0.9rem -1.2rem 0;
+  height: 11.5rem;
+  object-fit: cover;
+  object-position: center 62%;
+  border-top: 1px solid var(--linea);
+}
 
 /* ---- Botones ---- */
 
@@ -990,6 +1034,20 @@ a:focus-visible,
   border-top: 1px solid var(--linea);
   border-bottom: 1px solid var(--linea);
 }
+
+/* Banda oscura: ritmo claro/oscuro (identidad V4). El panel blanco flota encima. */
+.banda-oscura {
+  background:
+    radial-gradient(60rem 30rem at 88% -20%, rgb(30 123 69 / 0.25), transparent 60%),
+    var(--verde-noche);
+  color: rgb(247 244 237 / 0.85);
+}
+
+.banda-oscura h2 { color: var(--crema); }
+
+.banda-oscura .banda-sub { color: rgb(247 244 237 / 0.72); }
+
+.banda-oscura .mapa-marco img { box-shadow: var(--sombra-alta); }
 
 .banda-int { max-width: var(--ancho-max); margin: 0 auto; }
 

@@ -356,7 +356,7 @@ for (const punto of puntosMapa) {
 // Revelado al hacer scroll de las bandas informativas (una sola vez por
 // elemento; sin JS o con movimiento reducido, todo queda visible).
 if (!REDUCIR.matches && 'IntersectionObserver' in window) {
-  const objetivos = document.querySelectorAll('.mapa, .caso-datos, .caso-lectura');
+  const objetivos = document.querySelectorAll('.banda h2, .banda-sub, .mapa, .caso-datos, .caso-lectura');
   const observador = new IntersectionObserver((entradas) => {
     for (const entrada of entradas) {
       if (!entrada.isIntersecting) continue;

@@ -1,7 +1,25 @@
-# DESIGN.md — V3 corporativa
+# DESIGN.md — V3.5 corporativa con profundidad
 
 Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores.
+
+## V3.5 (2026-07-12) — profundidad atmosférica
+
+Revisión tras benchmark con Playwright de referentes (Aurora Solar, Linear,
+Anthropic, Stripe). La sobriedad V3 se mantiene; se añade profundidad:
+
+- **Hero con atmósfera**: gradientes radiales funcionales (resplandor solar en
+  el horizonte inferior-dcho + profundidad verde superior-izda) sobre
+  verde-noche. Excepción única a la regla "sin gradientes": el hero, y con
+  significado (sol + territorio). El resto de superficies siguen planas.
+- **Trama de puntos** (antes retícula de líneas) en mitad derecha del hero,
+  opacidad ≤5 %.
+- **Escala de display**: H1 `clamp(2.3rem→3.4rem)`, tracking −0.025em;
+  H2 1.7rem/800; cifras KPI 1.6rem. Regla corta dorada ante el eyebrow.
+- **Sombras en capas**: `--sombra` (superficies) + `--sombra-alta` (hero-panel,
+  elementos flotantes: ambient + key + contact).
+- **Botones con relieve**: gradiente vertical sutil + inset highlight en
+  primario y CTA topbar; hover eleva, active hunde. Nada de glass.
 
 ## Tema
 

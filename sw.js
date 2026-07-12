@@ -3,7 +3,7 @@
 // network-first con caché de respaldo (siempre intenta servir la última
 // versión publicada; si no hay red, sirve la copia local).
 
-const CACHE = 'cera-v4';
+const CACHE = 'cera-v5';
 const RECURSOS = [
   '.',
   'index.html',

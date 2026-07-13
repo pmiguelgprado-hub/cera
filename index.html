@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0B2A20">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=10">
 </head>
 <body>
 
@@ -38,6 +38,7 @@
       <a href="#calculadora">Calculadora</a>
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#caso">Caso demostrativo</a>
+      <a href="#siguiente">Siguiente paso</a>
     </div>
     <a class="topbar-cta" href="#calculadora">Calcular mi ahorro</a>
   </div>
@@ -89,13 +90,14 @@
             <path d="M10 44q14-2.8 28 0"/>
           </g>
         </svg>
-        <span>Previabilidad de ejemplo</span>
+        <span>Tu previabilidad, en directo</span>
       </div>
       <div class="hero-metricas">
-        <div><strong data-cifra="2549">2.549</strong><small>EUR/año</small><span>Ahorro</span></div>
-        <div><strong data-cifra="19385">19.385</strong><small>kWh/año</small><span>Producción</span></div>
-        <div><strong data-cifra="18.5" data-dec="1">18,5</strong><small>kWp</small><span>Potencia FV</span></div>
+        <div><strong id="hero-ahorro">—</strong><small>EUR/año</small><span>Ahorro</span></div>
+        <div><strong id="hero-produccion">—</strong><small>kWh/año</small><span>Producción</span></div>
+        <div><strong id="hero-potencia">—</strong><small>kWp</small><span>Potencia FV</span></div>
       </div>
+      <p class="hero-panel-pie">Se recalcula con tus datos en la calculadora de abajo.</p>
     </div>
   </div>
 </header>
@@ -189,6 +191,9 @@
                inputmode="numeric" min="1" max="10" step="1" value="1" required>
         <span class="unidad">de 1 a 10</span>
       </div>
+      <p class="campo-nota">Desde 2026, el autoconsumo colectivo llega a 5 km:
+      varias casas o explotaciones de un mismo concejo pueden compartir una
+      instalación.</p>
       <p class="error" id="error-participantes" role="alert" hidden></p>
     </div>
 
@@ -380,7 +385,7 @@
     región supera los 1.100 kWh por cada kWp instalado y año.</p>
     <div class="recurso-grid">
       <figure class="recurso-mapa">
-        <div id="mapa-recurso" aria-hidden="true"></div>
+        <div id="mapa-recurso" role="group" aria-label="Mapa de zonas de recurso solar; elige un concejo"></div>
         <div class="recurso-leyenda" aria-hidden="true">
           <span>1.112</span>
           <span class="rl-rampa"></span>
@@ -430,6 +435,43 @@
         <button type="button" class="boton primario" id="cargar-caso">Probar este caso en la calculadora</button>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="siguiente" class="banda banda-clara">
+  <div class="banda-int">
+    <p class="banda-eyebrow">Siguiente paso</p>
+    <h2>Del número al proyecto: apoyos reales en Asturias</h2>
+    <p class="banda-sub">CERA da el primer número. A partir de ahí, un proyecto
+    energético rural no se levanta en solitario: existen acompañamiento,
+    financiación y un marco legal que hoy juega a favor. Estos apoyos valen igual
+    para una empresa o explotación, un grupo de vecinos, una cooperativa o un
+    ayuntamiento.</p>
+    <div class="pasos-grid">
+      <article class="paso-card">
+        <h3>Acompañamiento</h3>
+        <p>La <strong>Fundación Asturiana de la Energía (FAEN)</strong>, a través de
+        su Oficina de Transformación Comunitaria, ayuda a constituir la comunidad
+        energética y a dar los primeros pasos técnicos y jurídicos.</p>
+      </article>
+      <article class="paso-card">
+        <h3>Financiación</h3>
+        <p>El Principado convoca cada año <strong>subvenciones a renovables y
+        eficiencia</strong> (edición 2026 abierta a particulares, autónomos,
+        explotaciones, entidades sin ánimo de lucro y ayuntamientos), sumadas a los
+        programas estatales de autoconsumo colectivo con fondos del PRTR.</p>
+      </article>
+      <article class="paso-card">
+        <h3>Marco legal favorable</h3>
+        <p>El <strong>RD-ley 7/2026</strong> amplía el autoconsumo colectivo hasta
+        5 km y crea la figura del gestor de autoconsumo; el <strong>RD 916/2025</strong>
+        reconoce la agrivoltaica como superficie admisible para las ayudas de la PAC:
+        placas y actividad agraria, compatibles.</p>
+      </article>
+    </div>
+    <p class="pasos-descargo">Referencias orientativas a programas y normativa
+    vigentes en 2026; confirma condiciones y plazos con cada organismo antes de
+    decidir. CERA no gestiona ayudas ni tramita proyectos.</p>
   </div>
 </section>
 

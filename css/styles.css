@@ -356,6 +356,14 @@ body {
 
 .hero-metricas span { font-size: 0.78rem; color: var(--tinta-suave); margin-top: 0.15rem; }
 
+.hero-panel-pie {
+  margin: 0.5rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--linea);
+  font-size: 0.74rem;
+  color: var(--tinta-suave);
+}
+
 
 /* ---- Botones ---- */
 
@@ -1252,18 +1260,39 @@ a:focus-visible,
 
 #mapa-recurso path {
   cursor: pointer;
-  transition: fill-opacity var(--transicion), stroke var(--transicion);
+  transition: fill-opacity var(--transicion), stroke-width var(--transicion),
+    stroke-opacity var(--transicion);
 }
 
-#mapa-recurso path:hover { fill-opacity: 0.85; }
+/* Sin recuadro azul del navegador al pulsar o enfocar un concejo: el resalte
+   lo damos nosotros con el trazo y un halo. outline:none tanto en :focus como
+   en :focus-visible (al hacer clic con ratón solo matchea :focus). */
+#mapa-recurso path:focus,
+#mapa-recurso path:focus-visible { outline: none; }
 
+/* Al pasar por encima, el concejo concreto se perfila en blanco: la
+   interacción se siente pieza a pieza, no por bloques. */
+#mapa-recurso path:hover {
+  fill-opacity: 1;
+  stroke: var(--crema);
+  stroke-width: 1.4;
+  stroke-opacity: 0.9;
+}
+
+/* Zona seleccionada: trazo blanco más grueso y un halo suave que la separa
+   del resto del mapa. */
 #mapa-recurso path.zona-activa {
   stroke: var(--crema);
   stroke-width: 2.2;
   stroke-opacity: 1;
+  filter: drop-shadow(0 0 3px rgb(247 244 237 / 0.55));
 }
 
-#mapa-recurso path:focus-visible { outline: none; stroke: var(--solar); stroke-width: 2.4; stroke-opacity: 1; }
+#mapa-recurso path:focus-visible {
+  stroke: var(--solar);
+  stroke-width: 2.6;
+  stroke-opacity: 1;
+}
 
 .recurso-leyenda {
   display: flex;
@@ -1454,6 +1483,51 @@ a:focus-visible,
 }
 
 .caso-stats span { font-size: 0.83rem; color: var(--tinta-suave); }
+
+/* ---- Siguiente paso: ecosistema de apoyo ---- */
+
+.pasos-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 760px) {
+  .pasos-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.paso-card {
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-top: 3px solid var(--solar);
+  border-radius: var(--radio-s);
+  padding: 1.25rem 1.4rem 1.4rem;
+}
+
+.paso-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.08rem;
+  color: var(--verde);
+}
+
+.paso-card p { margin: 0; max-width: 44ch; color: var(--tinta-suave); }
+
+.paso-card strong { color: var(--tinta); font-weight: 700; }
+
+.pasos-descargo {
+  margin: 1.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--tinta-suave);
+  max-width: 72ch;
+}
+
+/* Nota de ayuda bajo un campo del formulario */
+.campo-nota {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--tinta-suave);
+}
 
 /* ---- Pie ---- */
 

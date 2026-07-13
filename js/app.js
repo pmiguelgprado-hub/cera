@@ -120,6 +120,13 @@ function pintarResultado(r, datos, animar = true) {
   animarCifra('r-inversion', r.capexEur, fmt, animar);
   animarCifra('r-ahorro25', r.ahorroAnualEur * 25, fmt, animar);
 
+  // Espejo en directo del hero: refleja el caso actual del usuario, no un
+  // ejemplo fijo. Se rellena en la primera ejecución (al cargar) y en cada
+  // recálculo reactivo.
+  animarCifra('hero-ahorro', r.ahorroAnualEur, fmt, animar);
+  animarCifra('hero-produccion', r.produccionAnualKwh, fmt, animar);
+  animarCifra('hero-potencia', r.potenciaKwp, fmt1, animar);
+
   // Coste de no actuar: solo cuando el proyecto tiene recorrido (verde/ámbar).
   const notaPerdida = $('nota-perdida');
   if (r.semaforo.nivel === 'rojo') {
@@ -332,11 +339,6 @@ form.addEventListener('focusout', (evento) => {
   control.classList.add('confirmado');
 });
 
-// Las métricas del hero cuentan al cargar, una sola vez.
-for (const el of document.querySelectorAll('.hero-metricas strong[data-cifra]')) {
-  animarEl(el, parseFloat(el.dataset.cifra), el.dataset.dec === '1' ? fmt1 : fmt);
-}
-
 // Cómo funciona: mapa interactivo sobre la ilustración del pueblo.
 // Los tres pasos están siempre visibles en la lista lateral (lo oculto no se
 // lee); punto e ítem se resaltan en espejo.
@@ -400,9 +402,14 @@ const ZONAS = [
 ];
 const REFERENCIA_CENTRAL = CONFIG.rendimiento.central; // 1050 kWh/kWp
 
-function seleccionarZona(id) {
+// El epígrafe del panel muestra el concejo concreto sobre el que se apunta;
+// si no hay uno (arranque), rotula la zona.
+const rpEyebrow = document.querySelector('.rp-eyebrow');
+
+function seleccionarZona(id, concejo) {
   const z = ZONAS[id];
   if (!z) return;
+  if (rpEyebrow) rpEyebrow.textContent = concejo ? `Concejo de ${concejo}` : 'Zona seleccionada';
   $('rp-nombre').textContent = z.nombre;
   animarEl($('rp-ey'), z.ey, fmt, false);
   $('rp-punto').textContent = z.punto;
@@ -416,6 +423,12 @@ function seleccionarZona(id) {
       p.classList.toggle('zona-activa', Number(p.dataset.zona) === id);
     }
   }
+}
+
+// El nombre del concejo va en el <title> del path: "Allande · Zona: 1243…".
+function concejoDe(path) {
+  const t = path.querySelector('title')?.textContent ?? '';
+  return t.split('·')[0].trim() || undefined;
 }
 
 async function montarMapa() {
@@ -435,11 +448,12 @@ async function montarMapa() {
       p.setAttribute('tabindex', '0');
       p.setAttribute('role', 'button');
       const zi = Number(p.dataset.zona);
-      p.addEventListener('click', () => seleccionarZona(zi));
-      p.addEventListener('mouseenter', () => seleccionarZona(zi));
-      p.addEventListener('focus', () => seleccionarZona(zi));
+      const concejo = concejoDe(p);
+      p.addEventListener('click', () => seleccionarZona(zi, concejo));
+      p.addEventListener('mouseenter', () => seleccionarZona(zi, concejo));
+      p.addEventListener('focus', () => seleccionarZona(zi, concejo));
       p.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionarZona(zi); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionarZona(zi, concejo); }
       });
     }
     seleccionarZona(1); // arranca en la zona de mayor recurso

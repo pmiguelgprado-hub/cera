@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0B2A20">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
     <div class="topbar-enlaces">
       <a href="#calculadora">Calculadora</a>
       <a href="#como-funciona">Cómo funciona</a>
-      <a href="#caso">Caso demostrativo</a>
+      <a href="#recurso">Recurso solar</a>
       <a href="#siguiente">Siguiente paso</a>
     </div>
     <a class="topbar-cta" href="#calculadora">Calcular mi ahorro</a>
@@ -64,8 +64,8 @@
         energéticas, cooperativas y explotaciones agrarias de Asturias.
       </p>
       <div class="hero-acciones">
-        <a class="boton primario" href="#calculadora">Calcular mi ahorro</a>
-        <a class="boton fantasma" href="#caso">Ver caso demostrativo</a>
+        <a class="boton primario" href="#calculadora">Calcular mi previabilidad</a>
+        <a class="boton fantasma" href="#recurso">Consultar el recurso solar</a>
       </div>
       <ul class="hero-confianza">
         <li>Gratuito y sin registro</li>
@@ -325,8 +325,8 @@
   <div class="banda-int">
     <p class="banda-eyebrow">Cómo funciona</p>
     <h2>De la idea al proyecto en tres pasos</h2>
-    <p class="banda-sub">Cálculo transparente y ningún dato personal.
-    Recorre el pueblo: cada punto explica un paso.</p>
+    <p class="banda-sub">Cálculo transparente y sin ningún dato personal.
+    Cada punto del recorrido explica una fase del proceso.</p>
     <div class="mapa">
       <div class="mapa-marco">
         <img src="assets/pueblo-energetico.webp" width="1600" height="893" loading="lazy"
@@ -381,7 +381,8 @@
     <p class="banda-eyebrow">Recurso solar</p>
     <h2>Cuánto sol recibe cada rincón de Asturias</h2>
     <p class="banda-sub">Producción fotovoltaica estimada por zona, con datos de
-    PVGIS (Comisión Europea). El recurso es alto y bastante uniforme: toda la
+    PVGIS (Comisión Europea). Selecciona tu concejo en el mapa para consultar su
+    recurso y su producción estimada. El recurso es elevado y homogéneo: toda la
     región supera los 1.100 kWh por cada kWp instalado y año.</p>
     <div class="recurso-grid">
       <figure class="recurso-mapa">
@@ -393,47 +394,36 @@
         </div>
       </figure>
       <aside class="recurso-panel" aria-live="polite">
-        <p class="rp-eyebrow">Zona seleccionada</p>
-        <h3 id="rp-nombre">Suroccidente (Narcea)</h3>
-        <p class="rp-valor"><strong id="rp-ey">1.243</strong> <span>kWh/kWp·año</span></p>
-        <dl class="rp-datos">
-          <div><dt>Punto de medida</dt><dd id="rp-punto">Cangas del Narcea</dd></div>
-          <div><dt>Inclinación óptima</dt><dd id="rp-angulo">35°</dd></div>
-          <div><dt>Frente al escenario central de CERA</dt><dd id="rp-vs">+18 %</dd></div>
-        </dl>
-        <p class="rp-concejos" id="rp-concejos"></p>
-        <p class="rp-nota">Pulsa una zona del mapa. La producción real depende de
-        sombras, orientación e inclinación de cada cubierta; CERA usa un
-        rendimiento prudente común a toda la región.</p>
-      </aside>
-    </div>
-  </div>
-</section>
+        <p class="rp-eyebrow">Concejo seleccionado</p>
+        <h3 id="rp-nombre">Selecciona un concejo</h3>
+        <p class="rp-zona" id="rp-zona"></p>
+        <p class="rp-valor"><strong id="rp-ey">—</strong> <span>kWh/kWp·año</span></p>
 
-<section id="caso" class="banda banda-clara">
-  <div class="banda-int">
-    <p class="banda-eyebrow">Caso demostrativo</p>
-    <h2>Una ganadería asturiana, en números</h2>
-    <p class="banda-sub">Ganadería El Cierru — datos simulados de una explotación
-    de leche del interior de Asturias, en autoconsumo colectivo con 4 participantes.
-    <strong>Todos los valores son ficticios.</strong></p>
-    <div class="caso-grid">
-      <dl class="caso-datos">
-        <div><dt>Consumo anual</dt><dd>30.000 kWh</dd></div>
-        <div><dt>Superficie (faldón sur)</dt><dd>120 m²</dd></div>
-        <div><dt>Participantes</dt><dd>4</dd></div>
-        <div><dt>Precio electricidad</dt><dd>0,17 EUR/kWh</dd></div>
-      </dl>
-      <div class="caso-lectura">
-        <p>La superficie limita la instalación a 18,5 kWp: la producción no
-        cubre todo el consumo y CERA lo avisa. En escenario central:</p>
-        <ul class="caso-stats">
-          <li><strong>2.549</strong><span>EUR/año de ahorro</span></li>
-          <li><strong>637</strong><span>EUR/año por participante</span></li>
-          <li><strong>8,0</strong><span>años de retorno simple</span></li>
-        </ul>
-        <button type="button" class="boton primario" id="cargar-caso">Probar este caso en la calculadora</button>
-      </div>
+        <div class="rp-graficos">
+          <figure class="rp-grafico">
+            <figcaption>Producción mensual por kWp (kWh)</figcaption>
+            <div id="rp-barras" class="rp-chart"></div>
+          </figure>
+          <figure class="rp-grafico">
+            <figcaption>Producción acumulada a lo largo del año</figcaption>
+            <div id="rp-linea" class="rp-chart"></div>
+          </figure>
+          <figure class="rp-grafico rp-grafico-rosco">
+            <figcaption>Recurso solar relativo a la mejor zona de Asturias</figcaption>
+            <div id="rp-rosco" class="rp-chart"></div>
+          </figure>
+        </div>
+
+        <dl class="rp-datos">
+          <div><dt>Zona de referencia</dt><dd id="rp-punto">—</dd></div>
+          <div><dt>Inclinación óptima</dt><dd id="rp-angulo">—</dd></div>
+          <div><dt>Frente al escenario central de CERA</dt><dd id="rp-vs">—</dd></div>
+        </dl>
+        <p class="rp-nota">Selecciona cualquier concejo en el mapa. Los valores son
+        una estimación por zona a partir de datos de PVGIS (Comisión Europea); la
+        producción real depende de la orientación, la inclinación y las sombras de
+        cada cubierta.</p>
+      </aside>
     </div>
   </div>
 </section>

@@ -297,37 +297,9 @@ form.addEventListener('input', () => {
   temporizador = setTimeout(() => ejecutar({ animar: false, desplazar: false }), 150);
 });
 
-// Caso demostrativo: precarga los datos simulados de la ganadería El Cierru.
-const CASO_GANADERIA = {
-  consumoAnualKwh: '30000',
-  potenciaContratadaKw: '20',
-  superficieM2: '120',
-  tipoSuperficie: 'cubierta',
-  participantes: '4',
-  precioElectricidad: '0,17',
-};
-
-function cargarCaso() {
-  for (const [campo, valor] of Object.entries(CASO_GANADERIA)) {
-    $(campo).value = valor;
-  }
-  form.querySelector('input[name="escenario"][value="central"]').checked = true;
-  ejecutar({ animar: true, desplazar: false });
-  document.getElementById('calculadora').scrollIntoView({
-    behavior: REDUCIR.matches ? 'auto' : 'smooth',
-    block: 'start',
-  });
-}
-
-$('cargar-caso')?.addEventListener('click', cargarCaso);
-
 // Reciprocidad: la página entrega un resultado desde el primer segundo,
 // calculado con los datos precargados; el usuario ajusta y ve su caso.
-if (new URLSearchParams(window.location.search).get('caso') === 'ganaderia') {
-  cargarCaso();
-} else {
-  ejecutar({ animar: true, desplazar: false });
-}
+ejecutar({ animar: true, desplazar: false });
 
 // Confirmación sutil al salir de un campo válido (feedback sin ruido).
 form.addEventListener('focusout', (evento) => {
@@ -363,7 +335,7 @@ for (const boton of document.querySelectorAll('.mapa-paso-item button')) {
 // Revelado al hacer scroll de las bandas informativas (una sola vez por
 // elemento; sin JS o con movimiento reducido, todo queda visible).
 if (!REDUCIR.matches && 'IntersectionObserver' in window) {
-  const objetivos = document.querySelectorAll('.banda h2, .banda-sub, .mapa, .caso-datos, .caso-lectura');
+  const objetivos = document.querySelectorAll('.banda h2, .banda-sub, .mapa, .recurso-grid, .pasos-grid');
   const observador = new IntersectionObserver((entradas) => {
     for (const entrada of entradas) {
       if (!entrada.isIntersecting) continue;
@@ -402,33 +374,82 @@ const ZONAS = [
 ];
 const REFERENCIA_CENTRAL = CONFIG.rendimiento.central; // 1050 kWh/kWp
 
-// El epígrafe del panel muestra el concejo concreto sobre el que se apunta;
-// si no hay uno (arranque), rotula la zona.
-const rpEyebrow = document.querySelector('.rp-eyebrow');
-
-function seleccionarZona(id, concejo) {
-  const z = ZONAS[id];
-  if (!z) return;
-  if (rpEyebrow) rpEyebrow.textContent = concejo ? `Concejo de ${concejo}` : 'Zona seleccionada';
-  $('rp-nombre').textContent = z.nombre;
-  animarEl($('rp-ey'), z.ey, fmt, false);
-  $('rp-punto').textContent = z.punto;
-  $('rp-angulo').textContent = `${z.angulo}°`;
-  const vs = Math.round(((z.ey - REFERENCIA_CENTRAL) / REFERENCIA_CENTRAL) * 100);
-  $('rp-vs').textContent = `${vs >= 0 ? '+' : ''}${vs} %`;
-  $('rp-concejos').textContent = `Incluye ${z.concejos}.`;
-  const svg = document.querySelector('#mapa-recurso svg');
-  if (svg) {
-    for (const p of svg.querySelectorAll('path')) {
-      p.classList.toggle('zona-activa', Number(p.dataset.zona) === id);
-    }
-  }
-}
-
 // El nombre del concejo va en el <title> del path: "Allande · Zona: 1243…".
 function concejoDe(path) {
   const t = path.querySelector('title')?.textContent ?? '';
   return t.split('·')[0].trim() || undefined;
+}
+
+// Meses y perfil mensual típico de producción FV en el norte peninsular
+// (fracción del total anual; suma 1). La forma apenas varía dentro de Asturias;
+// la magnitud sí, según el recurso de cada zona.
+const MESES = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+const PERFIL_MENSUAL = [
+  0.045, 0.058, 0.085, 0.095, 0.108, 0.115, 0.122, 0.112, 0.092, 0.070, 0.050, 0.048,
+];
+const EY_MAX = Math.max(...ZONAS.map((z) => z.ey));
+
+// Los tres gráficos son SVG generado a partir de números controlados (sin
+// entrada de usuario), por lo que innerHTML es seguro aquí.
+function svgBarras(ey) {
+  const vals = PERFIL_MENSUAL.map((f) => ey * f);
+  const max = Math.max(...vals);
+  const W = 240, H = 96, base = H - 12, alto = H - 26;
+  const bw = W / 12;
+  let s = '';
+  vals.forEach((v, i) => {
+    const h = (v / max) * alto;
+    const x = i * bw + 2;
+    s += `<rect x="${x.toFixed(1)}" y="${(base - h).toFixed(1)}" width="${(bw - 4).toFixed(1)}" ` +
+      `height="${h.toFixed(1)}" rx="1.5" fill="var(--solar)"></rect>`;
+    s += `<text x="${(x + (bw - 4) / 2).toFixed(1)}" y="${H - 2}" text-anchor="middle" class="rp-axis">${MESES[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Producción mensual por kWp">${s}</svg>`;
+}
+
+function svgLinea(ey) {
+  const W = 240, H = 96, base = H - 12, alto = H - 26;
+  let cum = 0;
+  const pts = PERFIL_MENSUAL.map((f, i) => {
+    cum += f;
+    return { x: 4 + (i / 11) * (W - 8), y: base - cum * alto };
+  });
+  const linea = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const area = `M4,${base} ` + pts.map((p) => `L${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') + ` L${W - 4},${base} Z`;
+  const dots = pts.map((p) => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="1.7" fill="var(--verde-exito)"/>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Producción acumulada a lo largo del año">` +
+    `<path d="${area}" fill="var(--verde-exito)" fill-opacity="0.16"/>` +
+    `<path d="${linea}" fill="none" stroke="var(--verde-exito)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;
+}
+
+function svgRosco(ey) {
+  const pct = ey / EY_MAX;
+  const r = 34, circ = 2 * Math.PI * r, off = circ * (1 - pct);
+  return `<svg viewBox="0 0 96 96" role="img" aria-label="Recurso relativo ${Math.round(pct * 100)} por ciento del máximo de Asturias">` +
+    `<circle cx="48" cy="48" r="${r}" fill="none" stroke="var(--linea)" stroke-width="10"/>` +
+    `<circle cx="48" cy="48" r="${r}" fill="none" stroke="var(--solar)" stroke-width="10" stroke-linecap="round" ` +
+    `stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 48 48)"/>` +
+    `<text x="48" y="46" text-anchor="middle" class="rp-rosco-num">${Math.round(pct * 100)}%</text>` +
+    `<text x="48" y="62" text-anchor="middle" class="rp-rosco-sub">del máximo</text></svg>`;
+}
+
+// Selección de un concejo concreto: la tarjeta muestra su nombre, su zona de
+// referencia y tres gráficos (barras, línea, rosco) escalados a su recurso.
+function seleccionarConcejo(path) {
+  const z = ZONAS[Number(path.dataset.zona)];
+  if (!z) return;
+  $('rp-nombre').textContent = concejoDe(path) ?? z.nombre;
+  $('rp-zona').textContent = `Zona ${z.nombre}`;
+  animarEl($('rp-ey'), z.ey, fmt, false);
+  $('rp-punto').textContent = `${z.nombre} · ${z.punto}`;
+  $('rp-angulo').textContent = `${z.angulo}°`;
+  const vs = Math.round(((z.ey - REFERENCIA_CENTRAL) / REFERENCIA_CENTRAL) * 100);
+  $('rp-vs').textContent = `${vs >= 0 ? '+' : ''}${vs} %`;
+  $('rp-barras').innerHTML = svgBarras(z.ey);
+  $('rp-linea').innerHTML = svgLinea(z.ey);
+  $('rp-rosco').innerHTML = svgRosco(z.ey);
+  const svg = path.ownerSVGElement;
+  if (svg) for (const p of svg.querySelectorAll('path')) p.classList.toggle('concejo-activo', p === path);
 }
 
 async function montarMapa() {
@@ -447,16 +468,18 @@ async function montarMapa() {
     for (const p of svgVivo.querySelectorAll('path')) {
       p.setAttribute('tabindex', '0');
       p.setAttribute('role', 'button');
-      const zi = Number(p.dataset.zona);
-      const concejo = concejoDe(p);
-      p.addEventListener('click', () => seleccionarZona(zi, concejo));
-      p.addEventListener('mouseenter', () => seleccionarZona(zi, concejo));
-      p.addEventListener('focus', () => seleccionarZona(zi, concejo));
+      p.addEventListener('click', () => seleccionarConcejo(p));
+      p.addEventListener('mouseenter', () => seleccionarConcejo(p));
+      p.addEventListener('focus', () => seleccionarConcejo(p));
       p.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionarZona(zi, concejo); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionarConcejo(p); }
       });
     }
-    seleccionarZona(1); // arranca en la zona de mayor recurso
+    // Arranca en el concejo de mayor recurso (primer path de la mejor zona).
+    const mejor = [...svgVivo.querySelectorAll('path')].find(
+      (p) => Number(p.dataset.zona) === ZONAS.findIndex((z) => z.ey === EY_MAX)
+    );
+    seleccionarConcejo(mejor ?? svgVivo.querySelector('path'));
   } catch {
     cont.closest('#recurso')?.setAttribute('hidden', '');
   }

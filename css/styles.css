@@ -1279,13 +1279,13 @@ a:focus-visible,
   stroke-opacity: 0.9;
 }
 
-/* Zona seleccionada: trazo blanco más grueso y un halo suave que la separa
+/* Concejo seleccionado: trazo blanco más grueso y un halo suave que lo separa
    del resto del mapa. */
-#mapa-recurso path.zona-activa {
+#mapa-recurso path.concejo-activo {
   stroke: var(--crema);
-  stroke-width: 2.2;
+  stroke-width: 2.4;
   stroke-opacity: 1;
-  filter: drop-shadow(0 0 3px rgb(247 244 237 / 0.55));
+  filter: drop-shadow(0 0 3px rgb(247 244 237 / 0.6));
 }
 
 #mapa-recurso path:focus-visible {
@@ -1340,6 +1340,39 @@ a:focus-visible,
 }
 
 .rp-valor span { font-size: 0.85rem; color: rgb(247 244 237 / 0.7); }
+
+.rp-zona {
+  margin: -0.4rem 0 0.9rem;
+  font-size: 0.85rem;
+  color: var(--solar);
+  font-weight: 600;
+}
+
+/* Tarjeta del concejo: tres gráficos generados en SVG (barras, línea, rosco). */
+.rp-graficos {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.1rem;
+}
+
+.rp-grafico { margin: 0; }
+
+.rp-grafico figcaption {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: rgb(247 244 237 / 0.65);
+}
+
+.rp-chart svg { display: block; width: 100%; height: auto; }
+
+.rp-grafico-rosco .rp-chart { max-width: 8rem; margin: 0 auto; }
+
+.rp-axis { font-size: 8px; fill: rgb(247 244 237 / 0.55); }
+
+.rp-rosco-num { font-size: 20px; font-weight: 700; fill: var(--crema); }
+
+.rp-rosco-sub { font-size: 8px; fill: rgb(247 244 237 / 0.6); }
 
 .rp-datos { margin: 0 0 1rem; }
 

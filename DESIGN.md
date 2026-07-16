@@ -4,6 +4,70 @@ Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores. Historial de versiones, la más
 reciente primero.
 
+## V13 (2026-07-16, rama claude/redesign-atlas) — Atlas del sol compartido
+
+Rediseño completo de la capa de presentación. `js/calculo.js` intacto
+(9/9 tests) y todas las reglas de PRODUCT.md conservadas: una página, cero
+datos personales, hipótesis visibles, sección de apoyos, identidad asturiana.
+
+**Concepto.** La app deja de ser una landing con calculadora y se convierte
+en un *atlas*: cuatro pliegos numerados (la numeración es el flujo real del
+usuario, no decoración). Pliego I «El territorio» — el mapa de 78 concejos
+pasa del final de la página al hero, como lámina cartográfica oscura sobre
+papel crema, con ficha de concejo solapada. Pliego II «Tu caso» — formulario
+como ficha en tres grupos (Tu consumo / Tu terreno / Tu gente) y resultados
+como **acta de previabilidad**. Pliego III «Cómo funciona» (ilustración del
+pueblo, se conserva). Pliego IV «La comunidad» — diagrama del radio de 5 km
++ apoyos FAEN/subvenciones/marco legal + casos reales.
+
+**Firma: el sello.** El semáforo se encarna en un sello redondo de tinta
+(SVG, texto en arco vía `textPath`) que se **estampa** al calcular y al
+cambiar de nivel: verde «PREVIABILIDAD FAVORABLE», ámbar «REQUIERE ESTUDIO
+DETALLADO», rojo «NO VIABLE CON ESTOS DATOS». Rotación fija -8°,
+`mix-blend-mode: multiply` (tinta sobre papel), animación 460 ms con
+rebote; `prefers-reduced-motion` la anula. El sello dice literalmente el
+veredicto — memorable sin dejar de ser honesto.
+
+**Psicología aplicada (los 9 principios, ahora completos).** A los siete de
+V11 (reciprocidad, goal gradient, aversión a la pérdida, contraste,
+dotación, halo, pico-final) se suman los dos que faltaban:
+- **Prueba social**: franja de hechos con fuente en el hero (837 CE en
+  España 2025, +27 %; Asturias top-3 en crecimiento — Observatorio Energía
+  Común 2026; autoconsumo = 7,9 % de la electricidad asturiana — REE
+  mar-2026) y casos reales en Pliego IV (Langreo, Muros de Nalón).
+- **Anclaje**: nota bajo el campo de consumo («una ganadería láctea media
+  ronda los 25.000 kWh/año; una vivienda, los 3.500»).
+La dotación se amplía: «Calcular con este concejo» fija el concejo elegido
+como contexto del acta y del informe impreso. **Nunca toca el motor**: solo
+preselecciona el escenario central (prudente) y el nombre aparece como
+contexto; una hipótesis nueva lo deja por escrito.
+
+**Móvil como app.** Tab bar inferior fija (<760 px) con cuatro pestañas
+ancla (Territorio / Calcular / Pasos / Comunidad), scroll-spy por
+IntersectionObserver, `safe-area-inset-bottom`, CTA de topbar oculto (lo
+cubre la tab bar). El marco `movil.html` la muestra como app real.
+
+**Sistema visual.** Paleta y Bricolage heredadas (marca aprobada); nuevo rol
+tipográfico de «rotulación cartográfica» (versalitas 0.74rem, tracking
+0.19em) para folios, rótulos y leyendas; curvas de nivel como textura de
+fondo (SVG data-uri, opacidad 5.5 %) en pliegos I y IV; tinte `--salvia`
+para los vecinos del diagrama 5 km. KPIs en bento 6 columnas (ahorro = fila
+completa solar; el override `.kpi.destacado` va DESPUÉS de la base — misma
+especificidad, gana el último).
+
+**Movido/retirado.** La sección #recurso desaparece como banda propia: el
+mapa y su ficha (E_y, contraste vs central, inclinación, perfil mensual)
+viven ahora en el hero; se retiran el rosco y la línea acumulada (la ficha
+compacta prima). Fuera también la foto de los Picos del hero (la lámina es
+la identidad) y la tipografía cinética del H1 de V12. El botón imprimir se
+muda al pie del acta («Imprimir el acta»).
+
+**Gotchas.** (1) `.boton { display:inline-block }` pisaba `[hidden]` del
+botón de la ficha — regla global `[hidden] { display:none !important }`
+(reincidencia del gotcha de V1 con `.cifras`). (2) `node --test tests/` no
+resuelve el directorio en Windows: apuntar al archivo
+`tests/calculo.test.mjs`. CSS `?v=13`, SW `cera-v15`.
+
 ## V7 (2026-07-12) — menos prosa, más dashboard e informe pro
 
 Feedback de Pablo: demasiado texto, poca separación entre partes, la UI debe

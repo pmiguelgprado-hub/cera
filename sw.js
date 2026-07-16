@@ -3,17 +3,16 @@
 // network-first con caché de respaldo (siempre intenta servir la última
 // versión publicada; si no hay red, sirve la copia local).
 
-const CACHE = 'cera-v14';
+const CACHE = 'cera-v15';
 const RECURSOS = [
   '.',
   'index.html',
   'movil.html',
-  'css/styles.css?v=12',
+  'css/styles.css?v=13',
   'assets/mapa-asturias.svg',
   'js/app.js',
   'js/calculo.js',
   'assets/fonts/bricolage-grotesque-latin.woff2',
-  'assets/picos-banner.webp',
   'assets/pueblo-energetico.webp',
   'manifest.webmanifest',
 ];

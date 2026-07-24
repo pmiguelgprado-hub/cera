@@ -108,6 +108,13 @@ ya ha destinado 108,4 millones de euros a comunidades energéticas en toda Espa�
 operan en municipios con reto demográfico. La inversión, por tanto, no sale íntegra del bolsillo
 del promotor.
 
+El propio sector energético ya invierte en esta línea: la Fundación EDP destinó en su
+convocatoria 2025-2026 casi un millón de euros a doce proyectos de transición
+energética justa en seis comunidades autónomas, dos de ellos en Asturias. CERA no
+compite con ese tipo de programas, los alimenta: es la pieza que falta antes de esa
+convocatoria, la que convierte una intuición vecinal en una cifra con la que
+presentarse a una entidad ya constituida, condición habitual de este tipo de ayudas.
+
 **Un marco legal que hoy juega a favor.** Dos normas recientes cambian el tablero para el mundo
 rural. El Real Decreto-ley 7/2026, de 20 de marzo, amplía el autoconsumo colectivo de dos a
 cinco kilómetros y crea la figura del gestor de autoconsumo, que representa a los participantes y
@@ -184,6 +191,30 @@ La misma herramienta sirve a cuatro perfiles sin necesidad de fragmentarse:
   municipales y vecinos, y necesitan una primera cifra con la que arrancar la conversación
   pública y buscar acompañamiento y ayudas.
 
+## CERA Conecta: la puerta de entrada territorial
+
+EDP y otras energéticas usan ya programas de innovación abierta, como Energy Starter
+o Free Electrons, para encontrar fuera de la empresa las soluciones que dentro no ven.
+CERA propone la misma lógica a la escala de un pueblo: un embudo abierto que capta el
+interés donde nace, antes de que se pierda en una conversación de bar, y lo pone a la
+vista de quien puede llevarlo adelante.
+
+Al terminar el diagnóstico aparece un botón opcional, sin registro y sin dato
+obligatorio: «Avisar de mi interés». Quien lo pulsa elige a quién, entre las
+entidades que ya trabajan el territorio: la Oficina de Transformación Comunitaria de
+FAEN si quiere constituir una comunidad energética, el ayuntamiento de su concejo si
+el proyecto es municipal, o la convocatoria de subvenciones del Principado si ya
+tiene números y quiere presentarse. CERA no gestiona el contacto ni cobra por la
+intermediación: solo lo traslada, una vez, a quien el usuario haya señalado.
+
+El valor para el territorio está en agregar lo que hoy es invisible. FAEN, un
+ayuntamiento o un programa como EDP Energía Solidaria no parten de cero: llegan a un
+candidato que ya ha visto sus propios números. Agregado por concejo, el recuento de
+avisos, cuántos, no quiénes, es un indicador de demanda energética rural que hoy
+nadie mide, y que la Fundación Caja Rural podría ver crecer en el evento de diciembre
+como prueba de que la beca se tradujo en actividad real sobre el terreno, no solo en
+una herramienta publicada.
+
 ## Caso demostrativo
 
 Para mostrar su uso sin tocar ningún dato real, CERA incluye el caso simulado de la Ganadería El
@@ -208,6 +239,11 @@ primeros casos reales hasta el estudio profesional. La beca serviría exactament
 convertir una herramienta publicada en una herramienta usada, en el momento en que la regulación
 y las ayudas empujan como nunca a favor de la energía rural.
 
+Una línea más queda esbozada para después de esta convocatoria, sin tocar el motor de
+cálculo ya validado: una capa de recomendación agrivoltaica que valore la
+compatibilidad con pastoreo o cultivo bajo la instalación, en línea con la
+admisibilidad PAC del Real Decreto 916/2025. No forma parte de esta entrega.
+
 ---
 
 ### Fuentes
@@ -215,6 +251,8 @@ y las ayudas empujan como nunca a favor de la energía rural.
 - SADEI, READER Asturias y Boletín de la AGE — datos de población, envejecimiento y dispersión.
 - FAEN (Fundación Asturiana de la Energía) — guías de constitución de comunidades energéticas 2025
   y convocatoria de subvenciones 2026.
+- Fundación EDP — programa Energía Solidaria, convocatoria 2025-2026 (transición
+  energética justa en Asturias y otras cinco comunidades autónomas).
 - IDAE — programa CE Implementa (fondos del Plan de Recuperación).
 - BOE — Real Decreto-ley 7/2026, de 20 de marzo (autoconsumo colectivo a 5 km); Real Decreto
   916/2025, de 14 de octubre (agrivoltaica admisible en la PAC).

@@ -2,104 +2,77 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   CONFIG,
+  LIMITES,
   calcular,
   clasificarSemaforo,
   validar,
 } from '../js/calculo.js';
 
-const base = {
+export const base = {
+  tipoUsuario: 'ayuntamiento',
+  objetivo: 'activar-activos',
+  zonaId: 'centro',
   consumoAnualKwh: 25000,
   potenciaContratadaKw: 15,
   superficieM2: 200,
   tipoSuperficie: 'cubierta',
-  participantes: 4,
+  participantes: 12,
+  perfilConsumo: 'mixto',
   precioElectricidad: 0.18,
-  escenario: 'central',
+  precioExcedentes: 0.06,
+  fraccionSuperficieUtil: 0.75,
+  inclinacionDeg: 38,
+  azimutDeg: -3,
+  perdidasPct: 14,
+  estrategiaDimensionado: 'equilibrio',
+  capexPorKwp: 1100,
+  opexPctCapex: 2,
+  degradacionPct: 0.5,
+  tasaDescuentoPct: 3,
+  vidaUtilAnios: 25,
 };
 
-test('caso central: fórmulas del spec', () => {
-  const r = calcular(base);
-  assert.equal(r.ok, true);
-
-  // Potencia: min(200/6.5 = 30,77; 25000/1050 = 23,81) = 23,81 kWp
-  assert.ok(Math.abs(r.potenciaKwp - 25000 / 1050) < 1e-9);
-  // Producción: (25000/1050) * 1050 = 25 000 kWh (dimensionada por consumo)
-  assert.ok(Math.abs(r.produccionAnualKwh - 25000) < 1e-9);
-  // Autoconsumo: min(25000 * 0.65, 25000) = 16 250 kWh
-  assert.equal(r.autoconsumoKwh, 16250);
-  // Excedentes: 25 000 − 16 250 = 8 750 kWh
-  assert.equal(r.excedentesKwh, 8750);
-  // Ahorro: 16 250 · 0,18 + 8 750 · 0,06 = 2925 + 525 = 3450 EUR
-  assert.ok(Math.abs(r.ahorroAnualEur - 3450) < 1e-9);
-  // CO2: 25 000 · 0,18 = 4 500 kg
-  assert.equal(r.co2EvitadoKg, 4500);
-  // Reparto entre 4 participantes
-  assert.ok(Math.abs(r.ahorroPorParticipanteEur - 862.5) < 1e-9);
+test('calculo.js publica exactamente el contrato del motor v2', () => {
+  assert.equal(CONFIG.opexPctCapex, 2);
+  assert.deepEqual(LIMITES.participantes, [1, 1000]);
+  assert.equal(typeof validar, 'function');
+  assert.equal(typeof calcular, 'function');
+  assert.equal(typeof clasificarSemaforo, 'function');
 });
 
-test('superficie limita la potencia y genera aviso', () => {
-  const r = calcular({ ...base, superficieM2: 65 });
-  assert.equal(r.ok, true);
-  assert.ok(Math.abs(r.potenciaKwp - 10) < 1e-9); // 65/6.5
-  assert.ok(r.avisos.some((a) => a.includes('superficie disponible limita')));
+test('la fachada calcula balance de 288 intervalos y economía descontada', () => {
+  const resultado = calcular(base);
+  assert.equal(resultado.ok, true);
+  assert.equal(resultado.balance.horariaMedia.length, 24);
+  assert.equal(resultado.balance.mensual.length, 12);
+  assert.equal(resultado.trazabilidadPerfil.orden, 'month-major');
+  assert.equal(resultado.trazabilidadPerfil.recorrido, 'mes→hora');
+  assert.ok(Number.isFinite(resultado.vanEur));
+  assert.ok(Number.isFinite(resultado.lcoeEurKwh));
+  assert.ok(Number.isFinite(resultado.paybackAnios));
+  assert.ok(Number.isFinite(resultado.paybackDescontadoAnios));
+  assert.deepEqual(
+    resultado.escenariosDimensionado.map(({ id }) => id),
+    ['ajuste', 'equilibrio', 'maximo'],
+  );
 });
 
-test('autoconsumo nunca supera el consumo anual', () => {
-  const r = calcular({ ...base, consumoAnualKwh: 5000, superficieM2: 10000 });
-  assert.equal(r.ok, true);
-  assert.ok(r.autoconsumoKwh <= 5000);
-  assert.ok(r.excedentesKwh >= 0);
+test('participantes=12 valida y el perfil personalizado conserva 288 valores', () => {
+  assert.equal(validar(base).participantes, undefined);
+  const perfilPersonalizado = Array(288).fill(0);
+  perfilPersonalizado[12] = base.consumoAnualKwh;
+  const resultado = calcular({ ...base, perfilPersonalizado });
+  assert.equal(resultado.ok, true);
+  assert.equal(resultado.confianza.encajeEnergetico, 'Calculado');
+  assert.ok(Math.abs(resultado.balance.consumoKwh - base.consumoAnualKwh) < 1e-6);
 });
 
-test('escenarios cambian el rendimiento específico', () => {
-  for (const [escenario, rend] of Object.entries(CONFIG.rendimiento)) {
-    const r = calcular({ ...base, escenario });
-    assert.equal(r.produccionAnualKwh, r.potenciaKwp * rend);
-  }
-});
-
-test('semáforo: verde, ámbar y rojo según payback y potencia mínima', () => {
-  assert.equal(clasificarSemaforo(20, 5).nivel, 'verde');
-  assert.equal(clasificarSemaforo(20, 10).nivel, 'ambar');
-  assert.equal(clasificarSemaforo(20, 15).nivel, 'rojo');
-  assert.equal(clasificarSemaforo(0.5, 5).nivel, 'rojo');
-});
-
-test('caso rojo integrado: precio muy bajo alarga el retorno', () => {
-  const r = calcular({ ...base, precioElectricidad: 0.05 });
-  assert.equal(r.ok, true);
-  assert.ok(r.paybackAnios > CONFIG.paybackAmbar);
-  assert.equal(r.semaforo.nivel, 'rojo');
-});
-
-test('aviso de potencia contratada superada', () => {
-  const r = calcular({ ...base, potenciaContratadaKw: 5 });
-  assert.ok(r.avisos.some((a) => a.includes('potencia contratada')));
-});
-
-test('aviso agrivoltaico solo en suelo agrario', () => {
-  const suelo = calcular({ ...base, tipoSuperficie: 'suelo' });
-  assert.ok(suelo.avisos.some((a) => a.includes('agrivoltaica')));
-  const cubierta = calcular(base);
-  assert.ok(!cubierta.avisos.some((a) => a.includes('agrivoltaica')));
-});
-
-test('validación: fuera de rango y campos inválidos', () => {
-  const errores = validar({
-    ...base,
-    consumoAnualKwh: 100, // < 500
-    precioElectricidad: 1.2, // > 0.6
-    participantes: 11,
-    tipoSuperficie: 'tejado', // inválido
-    escenario: 'optimista', // inválido
-  });
-  assert.ok(errores.consumoAnualKwh);
-  assert.ok(errores.precioElectricidad);
-  assert.ok(errores.participantes);
-  assert.ok(errores.tipoSuperficie);
-  assert.ok(errores.escenario);
-
-  const r = calcular({ ...base, superficieM2: NaN });
-  assert.equal(r.ok, false);
-  assert.ok(r.errores.superficieM2);
+test('los tres escenarios y la sensibilidad publican supuestos reales', () => {
+  const resultado = calcular(base);
+  assert.equal(resultado.escenariosDimensionado.length, 3);
+  assert.equal(resultado.sensibilidad.length, 3);
+  assert.equal(resultado.sensibilidad[0].supuestos.capexFactor, 1.15);
+  assert.equal(resultado.sensibilidad[1].supuestos.capexFactor, 1);
+  assert.equal(resultado.sensibilidad[2].supuestos.capexFactor, 0.9);
+  assert.equal(typeof resultado.escenariosDimensionado[0].cumpleRegla, 'boolean');
 });

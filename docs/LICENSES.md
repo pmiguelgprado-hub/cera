@@ -1,18 +1,36 @@
-# Licencias de imágenes
+# Licencias y procedencia de activos
 
-Obligatorio mantener al día: justifica ante el jurado de la beca que las imágenes
-son de uso legítimo.
+Este registro documenta los activos visuales distribuidos con CERA y permite
+comprobar su procedencia.
 
-## assets/picos-banner.jpg
+## Ilustración territorial de CERA
 
-- **Uso**: fondo fotográfico del banner del héroe (`index.html`), con velo verde-noche
-  y zoom lento (Ken Burns).
-- **Fuente**: Unsplash, foto de Hayffield L (@hayffield).
-- **URL original**: https://unsplash.com/photos/a-herd-of-animals-grazing-on-a-lush-green-hillside-Pud6D2XHGG8
-- **Licencia**: Unsplash License — uso comercial y no comercial libre, sin permiso
-  necesario, sin atribución obligatoria. Texto completo: https://unsplash.com/license
-- **Tratamiento**: mismo activo ya documentado en el proyecto agrivoltaica-asturias,
-  descarga directa del CDN de Unsplash a 1920×1080 (`w=1920&h=1080&q=68&fit=crop`), sin edición adicional.
-- **Motivo de la elección**: Picos de Europa, cornisa cantábrica — lugar real y
-  reconocible de la zona del proyecto, no paisaje genérico. La foto aporta
-  autenticidad de lugar; el mecanismo lo explican las cifras y el mapa interactivo.
+- **Archivo**: `assets/cera-mesa-territorial.png`
+- **Uso**: pieza editorial de la vista «Método y pasos».
+- **Procedencia**: generada específicamente para CERA con ChatGPT Image el
+  16 de julio de 2026.
+- **Tratamiento**: activo local sin texto, logotipos ni material de un banco de
+  imágenes de terceros.
+- **Motivo de la elección**: representa parcelas, cubiertas solares y una red
+  comunitaria como una sola decisión territorial.
+
+## Geist Sans y Geist Mono
+
+- **Archivos**: `assets/fonts/geist-sans-latin.woff2` y
+  `assets/fonts/geist-mono-latin.woff2`
+- **Autores**: The Geist Project Authors; proyecto de Vercel en colaboración
+  con Basement Studio y Andrés Briganti.
+- **Fuente del proyecto**: <https://github.com/vercel/geist-font>
+- **Distribución web**: Fontsource CDN, subconjunto latino variable.
+- **Licencia**: SIL Open Font License 1.1:
+  <https://github.com/vercel/geist-font/blob/main/OFL.txt>
+
+## Activos fotográficos heredados
+
+Los archivos `assets/picos-banner.*` y `assets/pueblo-energetico.webp`
+permanecen en el repositorio por compatibilidad histórica, pero el rediseño
+«Mesa territorial solar» no los carga.
+
+`assets/picos-banner.*` procede de una fotografía de Hayffield L en Unsplash:
+<https://unsplash.com/photos/Pud6D2XHGG8>. Su licencia original es la
+[Unsplash License](https://unsplash.com/license).

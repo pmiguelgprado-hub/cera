@@ -4,6 +4,36 @@ Tokens únicos en `css/styles.css` (`:root`). Este documento es la fuente de
 criterio; el CSS es la fuente de valores. Historial de versiones, la más
 reciente primero.
 
+## V15 (2026-07-28) - pasaporte de predesarrollo y mesa territorial
+
+Esta versión define el contrato vigente. Las secciones anteriores quedan como
+historial de decisiones y no describen la interfaz actual.
+
+- **Cuatro vistas coherentes.** Inicio, Diagnóstico, Atlas solar y Método
+  comparten estado entre navegación de escritorio y barra móvil.
+- **Inicio editorial.** El producto abre con una decisión, no con una cifra
+  promocional. La ilustración territorial es local y conserva la identidad
+  rural asturiana.
+- **Diagnóstico profesional.** Recorrido en cuatro pasos, resumen de escenario,
+  balance temporal, economía y madurez con hipótesis editables.
+- **Pasaporte de seis bloques.** Territorio, comunidad, energía, economía,
+  regulación y puesta en servicio se separan mediante divisores.
+- **Estados explícitos.** Calculado, estimado y dato pendiente aparecen con
+  texto y estructura; el color nunca es la única señal.
+- **Regulación condicionada.** Las reglas de proximidad de 500 m y la posible
+  extensión de 5.000 m se presentan con condiciones. La lectura PAC no se
+  generaliza fuera de los supuestos aplicables.
+- **Reflow real.** Desde 320 px no existe overflow global. La navegación móvil
+  fija ofrece cuatro controles de al menos 44 px y deja libre el contenido
+  final.
+- **Impresión y PWA.** El pasaporte se imprime completo y queda disponible sin
+  conexión después de la primera visita servida desde un origen seguro.
+
+Sistema visual vigente: fondo mineral claro, tinta verde profunda, amarillo
+solar para foco y estado activo, azul cantábrico para enlaces y datos. Tipos
+Geist Sans y Geist Mono autoalojados. Bordes rectos, divisores finos,
+superficies planas y movimiento reducido.
+
 ## V7 (2026-07-12) — menos prosa, más dashboard e informe pro
 
 Feedback de Pablo: demasiado texto, poca separación entre partes, la UI debe
@@ -220,13 +250,15 @@ sin JS o con movimiento reducido, nada queda oculto.
 
 ## PWA / offline
 
-`manifest.webmanifest` + `sw.js` (network-first con caché de respaldo,
-rutas relativas — compatible GitHub Pages). La app funciona sin cobertura
-una vez visitada: caso de uso real a pie de finca. Sin push, sin sync, sin
-datos: solo caché de estáticos.
+`manifest.webmanifest` + `sw.js`, estrategia network-first con caché de
+respaldo y rutas relativas. El caché vigente es `cera-pasaporte-v1` e incluye
+el registro de trazabilidad y el módulo del pasaporte. La app funciona sin
+cobertura después de la primera visita desde un origen seguro. Sin push, sync,
+analítica ni persistencia de datos.
 
 ## Impresión
 
-`@media print`: se ocultan topbar, hero-panel, bandas y formulario; se
-imprimen datos de entrada, resultados, semáforo, hipótesis completas y
-aviso legal con fecha.
+`@media print`: se ocultan navegación, Inicio, Atlas, formulario y acciones. Se
+imprimen cabecera, datos de entrada, resultado, hipótesis, fuentes y los seis
+bloques del pasaporte. Cada bloque evita cortes internos cuando el espacio de
+página lo permite.

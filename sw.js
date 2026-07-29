@@ -1,20 +1,31 @@
 // CERA — service worker mínimo. Cachea los recursos estáticos para que la
-// calculadora funcione sin cobertura una vez visitada. Estrategia:
+// herramienta funcione sin cobertura una vez visitada. Estrategia:
 // network-first con caché de respaldo (siempre intenta servir la última
 // versión publicada; si no hay red, sirve la copia local).
 
-const CACHE = 'cera-v14';
+const CACHE = 'cera-pasaporte-v1';
 const RECURSOS = [
   '.',
   'index.html',
   'movil.html',
-  'css/styles.css?v=12',
+  'css/styles.css',
   'assets/mapa-asturias.svg',
+  'assets/cera-mesa-territorial.png',
+  'assets/fonts/geist-sans-latin.woff2',
+  'assets/fonts/geist-mono-latin.woff2',
   'js/app.js',
   'js/calculo.js',
-  'assets/fonts/bricolage-grotesque-latin.woff2',
-  'assets/picos-banner.webp',
-  'assets/pueblo-energetico.webp',
+  'js/calculo-v2.js',
+  'js/ui-state.js',
+  'js/ui-state-v2.js',
+  'js/atlas.js',
+  'js/balance-energetico.js',
+  'js/economia.js',
+  'js/perfiles-consumo.js',
+  'js/pasaporte.js',
+  'js/producto.js',
+  'js/solar-data.js',
+  'js/trazabilidad.js',
   'manifest.webmanifest',
 ];
 

@@ -1,16 +1,16 @@
-# Caso de estudio — Ganadería El Cierru (datos simulados)
+# Caso de estudio — Ganadería El Cierru (fixture simulado)
 
-**Todos los datos de este caso son ficticios.** La explotación no existe; los
-valores son plausibles para una ganadería de leche de tamaño medio en un
-concejo del interior de Asturias y sirven solo para demostrar el uso de CERA.
-Ningún dato procede de una factura, un CUPS ni una persona real.
+**Todos los datos son ficticios.** La explotación no existe y ningún dato
+procede de una factura, un CUPS ni una persona real. Este fixture documenta un
+recorrido reproducible con el motor público v2; no presenta cifras de salida
+congeladas que puedan quedar desalineadas del código.
 
 ## Situación de partida
 
 Ganadería de vacuno de leche con sala de ordeño, tanque de frío y nave
-principal. Junto con dos vecinos y una nave municipal de aperos, estudia un
-autoconsumo colectivo de 4 participantes. Facturas orientativas en mano, el
-gestor introduce en CERA:
+principal. Junto con dos vecinos y una nave municipal de aperos, estudia una
+comunidad de cuatro participantes. Para reproducir el ejemplo se introducen
+estos supuestos, que son entradas y no resultados observados:
 
 | Dato | Valor |
 |---|---|
@@ -19,52 +19,50 @@ gestor introduce en CERA:
 | Superficie disponible (faldón sur de la cubierta) | 120 m² |
 | Tipo de superficie | Cubierta o tejado |
 | Participantes | 4 |
-| Precio medio de electricidad | 0,17 EUR/kWh |
+| Perfil de consumo | Perfil normalizado seleccionado en la aplicación |
+| Estrategia | Equilibrio |
+| O&M | 2 % del CAPEX al año, editable |
 
-## Resultados en los tres escenarios
+## Qué calcula el motor actual
 
-Salida literal del motor de CERA (`js/calculo.js`), sin retoques:
+El perfil seleccionado se normaliza al consumo anual y se cruza con la
+generación en 288 intervalos mes-hora. En cada intervalo, la intersección
+temporal entre ambas series determina la energía autoconsumida. Por eso CERA
+separa dos indicadores que no son intercambiables:
 
-| Magnitud | Conservador | Central | Favorable |
-|---|---|---|---|
-| Potencia recomendada (kWp) | 18,5 | 18,5 | 18,5 |
-| Producción anual (kWh) | 19.385 | 23.077 | 25.846 |
-| Energía autoconsumida (kWh) | 12.600 | 15.000 | 16.800 |
-| Cobertura del consumo | 42 % | 50 % | 56 % |
-| Excedentes (kWh) | 6.785 | 8.077 | 9.046 |
-| Ahorro anual (EUR) | 2.549 | 3.035 | 3.399 |
-| Ahorro por participante (EUR) | 637 | 759 | 850 |
-| Emisiones evitadas (kg CO₂) | 3.489 | 4.154 | 4.652 |
-| Retorno simple (años) | 8,0 | 6,7 | 6,0 |
-| Semáforo | Verde | Verde | Verde |
+- autoconsumo: energía autoconsumida dividida por la generación;
+- cobertura: energía autoconsumida dividida por el consumo.
 
-## Lectura
+El diagnóstico compara tres escenarios de dimensionado e identifica la regla
+aplicada o su fallback. Para cada cálculo muestra CAPEX, VAN, LCOE, retorno
+simple y retorno descontado; además presenta tres sensibilidades con supuestos
+modificados. O&M parte del 2 % anual indicado en el fixture, pero el usuario
+puede editarlo junto con degradación, descuento y horizonte.
 
-- **La superficie manda.** Los 120 m² del faldón sur limitan la instalación a
-  18,5 kWp en los tres escenarios; por eso la potencia no cambia y la
-  producción sí. CERA lo avisa en pantalla: la producción no llegará a cubrir
-  todo el consumo anual.
-- **La horquilla honesta.** Entre el escenario conservador y el favorable hay
-  850 EUR/año de diferencia. CERA no promete el favorable: muestra los tres y
-  deja la decisión informada al usuario.
-- **El caso límite del semáforo.** El escenario conservador cae justo en 8,0
-  años de retorno, el umbral verde/ámbar. Un resultado tan al filo es
-  exactamente el tipo de situación en la que el aviso de CERA («requiere
-  validación profesional») deja de ser una fórmula y pasa a ser el consejo.
-- **Sentido colectivo.** Repartido entre 4 participantes, el ahorro central
-  (759 EUR/año por participante) convierte una inversión inasumible para un
-  vecino solo en una cuota abordable para el grupo.
+No se publican aquí magnitudes de salida. Para obtener un ejemplo reproducible,
+se ejecuta la versión actual de la aplicación con las entradas anteriores y se
+conservan visibles sus hipótesis, fórmulas, fuentes, avisos y nivel de confianza.
+Así el caso no atribuye al motor actual resultados calculados por una versión
+anterior.
+
+El impacto climático se muestra como **Dato pendiente**. No se incorpora un
+factor de emisiones con fuente y fecha ni un tratamiento de excedentes, por lo
+que el fixture no produce una magnitud climática calculada.
 
 ## Qué NO dice este caso
 
-El resultado no incluye sombras del monte vecino, orientación e inclinación
-reales del faldón, curva horaria del ordeño, coeficientes de reparto del
-autoconsumo colectivo, tramitación de acceso y conexión ni fiscalidad. Todo
-eso pertenece al estudio profesional que CERA recomienda como siguiente paso.
+El alcance de CERA es preliminar. No valida sombras, estructura de la cubierta,
+orientación e inclinación medidas, curva horaria real, coeficientes de reparto,
+acceso y conexión, fiscalidad, ofertas de equipos ni condiciones de financiación.
+Todo eso pertenece al estudio profesional recomendado como siguiente paso.
 
 ## Reproducir
 
 1. Abrir la app (URL en el README).
-2. Introducir los seis valores de la tabla de partida.
-3. Cambiar el escenario y pulsar «Calcular previabilidad» cada vez.
-4. «Imprimir informe» genera el documento con datos, resultados e hipótesis.
+2. Seleccionar una audiencia e introducir los supuestos de la tabla.
+3. Elegir un perfil normalizado o cargar un CSV local con los 288 pares mes-hora
+   únicos; opcionalmente transferir zona, inclinación y azimut desde el Atlas.
+4. Mantener O&M en el 2 % del fixture o documentar cualquier cambio.
+5. Pulsar «Calcular previabilidad» y revisar los tres escenarios, las dos tasas
+   energéticas, la economía descontada, la sensibilidad y la madurez.
+6. «Imprimir informe» conserva entradas, resultados e hipótesis de esa ejecución.

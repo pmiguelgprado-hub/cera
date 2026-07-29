@@ -3,490 +3,1253 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CERA — Calculadora de Energía Rural Agrivoltaica</title>
-  <meta name="description" content="Previabilidad orientativa de autoconsumo fotovoltaico para comunidades energéticas rurales y explotaciones agrarias de Asturias.">
-  <meta name="theme-color" content="#0B2A20">
+  <title>CERA — Decisión energética territorial</title>
+  <meta name="description" content="Análisis preliminar de comunidades energéticas rurales con territorio, consumo, generación y economía trazable.">
+  <meta name="theme-color" content="#102820">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2A20'/%3E%3Cpath d='M22 8a4.5 4.5 0 0 1 4.5 4.5' fill='none' stroke='%23F7C640' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='8' r='2.6' fill='%23F7C640'/%3E%3Crect x='6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='12' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Crect x='13.6' y='17.8' width='6.4' height='4.6' rx='1.2' fill='%23DCECF8'/%3E%3Cpath d='M5.5 26.5q10.5-2.6 21 0' fill='none' stroke='%23F7C640' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/styles.css?v=12">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23102820'/%3E%3Cpath d='M5 22 12 8l7 4 8-3-2 15-11 3Z' fill='none' stroke='%23F2C84B' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='8' r='2.5' fill='%23F2C84B'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<a class="salto-contenido" href="#calculadora">Ir a la calculadora</a>
+<a class="skip-link" href="#contenido-principal">Ir al contenido</a>
 
-<nav class="topbar" aria-label="Navegación principal">
-  <div class="topbar-int">
-    <a class="marca" href="#" aria-label="CERA — inicio">
-      <svg class="logo" viewBox="0 0 48 48" width="34" height="34" role="img"
-           aria-label="Isotipo de CERA: parcela solar" xmlns="http://www.w3.org/2000/svg">
-        <path d="M33 10a8 8 0 0 1 8 8" fill="none" stroke="#F7C640" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="33" cy="10" r="4.2" fill="#F7C640"/>
-        <g fill="#DCECF8">
-          <rect x="7" y="15" width="10" height="7.4" rx="1.6"/>
-          <rect x="19.4" y="15" width="10" height="7.4" rx="1.6"/>
-          <rect x="7" y="24.4" width="10" height="7.4" rx="1.6"/>
-          <rect x="19.4" y="24.4" width="10" height="7.4" rx="1.6"/>
-        </g>
-        <g stroke="#F7C640" stroke-width="2.6" stroke-linecap="round" fill="none">
-          <path d="M6 38.5q18-3.6 36 0"/>
-          <path d="M10 44q14-2.8 28 0"/>
-        </g>
+<header class="app-header">
+  <div class="app-header__inner">
+    <button class="brand" type="button" data-view-target="inicio" aria-label="CERA, abrir Inicio">
+      <svg class="brand__mark" viewBox="0 0 48 48" width="36" height="36" role="img" aria-label="Parcela conectada de CERA" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 31 17 9l10 5 13-4-3 25-15 5Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/>
+        <path d="m13 28 9-14 10 5 5-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="17" cy="9" r="3.5" fill="#F2C84B"/>
+        <circle cx="22" cy="14" r="2.4" fill="#F2C84B"/>
+        <circle cx="37" cy="17" r="2.4" fill="#F2C84B"/>
       </svg>
-      <span class="marca-texto">CERA</span>
-    </a>
-    <div class="topbar-enlaces">
-      <a href="#calculadora">Calculadora</a>
-      <a href="#como-funciona">Cómo funciona</a>
-      <a href="#recurso">Recurso solar</a>
-      <a href="#siguiente">Siguiente paso</a>
-    </div>
-    <a class="topbar-cta" href="#calculadora">Calcular mi ahorro</a>
-  </div>
-</nav>
+      <span class="brand__copy">
+        <strong>CERA</strong>
+        <span>Decisión energética territorial</span>
+      </span>
+    </button>
 
-<header class="hero">
-  <div class="hero-fondo" aria-hidden="true">
-    <picture>
-      <source srcset="assets/picos-banner.webp" type="image/webp">
-      <img src="assets/picos-banner.jpg" alt="" width="1920" height="1080" decoding="async" fetchpriority="high">
-    </picture>
-  </div>
-  <div class="hero-vida" aria-hidden="true">
-    <span class="vida-glow"></span>
-    <span class="vida-niebla"></span>
-  </div>
-  <div class="hero-int">
-    <div class="hero-texto">
-      <p class="eyebrow">CERA · Previabilidad energética rural</p>
-      <h1>¿Cuánto puede ahorrar tu explotación con placas solares?</h1>
-      <p class="entradilla">
-        Un primer número honesto en un minuto, con siete datos. Para comunidades
-        energéticas, cooperativas y explotaciones agrarias de Asturias.
-      </p>
-      <div class="hero-acciones">
-        <a class="boton primario" href="#calculadora">Calcular mi previabilidad</a>
-        <a class="boton fantasma" href="#recurso">Consultar el recurso solar</a>
-      </div>
-      <ul class="hero-confianza">
-        <li>Gratuito y sin registro</li>
-        <li>Sin datos personales ni CUPS</li>
-        <li>Cada hipótesis del cálculo, visible</li>
-      </ul>
-    </div>
+    <nav class="app-nav" role="tablist" aria-label="Vistas de CERA">
+      <button
+        id="tab-inicio"
+        class="app-nav__button is-active"
+        type="button"
+        role="tab"
+        aria-selected="true"
+        aria-controls="vista-inicio"
+        data-view-target="inicio"
+      >Inicio</button>
+      <button
+        id="tab-diagnostico"
+        class="app-nav__button"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="vista-diagnostico"
+        data-view-target="diagnostico"
+      >Diagnóstico</button>
+      <button
+        id="tab-atlas"
+        class="app-nav__button"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="vista-atlas"
+        data-view-target="atlas"
+      >Atlas solar</button>
+      <button
+        id="tab-metodo"
+        class="app-nav__button"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="vista-metodo"
+        data-view-target="metodo"
+      >Método</button>
+    </nav>
 
-    <div class="hero-panel" aria-hidden="true">
-      <div class="hero-panel-cab">
-        <svg viewBox="0 0 48 48" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M33 10a8 8 0 0 1 8 8" fill="none" stroke="#F7C640" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="33" cy="10" r="4.2" fill="#F7C640"/>
-          <g fill="#164C3A">
-            <rect x="7" y="15" width="10" height="7.4" rx="1.6"/>
-            <rect x="19.4" y="15" width="10" height="7.4" rx="1.6"/>
-            <rect x="7" y="24.4" width="10" height="7.4" rx="1.6"/>
-            <rect x="19.4" y="24.4" width="10" height="7.4" rx="1.6"/>
-          </g>
-          <g stroke="#164C3A" stroke-width="2.6" stroke-linecap="round" fill="none">
-            <path d="M6 38.5q18-3.6 36 0"/>
-            <path d="M10 44q14-2.8 28 0"/>
-          </g>
-        </svg>
-        <span>Tu previabilidad, en directo</span>
-      </div>
-      <div class="hero-metricas">
-        <div><strong id="hero-ahorro">—</strong><small>EUR/año</small><span>Ahorro</span></div>
-        <div><strong id="hero-produccion">—</strong><small>kWh/año</small><span>Producción</span></div>
-        <div><strong id="hero-potencia">—</strong><small>kWp</small><span>Potencia FV</span></div>
-      </div>
-      <p class="hero-panel-pie">Se recalcula con tus datos en la calculadora de abajo.</p>
-    </div>
+    <button class="context-link" type="button" data-view-target="metodo">
+      Qué ofrece CERA
+    </button>
   </div>
 </header>
 
-<header class="print-cab" aria-hidden="true">
-  <svg viewBox="0 0 48 48" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
-    <path d="M33 10a8 8 0 0 1 8 8" fill="none" stroke="#F7C640" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="33" cy="10" r="4.2" fill="#F7C640"/>
-    <g fill="#164C3A">
-      <rect x="7" y="15" width="10" height="7.4" rx="1.6"/>
-      <rect x="19.4" y="15" width="10" height="7.4" rx="1.6"/>
-      <rect x="7" y="24.4" width="10" height="7.4" rx="1.6"/>
-      <rect x="19.4" y="24.4" width="10" height="7.4" rx="1.6"/>
-    </g>
-    <g stroke="#164C3A" stroke-width="2.6" stroke-linecap="round" fill="none">
-      <path d="M6 38.5q18-3.6 36 0"/>
-      <path d="M10 44q14-2.8 28 0"/>
-    </g>
+<header class="print-header" aria-hidden="true">
+  <svg class="brand__mark" viewBox="0 0 48 48" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 31 17 9l10 5 13-4-3 25-15 5Z" fill="none" stroke="#102820" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="m13 28 9-14 10 5 5-2" fill="none" stroke="#102820" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="17" cy="9" r="3.5" fill="#F2C84B"/>
+    <circle cx="22" cy="14" r="2.4" fill="#F2C84B"/>
+    <circle cx="37" cy="17" r="2.4" fill="#F2C84B"/>
   </svg>
   <div>
-    <p class="print-cab-titulo">Informe de previabilidad energética</p>
-    <p class="print-cab-sub">CERA — Calculadora de Energía Rural Agrivoltaica ·
-    generado el <span class="fecha-doc"></span> · resultado orientativo, requiere
-    validación profesional</p>
+    <p class="print-header__title">CERA · Informe de orientación inicial</p>
+    <p>Generado el <span class="fecha-doc"></span>. Requiere validación técnica, económica y jurídica.</p>
   </div>
 </header>
 
-<main class="principal" id="calculadora">
-
-  <div class="tablero-cab">
-    <span class="tablero-punto" aria-hidden="true"></span>
-    <span>Diagnóstico de previabilidad</span>
-    <span class="tablero-chip">Datos orientativos</span>
-  </div>
-
-  <form id="formulario" class="formulario" novalidate>
-    <ol class="ruta" aria-label="Camino del proyecto">
-      <li class="hecha"><span class="ruta-num" aria-hidden="true">✓</span><span class="ruta-tit">Datos precargados</span></li>
-      <li class="actual" aria-current="step"><span class="ruta-num" aria-hidden="true">2</span><span class="ruta-tit">Ajusta tu caso</span></li>
-      <li><span class="ruta-num" aria-hidden="true">3</span><span class="ruta-tit">Estudio profesional</span></li>
-    </ol>
-    <h2>Datos de partida</h2>
-    <p class="ayuda-form">Valen datos aproximados o ficticios. Nunca
-    direcciones, CUPS ni facturas.</p>
-
-    <div class="campos">
-    <div class="campo">
-      <label for="consumoAnualKwh">Consumo eléctrico anual</label>
-      <div class="campo-unidad">
-        <input type="number" id="consumoAnualKwh" name="consumoAnualKwh"
-               inputmode="numeric" min="500" max="1000000" step="100" value="25000" required>
-        <span class="unidad">kWh/año</span>
+<main class="app-main" id="contenido-principal" tabindex="-1">
+  <section
+    class="app-view product-home"
+    id="vista-inicio"
+    data-view="inicio"
+    role="tabpanel"
+    aria-labelledby="tab-inicio"
+  >
+    <div class="product-hero" id="inicio-hero">
+      <div class="product-hero__copy">
+        <p class="eyebrow">Análisis preliminar de comunidades energéticas</p>
+        <h1 id="titulo-inicio" tabindex="-1">Entender si una comunidad energética tiene sentido antes de encargar el proyecto.</h1>
+        <p>
+          CERA cruza territorio, consumo, generación y economía para convertir
+          una oportunidad local en una primera decisión trazable.
+        </p>
+        <div class="product-hero__actions">
+          <button class="button button--primary" type="button" data-start-analysis>Iniciar análisis</button>
+          <button class="button button--quiet" type="button" data-view-target="atlas">Explorar el atlas</button>
+        </div>
       </div>
-      <p class="error" id="error-consumoAnualKwh" role="alert" hidden></p>
-    </div>
-
-    <div class="campo">
-      <label for="potenciaContratadaKw">Potencia contratada</label>
-      <div class="campo-unidad">
-        <input type="text" id="potenciaContratadaKw" name="potenciaContratadaKw"
-               inputmode="decimal" autocomplete="off" value="15" required>
-        <span class="unidad">kW</span>
-      </div>
-      <p class="error" id="error-potenciaContratadaKw" role="alert" hidden></p>
-    </div>
-
-    <div class="campo">
-      <label for="superficieM2">Superficie disponible</label>
-      <div class="campo-unidad">
-        <input type="number" id="superficieM2" name="superficieM2"
-               inputmode="numeric" min="10" max="100000" step="10" value="200" required>
-        <span class="unidad">m²</span>
-      </div>
-      <p class="error" id="error-superficieM2" role="alert" hidden></p>
-    </div>
-
-    <div class="campo">
-      <label for="tipoSuperficie">Tipo de superficie</label>
-      <select id="tipoSuperficie" name="tipoSuperficie">
-        <option value="cubierta">Cubierta o tejado</option>
-        <option value="suelo">Suelo agrario (agrivoltaica)</option>
-        <option value="aparcamiento">Aparcamiento (marquesina)</option>
-      </select>
-      <p class="error" id="error-tipoSuperficie" role="alert" hidden></p>
-    </div>
-
-    <div class="campo">
-      <label for="participantes">Participantes en la iniciativa</label>
-      <div class="campo-unidad">
-        <input type="number" id="participantes" name="participantes"
-               inputmode="numeric" min="1" max="10" step="1" value="1" required>
-        <span class="unidad">de 1 a 10</span>
-      </div>
-      <p class="campo-nota">Desde 2026, el autoconsumo colectivo llega a 5 km:
-      varias casas o explotaciones de un mismo concejo pueden compartir una
-      instalación.</p>
-      <p class="error" id="error-participantes" role="alert" hidden></p>
-    </div>
-
-    <div class="campo">
-      <label for="precioElectricidad">Precio medio de tu electricidad</label>
-      <div class="campo-unidad">
-        <input type="text" id="precioElectricidad" name="precioElectricidad"
-               inputmode="decimal" autocomplete="off" value="0,18" required>
-        <span class="unidad">EUR/kWh</span>
-      </div>
-      <p class="error" id="error-precioElectricidad" role="alert" hidden></p>
-    </div>
-    </div>
-
-    <fieldset class="campo escenarios">
-      <legend>Escenario de producción</legend>
-      <div class="segmentado" role="radiogroup">
-        <label><input type="radio" name="escenario" value="conservador"><span>Conservador</span></label>
-        <label><input type="radio" name="escenario" value="central" checked><span>Central</span></label>
-        <label><input type="radio" name="escenario" value="favorable"><span>Favorable</span></label>
-      </div>
-      <p class="error" id="error-escenario" role="alert" hidden></p>
-    </fieldset>
-
-    <div class="acciones">
-      <button type="submit" class="boton primario">Calcular previabilidad</button>
-      <button type="button" class="boton secundario" id="imprimir" disabled>Imprimir informe</button>
-    </div>
-    <p class="nota-reactiva" id="nota-reactiva" hidden>
-      Los resultados se actualizan al modificar cualquier dato válido.
-    </p>
-  </form>
-
-  <section id="resultados" class="resultados" aria-live="polite" hidden>
-    <div id="veredicto" class="veredicto">
-      <span class="punto" aria-hidden="true"></span>
-      <p id="veredicto-texto"></p>
-    </div>
-
-    <h2>Tu escenario energético</h2>
-    <p class="resumen-caso" id="resumen-caso"></p>
-
-    <div class="kpis">
-      <div class="kpi destacado">
-        <span class="kpi-valor"><span id="r-ahorro"></span> <small>EUR/año</small></span>
-        <span class="kpi-etiqueta">Ahorro estimado</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-valor"><span id="r-potencia"></span> <small>kWp</small></span>
-        <span class="kpi-etiqueta">Potencia FV recomendada</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-valor"><span id="r-produccion"></span> <small>kWh/año</small></span>
-        <span class="kpi-etiqueta">Producción anual</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-valor"><span id="r-co2"></span> <small>kg CO₂/año</small></span>
-        <span class="kpi-etiqueta">Emisiones evitadas</span>
+      <div class="product-hero__visual">
+        <img
+          src="assets/cera-mesa-territorial.png"
+          width="1536"
+          height="1024"
+          decoding="async"
+          alt="Territorio rural con cubiertas solares conectadas para compartir energía."
+        >
+        <div class="product-proof" aria-label="Ejemplo de lectura CERA">
+          <span>Ejemplo de resultado</span>
+          <strong>Previabilidad favorable con datos pendientes</strong>
+          <small>Recurso, encaje horario y economía visibles</small>
+        </div>
       </div>
     </div>
 
-    <figure class="grafico" id="grafico">
-      <figcaption>Destino de la energía respecto a tu consumo anual</figcaption>
-      <div class="barra-fila">
-        <span class="barra-etiqueta"><span class="leyenda-marca autoconsumo" aria-hidden="true"></span>Autoconsumo</span>
-        <div class="barra" aria-hidden="true"><div class="barra-relleno autoconsumo" id="barra-autoconsumo"></div></div>
-        <span class="barra-valor" id="valor-autoconsumo"></span>
+    <section class="audience-section" id="selector-audiencia" aria-labelledby="audience-title">
+      <p class="section-index">Un método, cuatro contextos</p>
+      <h2 id="audience-title">Empieza por la decisión que necesitas tomar.</h2>
+      <div class="audience-tabs" role="tablist" aria-label="Tipo de análisis">
+        <button id="audiencia-ayuntamiento" type="button" role="tab" aria-selected="true" aria-controls="audience-panel" data-audience="ayuntamiento">Ayuntamiento</button>
+        <button id="audiencia-cooperativa" type="button" role="tab" aria-selected="false" aria-controls="audience-panel" data-audience="cooperativa" tabindex="-1">Cooperativa</button>
+        <button id="audiencia-particular" type="button" role="tab" aria-selected="false" aria-controls="audience-panel" data-audience="particular" tabindex="-1">Particular</button>
+        <button id="audiencia-empresa" type="button" role="tab" aria-selected="false" aria-controls="audience-panel" data-audience="empresa" tabindex="-1">Empresa</button>
       </div>
-      <div class="barra-fila">
-        <span class="barra-etiqueta"><span class="leyenda-marca excedentes" aria-hidden="true"></span>Excedentes a red</span>
-        <div class="barra" aria-hidden="true"><div class="barra-relleno excedentes" id="barra-excedentes"></div></div>
-        <span class="barra-valor" id="valor-excedentes"></span>
+      <article id="audience-panel" class="audience-panel" role="tabpanel" aria-labelledby="audiencia-ayuntamiento" aria-live="polite"></article>
+    </section>
+
+    <section class="community-system" id="comunidad-sistema" aria-labelledby="community-title">
+      <div class="community-system__intro">
+        <p class="section-index">La comunidad como sistema</p>
+        <h2 id="community-title">Generación local compartida para decisiones que ningún activo resuelve solo.</h2>
+        <p>
+          Una comunidad importa porque conecta recursos y necesidades: permite
+          compartir acceso, aprovechar la complementariedad de perfiles y decidir
+          juntos qué inversión, reparto y validaciones tienen sentido.
+        </p>
       </div>
-      <div class="barra-fila">
-        <span class="barra-etiqueta"><span class="leyenda-marca no-cubierto" aria-hidden="true"></span>Consumo no cubierto</span>
-        <div class="barra" aria-hidden="true"><div class="barra-relleno no-cubierto" id="barra-no-cubierto"></div></div>
-        <span class="barra-valor" id="valor-no-cubierto"></span>
-      </div>
-      <p class="grafico-leyenda">Porcentajes sobre tu consumo anual; los
-      excedentes son producción extra que se vierte a red.</p>
-      <p class="grafico-nota" id="nota-excedentes" hidden>La producción estimada
-      supera tu consumo anual: los excedentes vertidos a red son mayores que la
-      energía que autoconsumes.</p>
-    </figure>
-
-    <figure class="linea-retorno" id="linea-retorno" hidden>
-      <figcaption>Recuperación de la inversión en la vida útil (25 años)</figcaption>
-      <div class="lr-pista" aria-hidden="true">
-        <div class="lr-tramo lr-pendiente" id="lr-pendiente"></div>
-        <div class="lr-tramo lr-beneficio" id="lr-beneficio"></div>
-        <span class="lr-marca" id="lr-marca"><em id="lr-anio"></em></span>
-      </div>
-      <div class="lr-ejes" aria-hidden="true"><span>Año 0</span><span>Año 25</span></div>
-      <p class="lr-lectura" id="lr-lectura"></p>
-    </figure>
-
-    <dl class="cifras">
-      <div><dt>Cobertura de tu consumo</dt><dd><span id="r-cobertura"></span> <small>%</small></dd></div>
-      <div id="fila-reparto" hidden><dt>Ahorro por participante</dt><dd><span id="r-reparto"></span> <small>EUR/año</small></dd></div>
-      <div><dt>Retorno simple estimado</dt><dd><span id="r-payback"></span> <small>años</small></dd></div>
-      <div><dt>Inversión orientativa</dt><dd><span id="r-inversion"></span> <small>EUR</small></dd></div>
-      <div><dt>Ahorro acumulado en 25 años</dt><dd><span id="r-ahorro25"></span> <small>EUR</small></dd></div>
-    </dl>
-
-    <p class="nota-perdida" id="nota-perdida" hidden></p>
-
-    <ul id="avisos" class="avisos"></ul>
-
-    <details class="hipotesis" id="hipotesis">
-      <summary>Hipótesis y límites de esta estimación</summary>
-      <ul id="lista-hipotesis"></ul>
-      <p class="descargo">
-        Resultado orientativo y educativo, calculado con reglas simplificadas y
-        valores medios. No sustituye a una ingeniería, a un estudio de acceso y
-        conexión, a un instalador ni a una asesoría legal. Antes de decidir,
-        encarga una validación profesional.
-      </p>
-    </details>
-  </section>
-
-  <section class="print-datos" aria-hidden="true">
-    <h2>Datos introducidos</h2>
-    <dl id="print-entradas" class="cifras"></dl>
-  </section>
-
-</main>
-
-<section id="como-funciona" class="banda banda-oscura">
-  <div class="banda-int">
-    <p class="banda-eyebrow">Cómo funciona</p>
-    <h2>De la idea al proyecto en tres pasos</h2>
-    <p class="banda-sub">Cálculo transparente y sin ningún dato personal.
-    Cada punto del recorrido explica una fase del proceso.</p>
-    <div class="mapa">
-      <div class="mapa-marco">
-        <img src="assets/pueblo-energetico.webp" width="1600" height="893" loading="lazy"
-             alt="Ilustración de un pueblo asturiano como comunidad energética: casas de
-             piedra con paneles solares en los tejados, torre, hórreo y los Picos de
-             Europa al fondo.">
-        <button type="button" class="punto-mapa activo" data-paso="0" style="--x: 27%; --y: 34%"
-                aria-label="Paso 1: introduce siete datos"><span aria-hidden="true">1</span></button>
-        <button type="button" class="punto-mapa" data-paso="1" style="--x: 61%; --y: 47%"
-                aria-label="Paso 2: revisa el diagnóstico"><span aria-hidden="true">2</span></button>
-        <button type="button" class="punto-mapa" data-paso="2" style="--x: 84%; --y: 56%"
-                aria-label="Paso 3: contrasta las hipótesis"><span aria-hidden="true">3</span></button>
-      </div>
-      <ol class="mapa-pasos" aria-label="Los tres pasos">
-        <li class="mapa-paso-item activo">
-          <button type="button" data-paso="0">
-            <span class="mp-num" aria-hidden="true">1</span>
-            <span class="mp-cuerpo">
-              <span class="mp-titulo">Introduce siete datos</span>
-              <span class="mp-texto">Consumo, potencia, superficie, participantes,
-              precio y escenario. Valen datos aproximados.</span>
-            </span>
-          </button>
+      <ol class="community-system__network" aria-label="Relación entre activos, participantes, consumo y red">
+        <li class="community-node community-node--assets">
+          <strong>Activos</strong>
+          <span>Cubiertas, suelo y equipamientos aportan capacidad de generación.</span>
         </li>
-        <li class="mapa-paso-item">
-          <button type="button" data-paso="1">
-            <span class="mp-num" aria-hidden="true">2</span>
-            <span class="mp-cuerpo">
-              <span class="mp-titulo">Revisa el diagnóstico</span>
-              <span class="mp-texto">Ahorro, producción, retorno y semáforo de
-              viabilidad, recalculados al instante.</span>
-            </span>
-          </button>
+        <li class="community-node community-node--people">
+          <strong>Participantes</strong>
+          <span>Hogares, entidades y actividades acuerdan cómo compartirla.</span>
         </li>
-        <li class="mapa-paso-item">
-          <button type="button" data-paso="2">
-            <span class="mp-num" aria-hidden="true">3</span>
-            <span class="mp-cuerpo">
-              <span class="mp-titulo">Contrasta las hipótesis</span>
-              <span class="mp-texto">Cada resultado publica sus reglas de cálculo;
-              el informe las incluye para el estudio profesional.</span>
-            </span>
-          </button>
+        <li class="community-node community-node--load">
+          <strong>Consumo</strong>
+          <span>Perfiles complementarios aprovechan la energía en horas distintas.</span>
+        </li>
+        <li class="community-node community-node--grid">
+          <strong>Red</strong>
+          <span>Cubre el consumo restante y recibe los excedentes del escenario.</span>
         </li>
       </ol>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="recurso" class="banda banda-oscura">
-  <div class="banda-int">
-    <p class="banda-eyebrow">Recurso solar</p>
-    <h2>Cuánto sol recibe cada rincón de Asturias</h2>
-    <p class="banda-sub">Producción fotovoltaica estimada por zona, con datos de
-    PVGIS (Comisión Europea). Selecciona tu concejo en el mapa para consultar su
-    recurso y su producción estimada. El recurso es elevado y homogéneo: toda la
-    región supera los 1.100 kWh por cada kWp instalado y año.</p>
-    <div class="recurso-grid">
-      <figure class="recurso-mapa">
-        <div id="mapa-recurso" role="group" aria-label="Mapa de zonas de recurso solar; elige un concejo"></div>
-        <div class="recurso-leyenda" aria-hidden="true">
-          <span>1.112</span>
-          <span class="rl-rampa"></span>
-          <span>1.243 kWh/kWp·año</span>
+    <section class="deliverables-section" id="entregables-cera" aria-labelledby="deliverables-title">
+      <p class="section-index">Qué entrega CERA</p>
+      <h2 id="deliverables-title">Cuatro lecturas para decidir qué merece validarse.</h2>
+      <ol class="deliverable-list">
+        <li class="deliverable-row">
+          <span>01</span><strong>Potencial solar y energético</strong>
+          <p>Recurso territorial, superficie útil, potencia y producción anual.</p>
+        </li>
+        <li class="deliverable-row">
+          <span>02</span><strong>Aprovechamiento compartido</strong>
+          <p>Autoconsumo, cobertura, excedentes y coincidencia entre perfiles.</p>
+        </li>
+        <li class="deliverable-row">
+          <span>03</span><strong>Lectura económica</strong>
+          <p>CAPEX, O&amp;M, VAN, LCOE y retornos bajo hipótesis editables.</p>
+        </li>
+        <li class="deliverable-row">
+          <span>04</span><strong>Madurez y siguientes pasos</strong>
+          <p>Qué está calculado, qué es estimado y qué exige validación técnica.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="product-preview" id="prueba-producto" aria-labelledby="preview-title">
+      <div class="product-preview__heading">
+        <p class="section-index">Ejemplo · no es un caso de cliente</p>
+        <h2 id="preview-title">La decisión y sus límites, en la misma lectura.</h2>
+      </div>
+      <div class="product-preview__frame">
+        <div class="product-preview__decision">
+          <span>Ejemplo</span>
+          <strong>Previabilidad favorable con datos pendientes</strong>
+          <p>El balance temporal y la economía justifican contrastar el escenario.</p>
         </div>
-      </figure>
-      <aside class="recurso-panel" aria-live="polite">
-        <p class="rp-eyebrow">Concejo seleccionado</p>
-        <h3 id="rp-nombre">Selecciona un concejo</h3>
-        <p class="rp-zona" id="rp-zona"></p>
-        <p class="rp-valor"><strong id="rp-ey">—</strong> <span>kWh/kWp·año</span></p>
-
-        <div class="rp-graficos">
-          <figure class="rp-grafico">
-            <figcaption>Producción mensual por kWp (kWh)</figcaption>
-            <div id="rp-barras" class="rp-chart"></div>
-          </figure>
-          <figure class="rp-grafico">
-            <figcaption>Producción acumulada a lo largo del año</figcaption>
-            <div id="rp-linea" class="rp-chart"></div>
-          </figure>
-          <figure class="rp-grafico rp-grafico-rosco">
-            <figcaption>Recurso solar relativo a la mejor zona de Asturias</figcaption>
-            <div id="rp-rosco" class="rp-chart"></div>
-          </figure>
-        </div>
-
-        <dl class="rp-datos">
-          <div><dt>Zona de referencia</dt><dd id="rp-punto">—</dd></div>
-          <div><dt>Inclinación óptima</dt><dd id="rp-angulo">—</dd></div>
-          <div><dt>Frente al escenario central de CERA</dt><dd id="rp-vs">—</dd></div>
+        <dl class="product-preview__balance">
+          <div><dt>Autoconsumo</dt><dd>Calculado</dd></div>
+          <div><dt>Cobertura solar</dt><dd>Estimado</dd></div>
+          <div><dt>Diseño eléctrico</dt><dd>Validación técnica</dd></div>
         </dl>
-        <p class="rp-nota">Selecciona cualquier concejo en el mapa. Los valores son
-        una estimación por zona a partir de datos de PVGIS (Comisión Europea); la
-        producción real depende de la orientación, la inclinación y las sombras de
-        cada cubierta.</p>
+        <table class="product-preview__scenarios">
+          <caption>Ejemplo de comparación de dimensionamiento</caption>
+          <thead><tr><th scope="col">Escenario</th><th scope="col">Lectura</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Ajuste</th><td>Prioriza autoconsumo</td></tr>
+            <tr><th scope="row">Equilibrio</th><td>Compara VAN y cobertura</td></tr>
+            <tr><th scope="row">Máximo</th><td>Usa la superficie disponible</td></tr>
+          </tbody>
+        </table>
+        <p class="product-preview__pending"><strong>Dato pendiente:</strong> curva horaria real y revisión de implantación.</p>
+      </div>
+      <button class="button button--primary" type="button" data-start-analysis>Iniciar mi análisis</button>
+    </section>
+  </section>
+
+  <section
+    class="app-view"
+    id="vista-diagnostico"
+    data-view="diagnostico"
+    role="tabpanel"
+    aria-labelledby="tab-diagnostico"
+    hidden
+  >
+    <div class="view-heading">
+      <div>
+        <p class="view-location">Diagnóstico preliminar · Asturias rural</p>
+        <h1 id="titulo-diagnostico" tabindex="-1">Construye un escenario común y trazable.</h1>
+      </div>
+      <p class="view-intro">
+        Cuatro etapas conectan contexto, consumo, generación y economía. Cada
+        hipótesis queda visible antes de calcular.
+      </p>
+    </div>
+
+    <div class="diagnostic-layout">
+      <nav class="step-rail" aria-label="Etapas del diagnóstico">
+        <div class="step-rail__heading">
+          <span>Recorrido</span>
+          <strong id="progreso-texto">1 de 4</strong>
+        </div>
+        <ol class="step-list">
+          <li>
+            <button class="step-button" type="button" data-step-target="0" data-state="actual" aria-current="step">
+              <span class="step-button__index">01</span>
+              <span class="step-button__copy">
+                <strong>Contexto</strong>
+                <span>Audiencia, zona y activo</span>
+              </span>
+              <span class="step-button__status">En curso</span>
+            </button>
+          </li>
+          <li>
+            <button class="step-button" type="button" data-step-target="1" data-state="disponible">
+              <span class="step-button__index">02</span>
+              <span class="step-button__copy">
+                <strong>Comunidad y consumo</strong>
+                <span>Perfiles, participantes y energía</span>
+              </span>
+              <span class="step-button__status">Disponible</span>
+            </button>
+          </li>
+          <li>
+            <button class="step-button" type="button" data-step-target="2" data-state="bloqueado" aria-disabled="true">
+              <span class="step-button__index">03</span>
+              <span class="step-button__copy">
+                <strong>Generación</strong>
+                <span>Implantación y dimensionamiento</span>
+              </span>
+              <span class="step-button__status">Completa Comunidad y consumo</span>
+            </button>
+          </li>
+          <li>
+            <button class="step-button" type="button" data-step-target="3" data-state="bloqueado" aria-disabled="true">
+              <span class="step-button__index">04</span>
+              <span class="step-button__copy">
+                <strong>Economía y revisión</strong>
+                <span>Costes, descuento e hipótesis</span>
+              </span>
+              <span class="step-button__status">Completa Generación</span>
+            </button>
+          </li>
+        </ol>
+        <p class="step-rail__note">
+          CERA ofrece un análisis preliminar. Cubierta, conexión, diseño eléctrico,
+          tramitación y certificación requieren validación técnica.
+        </p>
+      </nav>
+
+      <div class="diagnostic-workspace">
+        <form id="formulario" class="diagnostic-form" novalidate>
+          <fieldset class="form-step" data-step="contexto">
+            <legend>Contexto</legend>
+            <p class="form-step__intro">
+              Sitúa quién decide, qué necesita comprobar y qué activo está disponible.
+            </p>
+
+            <div class="field-grid field-grid--two">
+              <div class="field">
+                <label for="tipoUsuario">Tipo de usuario</label>
+                <select id="tipoUsuario" name="tipoUsuario" aria-describedby="ayuda-tipoUsuario error-tipoUsuario">
+                  <option value="ayuntamiento" selected>Ayuntamiento</option>
+                  <option value="cooperativa">Cooperativa</option>
+                  <option value="particular">Particular</option>
+                  <option value="empresa">Empresa o explotación</option>
+                </select>
+                <p class="field-help" id="ayuda-tipoUsuario">Adapta las preguntas y el siguiente paso, no el núcleo del cálculo.</p>
+                <p class="field-error" id="error-tipoUsuario" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="objetivo">Objetivo del análisis</label>
+                <select id="objetivo" name="objetivo" aria-describedby="ayuda-objetivo error-objetivo">
+                  <option value="activar-activos" selected>Activar activos municipales</option>
+                  <option value="evaluar-grupo">Evaluar un grupo de participantes</option>
+                  <option value="entender-participacion">Entender cómo participar</option>
+                  <option value="aprovechar-activo">Aprovechar un activo tractor</option>
+                </select>
+                <p class="field-help" id="ayuda-objetivo">Define la decisión preliminar que debe facilitar CERA.</p>
+                <p class="field-error" id="error-objetivo" role="alert" hidden></p>
+              </div>
+
+              <div class="field field--wide">
+                <label for="zonaId">Zona solar de referencia</label>
+                <select id="zonaId" name="zonaId" aria-describedby="ayuda-zonaId error-zonaId">
+                  <option value="occidente">Occidente costero</option>
+                  <option value="suroccidente">Suroccidente</option>
+                  <option value="aviles">Avilés y bajo Nalón</option>
+                  <option value="centro" selected>Centro</option>
+                  <option value="gijon">Gijón y Cabo Peñas</option>
+                  <option value="caudal">Cuencas del Caudal</option>
+                  <option value="nalon">Cuencas del Nalón</option>
+                  <option value="oriente">Oriente</option>
+                </select>
+                <p class="field-help" id="ayuda-zonaId">Punto territorial representativo; puede contrastarse en el Atlas solar.</p>
+                <p class="field-error" id="error-zonaId" role="alert" hidden></p>
+              </div>
+            </div>
+
+            <div class="field-grid field-grid--two">
+              <div class="field">
+                <label for="superficieM2">Superficie disponible</label>
+                <div class="field-control">
+                  <input
+                    type="number"
+                    id="superficieM2"
+                    name="superficieM2"
+                    inputmode="numeric"
+                    min="10"
+                    max="100000"
+                    step="10"
+                    value="200"
+                    aria-describedby="ayuda-superficie error-superficieM2"
+                    required
+                  >
+                  <span class="field-unit">m²</span>
+                </div>
+                <p class="field-help" id="ayuda-superficie">Cubierta, terreno o aparcamiento realmente disponible.</p>
+                <p class="field-error" id="error-superficieM2" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="tipoSuperficie">Tipo de superficie</label>
+                <select id="tipoSuperficie" name="tipoSuperficie" aria-describedby="ayuda-tipo error-tipoSuperficie">
+                  <option value="cubierta">Cubierta · 5,0 m²/kWp</option>
+                  <option value="suelo">Suelo · 8,0 m²/kWp</option>
+                  <option value="aparcamiento">Aparcamiento · 6,5 m²/kWp</option>
+                </select>
+                <p class="field-help" id="ayuda-tipo">Hipótesis geométrica inicial; no sustituye retranqueos, filas, sombras, estructura ni accesos.</p>
+                <p class="field-error" id="error-tipoSuperficie" role="alert" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step" data-step="consumo" hidden>
+            <legend>Comunidad y consumo</legend>
+            <p class="form-step__intro">
+              Reúne demanda, participantes y perfil horario. Los consumos se procesan localmente.
+            </p>
+
+            <div class="field-grid field-grid--two">
+              <div class="field field--wide">
+                <label for="consumoAnualKwh">Consumo eléctrico anual</label>
+                <div class="field-control">
+                  <input
+                    type="number"
+                    id="consumoAnualKwh"
+                    name="consumoAnualKwh"
+                    inputmode="numeric"
+                    min="500"
+                    max="1000000"
+                    step="100"
+                    value="25000"
+                    aria-describedby="ayuda-consumo error-consumoAnualKwh"
+                    required
+                  >
+                  <span class="field-unit">kWh/año</span>
+                </div>
+                <p class="field-help" id="ayuda-consumo">Suma anual de todas las instalaciones que participarían.</p>
+                <p class="field-error" id="error-consumoAnualKwh" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="potenciaContratadaKw">Potencia contratada</label>
+                <div class="field-control">
+                  <input
+                    type="text"
+                    id="potenciaContratadaKw"
+                    name="potenciaContratadaKw"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    value="15"
+                    aria-describedby="ayuda-potencia error-potenciaContratadaKw"
+                    required
+                  >
+                  <span class="field-unit">kW</span>
+                </div>
+                <p class="field-help" id="ayuda-potencia">Suma si participan varios suministros.</p>
+                <p class="field-error" id="error-potenciaContratadaKw" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="participantes">Participantes o suministros</label>
+                <div class="field-control">
+                  <input
+                    type="number"
+                    id="participantes"
+                    name="participantes"
+                    inputmode="numeric"
+                    min="1"
+                    max="1000"
+                    step="1"
+                    value="12"
+                    aria-describedby="ayuda-participantes error-participantes"
+                    required
+                  >
+                  <span class="field-unit">participantes</span>
+                </div>
+                <p class="field-help" id="ayuda-participantes">Viviendas, entidades, explotaciones o edificios del perímetro inicial.</p>
+                <p class="field-error" id="error-participantes" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="perfilConsumo">Perfil de consumo</label>
+                <select id="perfilConsumo" name="perfilConsumo" aria-describedby="ayuda-perfilConsumo error-perfilConsumo">
+                  <option value="residencial">Residencial</option>
+                  <option value="municipal">Municipal y equipamientos</option>
+                  <option value="comercial">Comercio y servicios</option>
+                  <option value="productivo">Productivo o agrario</option>
+                  <option value="mixto" selected>Comunidad mixta</option>
+                </select>
+                <p class="field-help" id="ayuda-perfilConsumo">Perfil sintético CERA: distribuye el consumo anual en 288 intervalos mes-hora. Sustitúyelo por un CSV local para usar datos propios.</p>
+                <p class="field-error" id="error-perfilConsumo" role="alert" hidden></p>
+              </div>
+
+              <div class="field field--wide">
+                <label for="perfilArchivo">Perfil horario personalizado</label>
+                <input id="perfilArchivo" name="perfilArchivo" type="file" accept=".csv,text/csv" aria-describedby="perfil-archivo-ayuda perfil-archivo-estado">
+                <p class="field-help" id="perfil-archivo-ayuda">Formato local: mes,hora,kWh. CERA procesa el archivo en este navegador.</p>
+                <p class="file-status" id="perfil-archivo-estado" role="status">Ningún perfil personalizado cargado.</p>
+              </div>
+
+              <div class="field">
+                <label for="precioElectricidad">Precio medio de la electricidad</label>
+                <div class="field-control">
+                  <input
+                    type="text"
+                    id="precioElectricidad"
+                    name="precioElectricidad"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    value="0,18"
+                    aria-describedby="ayuda-precio error-precioElectricidad"
+                    required
+                  >
+                  <span class="field-unit">EUR/kWh</span>
+                </div>
+                <p class="field-help" id="ayuda-precio">Precio medio final aproximado, sin introducir datos personales.</p>
+                <p class="field-error" id="error-precioElectricidad" role="alert" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="precioExcedentes">Compensación de excedentes</label>
+                <div class="field-control">
+                  <input
+                    type="text"
+                    id="precioExcedentes"
+                    name="precioExcedentes"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    value="0,06"
+                    aria-describedby="ayuda-precioExcedentes error-precioExcedentes"
+                  >
+                  <span class="field-unit">EUR/kWh</span>
+                </div>
+                <p class="field-help" id="ayuda-precioExcedentes">Hipótesis editable; debe contrastarse con la modalidad vigente.</p>
+                <p class="field-error" id="error-precioExcedentes" role="alert" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step" data-step="generacion" hidden>
+            <legend>Generación</legend>
+            <p class="form-step__intro">
+              Elige cómo dimensionar y revisa las hipótesis de implantación cuando dispongas de ellas.
+            </p>
+
+            <div class="field">
+              <label for="estrategiaDimensionado">Estrategia de dimensionamiento</label>
+              <select id="estrategiaDimensionado" name="estrategiaDimensionado" aria-describedby="ayuda-estrategiaDimensionado error-estrategiaDimensionado">
+                <option value="ajuste">Ajuste a consumo</option>
+                <option value="equilibrio" selected>Equilibrio recomendado</option>
+                <option value="maximo">Máximo aprovechamiento</option>
+              </select>
+              <p class="field-help" id="ayuda-estrategiaDimensionado">Compara autoconsumo, cobertura, excedentes e inversión con una regla visible.</p>
+              <p class="field-error" id="error-estrategiaDimensionado" role="alert" hidden></p>
+            </div>
+
+            <details class="advanced-fields">
+              <summary>Hipótesis técnicas de implantación</summary>
+              <div class="field-grid field-grid--two">
+                <div class="field">
+                  <label for="fraccionSuperficieUtil">Superficie utilizable</label>
+                  <div class="field-control">
+                    <input type="number" id="fraccionSuperficieUtil" name="fraccionSuperficieUtil" min="20" max="100" step="1" value="75" aria-describedby="ayuda-fraccionSuperficieUtil error-fraccionSuperficieUtil">
+                    <span class="field-unit">%</span>
+                  </div>
+                  <p class="field-help" id="ayuda-fraccionSuperficieUtil">Parte de la superficie geométrica disponible tras retranqueos, separaciones y obstáculos.</p>
+                  <p class="field-error" id="error-fraccionSuperficieUtil" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="inclinacionDeg">Inclinación</label>
+                  <div class="field-control">
+                    <input type="number" id="inclinacionDeg" name="inclinacionDeg" min="0" max="90" step="1" value="38" aria-describedby="ayuda-inclinacionDeg error-inclinacionDeg">
+                    <span class="field-unit">°</span>
+                  </div>
+                  <p class="field-help" id="ayuda-inclinacionDeg">Valor de referencia de la zona; debe comprobarse en el activo real.</p>
+                  <p class="field-error" id="error-inclinacionDeg" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="azimutDeg">Azimut</label>
+                  <div class="field-control">
+                    <input type="number" id="azimutDeg" name="azimutDeg" min="-180" max="180" step="1" value="-3" aria-describedby="ayuda-azimutDeg error-azimutDeg">
+                    <span class="field-unit">°</span>
+                  </div>
+                  <p class="field-help" id="ayuda-azimutDeg">Desviación respecto al sur: este negativa y oeste positiva.</p>
+                  <p class="field-error" id="error-azimutDeg" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="perdidasPct">Pérdidas globales</label>
+                  <div class="field-control">
+                    <input type="number" id="perdidasPct" name="perdidasPct" min="0" max="40" step="0.5" value="14" aria-describedby="ayuda-perdidasPct error-perdidasPct">
+                    <span class="field-unit">%</span>
+                  </div>
+                  <p class="field-help" id="ayuda-perdidasPct">Incluye una hipótesis agregada; sombras y diseño eléctrico siguen pendientes.</p>
+                  <p class="field-error" id="error-perdidasPct" role="alert" hidden></p>
+                </div>
+              </div>
+            </details>
+          </fieldset>
+
+          <fieldset class="form-step review-step" data-step="economia" hidden>
+            <legend>Economía y revisión</legend>
+            <p class="form-step__intro">
+              Comprueba el resumen y abre las hipótesis económicas si necesitas ajustarlas.
+            </p>
+            <dl class="review-list" id="resumen-revision">
+              <div>
+                <dt>Lugar</dt>
+                <dd id="revision-lugar">200 m² · Cubierta o tejado</dd>
+              </div>
+              <div>
+                <dt>Energía</dt>
+                <dd id="revision-energia">25.000 kWh/año · 15 kW · 0,18 EUR/kWh</dd>
+              </div>
+              <div>
+                <dt>Comunidad</dt>
+                <dd id="revision-comunidad">12 participantes · equilibrio recomendado</dd>
+              </div>
+            </dl>
+
+            <details class="advanced-fields">
+              <summary>Hipótesis económicas</summary>
+              <div class="field-grid field-grid--two">
+                <div class="field">
+                  <label for="capexPorKwp">CAPEX unitario</label>
+                  <div class="field-control">
+                    <input type="number" id="capexPorKwp" name="capexPorKwp" min="100" max="5000" step="10" value="1100" aria-describedby="ayuda-capexPorKwp error-capexPorKwp">
+                    <span class="field-unit">EUR/kWp</span>
+                  </div>
+                  <p class="field-help" id="ayuda-capexPorKwp">Estimación editable; contrastar con presupuesto y alcance definidos.</p>
+                  <p class="field-error" id="error-capexPorKwp" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="opexPctCapex">O&amp;M anual</label>
+                  <div class="field-control">
+                    <input type="number" id="opexPctCapex" name="opexPctCapex" min="0" max="10" step="0.1" value="2" aria-describedby="ayuda-opexPctCapex error-opexPctCapex">
+                    <span class="field-unit">% CAPEX/año</span>
+                  </div>
+                  <p class="field-help" id="ayuda-opexPctCapex">Hipótesis inicial del 2 % del CAPEX por año.</p>
+                  <p class="field-error" id="error-opexPctCapex" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="degradacionPct">Degradación anual</label>
+                  <div class="field-control">
+                    <input type="text" id="degradacionPct" name="degradacionPct" inputmode="decimal" value="0,5" aria-describedby="ayuda-degradacionPct error-degradacionPct">
+                    <span class="field-unit">%/año</span>
+                  </div>
+                  <p class="field-help" id="ayuda-degradacionPct">Reducción anual estimada de la producción.</p>
+                  <p class="field-error" id="error-degradacionPct" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="tasaDescuentoPct">Tasa de descuento</label>
+                  <div class="field-control">
+                    <input type="number" id="tasaDescuentoPct" name="tasaDescuentoPct" min="0" max="20" step="0.1" value="3" aria-describedby="ayuda-tasaDescuentoPct error-tasaDescuentoPct">
+                    <span class="field-unit">%</span>
+                  </div>
+                  <p class="field-help" id="ayuda-tasaDescuentoPct">Permite comparar flujos futuros en valor presente.</p>
+                  <p class="field-error" id="error-tasaDescuentoPct" role="alert" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="vidaUtilAnios">Vida útil del análisis</label>
+                  <div class="field-control">
+                    <input type="number" id="vidaUtilAnios" name="vidaUtilAnios" min="10" max="40" step="1" value="25" aria-describedby="ayuda-vidaUtilAnios error-vidaUtilAnios">
+                    <span class="field-unit">años</span>
+                  </div>
+                  <p class="field-help" id="ayuda-vidaUtilAnios">Horizonte económico, no garantía de funcionamiento.</p>
+                  <p class="field-error" id="error-vidaUtilAnios" role="alert" hidden></p>
+                </div>
+              </div>
+            </details>
+            <div class="method-note">
+              <strong>Alcance del resultado</strong>
+              <p>
+                Análisis preliminar. CERA separa resultados Calculados, Estimados,
+                Datos pendientes y comprobaciones de Validación técnica.
+              </p>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="button button--quiet" type="button" id="anterior" hidden>Anterior</button>
+            <span class="form-actions__spacer"></span>
+            <button class="button button--primary" type="button" id="siguiente-paso">
+              Continuar a Energía
+            </button>
+            <button class="button button--primary" type="submit" id="calcular" hidden>
+              Calcular orientación
+            </button>
+          </div>
+          <p class="reactive-note" id="nota-reactiva" role="status" hidden>
+            El resultado se actualiza cuando modificas un dato válido.
+          </p>
+        </form>
+
+        <section id="resultados" class="results" aria-live="polite" hidden>
+          <div class="decision-block" id="veredicto">
+            <div class="decision-block__signal" aria-hidden="true">
+              <span class="decision-node"></span>
+              <span class="decision-line"></span>
+            </div>
+            <div class="decision-block__copy">
+              <p class="decision-block__label">Orientación inicial</p>
+              <h2 id="decision-titulo">Resultado del escenario</h2>
+              <p id="veredicto-texto"></p>
+              <p class="decision-block__case" id="resumen-caso"></p>
+            </div>
+            <button class="button button--inverse" type="button" id="resultado-accion" data-view-target="metodo">
+              Ver siguiente paso
+            </button>
+          </div>
+
+          <div class="primary-readings">
+            <article class="primary-reading">
+              <p>Tasa de autoconsumo</p>
+              <strong><span id="r-autoconsumo">—</span><small>%</small></strong>
+              <span>proporción de la generación aprovechada directamente</span>
+              <small class="confidence-label" data-confidence="calculado">Calculado</small>
+            </article>
+            <article class="primary-reading">
+              <p>Cobertura solar del consumo</p>
+              <strong><span id="r-cobertura">—</span><small>%</small></strong>
+              <span>energía consumida en el propio escenario</span>
+              <small class="confidence-label" data-confidence="estimado">Estimado</small>
+            </article>
+            <article class="primary-reading">
+              <p>Producción fotovoltaica anual</p>
+              <strong><span id="r-produccion">—</span><small>kWh/año</small></strong>
+              <span>según el rendimiento del escenario elegido</span>
+            </article>
+            <article class="primary-reading">
+              <p>Excedentes a red</p>
+              <strong><span id="r-excedentes">—</span><small>kWh/año</small></strong>
+              <span>generación no coincidente con el consumo</span>
+            </article>
+          </div>
+
+          <section class="result-section result-section--split" aria-labelledby="titulo-lecturas">
+            <div>
+              <p class="section-index">Lecturas clave</p>
+              <h2 id="titulo-lecturas">Qué sostiene la orientación</h2>
+            </div>
+            <dl class="key-readings">
+              <div>
+                <dt>Potencia recomendada</dt>
+                <dd><span id="r-potencia">—</span><small>kWp</small></dd>
+              </div>
+              <div>
+                <dt>Ahorro anual estimado</dt>
+                <dd><span id="r-ahorro">—</span><small>EUR/año</small></dd>
+              </div>
+              <div id="impacto-emisiones">
+                <dt>Impacto climático</dt>
+                <dd><span>Dato pendiente</span><small>Factor de emisiones no incorporado.</small></dd>
+              </div>
+            </dl>
+          </section>
+
+          <figure class="result-section energy-flow" id="grafico">
+            <figcaption>
+              <span class="section-index">Flujo energético</span>
+              <strong>Destino de la generación y cobertura de la demanda</strong>
+            </figcaption>
+            <p class="chart-note"><strong>Destino de la generación</strong> · porcentajes sobre la producción fotovoltaica.</p>
+            <div class="flow-row">
+              <span class="flow-row__label"><i class="flow-dot flow-dot--self"></i>Autoconsumo</span>
+              <div class="flow-track" aria-hidden="true"><span id="barra-generacion-autoconsumo" class="flow-fill flow-fill--self"></span></div>
+              <span class="flow-row__value" id="valor-generacion-autoconsumo">—</span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-row__label"><i class="flow-dot flow-dot--grid"></i>Excedente a red</span>
+              <div class="flow-track" aria-hidden="true"><span id="barra-generacion-excedentes" class="flow-fill flow-fill--grid"></span></div>
+              <span class="flow-row__value" id="valor-generacion-excedentes">—</span>
+            </div>
+            <p class="chart-note"><strong>Cobertura de la demanda</strong> · porcentajes sobre el consumo anual.</p>
+            <div class="flow-row">
+              <span class="flow-row__label"><i class="flow-dot flow-dot--self"></i>Demanda cubierta por solar</span>
+              <div class="flow-track" aria-hidden="true"><span id="barra-demanda-solar" class="flow-fill flow-fill--self"></span></div>
+              <span class="flow-row__value" id="valor-demanda-solar">—</span>
+            </div>
+            <div class="flow-row">
+              <span class="flow-row__label"><i class="flow-dot flow-dot--gap"></i>Demanda cubierta por red</span>
+              <div class="flow-track" aria-hidden="true"><span id="barra-demanda-red" class="flow-fill flow-fill--gap"></span></div>
+              <span class="flow-row__value" id="valor-demanda-red">—</span>
+            </div>
+            <p class="chart-alert" id="nota-excedentes" hidden>
+              La producción supera el consumo anual; parte relevante se vertería a la red.
+            </p>
+          </figure>
+
+          <figure class="result-section return-line" id="linea-retorno" hidden>
+            <figcaption>
+              <span class="section-index">Horizonte económico</span>
+              <strong id="lr-titulo">Recuperación simple dentro de una vida útil de 25 años</strong>
+            </figcaption>
+            <div class="return-track" aria-hidden="true">
+              <span class="return-segment return-segment--pending" id="lr-pendiente"></span>
+              <span class="return-segment return-segment--benefit" id="lr-beneficio"></span>
+              <span class="return-marker" id="lr-marca"><em id="lr-anio"></em></span>
+            </div>
+            <div class="return-axis" aria-hidden="true"><span>Año 0</span><span id="lr-horizonte">Año 25</span></div>
+            <p id="lr-lectura"></p>
+          </figure>
+
+          <section class="result-section result-section--split" aria-labelledby="titulo-economia">
+            <div>
+              <p class="section-index">Economía orientativa</p>
+              <h2 id="titulo-economia">Magnitudes para contrastar</h2>
+            </div>
+            <dl class="economic-readings">
+              <div>
+                <dt>Retorno simple</dt>
+                <dd><span id="r-payback">—</span><small id="r-payback-unidad">años</small></dd>
+              </div>
+              <div>
+                <dt>Retorno descontado</dt>
+                <dd><span id="r-payback-desc">—</span><small id="r-payback-desc-unidad">años</small></dd>
+              </div>
+              <div>
+                <dt>Valor actual neto</dt>
+                <dd><span id="r-van">—</span><small>EUR</small></dd>
+              </div>
+              <div>
+                <dt>Coste nivelado de energía</dt>
+                <dd><span id="r-lcoe">—</span><small>EUR/kWh</small></dd>
+              </div>
+              <div>
+                <dt>Inversión orientativa</dt>
+                <dd><span id="r-inversion">—</span><small>EUR</small></dd>
+              </div>
+              <div id="fila-reparto" hidden>
+                <dt>Ahorro por participante</dt>
+                <dd><span id="r-reparto">—</span><small>EUR/año</small></dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="result-section validation-gaps" aria-labelledby="titulo-validar">
+            <div>
+              <p class="section-index">Qué falta validar</p>
+              <h2 id="titulo-validar">Límites que condicionan la decisión</h2>
+            </div>
+            <p id="nota-perdida" hidden></p>
+            <ul id="avisos" class="warning-list"></ul>
+          </section>
+
+          <section id="pasaporte" class="result-section passport" aria-labelledby="titulo-pasaporte">
+            <p class="view-location">Entregable · Predesarrollo</p>
+            <h2 id="titulo-pasaporte">Pasaporte del escenario</h2>
+            <p id="pasaporte-resumen"></p>
+            <div id="pasaporte-secciones" class="passport-grid"></div>
+          </section>
+
+          <section class="result-section temporal-analysis" aria-labelledby="titulo-cruce-temporal">
+            <div>
+              <p class="section-index">Cruce temporal</p>
+              <h2 id="titulo-cruce-temporal">Cuándo coinciden generación y consumo</h2>
+            </div>
+            <div class="technical-figures">
+              <figure id="grafico-horario" class="technical-chart">
+                <figcaption>Perfil horario medio · generación y consumo</figcaption>
+                <div class="technical-chart__plot" aria-hidden="true"></div>
+                <p id="grafico-horario-texto">Dato pendiente: el motor v2 incorporará la alternativa textual de los 24 intervalos.</p>
+              </figure>
+              <figure id="grafico-mensual" class="technical-chart">
+                <figcaption>Balance mensual · kWh por mes</figcaption>
+                <div class="technical-chart__plot" aria-hidden="true"></div>
+                <p id="grafico-mensual-texto">Dato pendiente: el motor v2 incorporará generación, consumo y autoconsumo por mes.</p>
+              </figure>
+            </div>
+          </section>
+
+          <section class="result-section comparison-section" aria-labelledby="titulo-dimensionamiento">
+            <p class="section-index">Dimensionamiento</p>
+            <h2 id="titulo-dimensionamiento">Tres alternativas con reglas explícitas</h2>
+            <div class="table-scroll" role="region" aria-label="Comparación preliminar de escenarios de potencia" tabindex="0">
+              <table class="comparison-table" id="tabla-escenarios">
+                <caption>Comparación preliminar de escenarios de potencia</caption>
+                <thead>
+                  <tr><th scope="col">Alternativa</th><th scope="col">Regla</th><th scope="col">Potencia</th><th scope="col">Autoconsumo</th><th scope="col">Cobertura</th><th scope="col">CAPEX</th><th scope="col">VAN</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Ajuste a consumo</th><td>Prioriza autoconsumo</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">Equilibrio recomendado</th><td>Balancea energía y economía</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">Máximo aprovechamiento</th><td>Limita la superficie útil</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="result-section comparison-section" aria-labelledby="titulo-sensibilidad">
+            <p class="section-index">Sensibilidad económica</p>
+            <h2 id="titulo-sensibilidad">Qué cambia en cada lectura</h2>
+            <div class="table-scroll" role="region" aria-label="Sensibilidad económica del escenario" tabindex="0">
+              <table class="comparison-table" id="tabla-sensibilidad">
+                <caption>CAPEX y precios modificados respecto al caso central</caption>
+                <thead>
+                  <tr><th scope="col">Escenario</th><th scope="col">CAPEX</th><th scope="col">Compra</th><th scope="col">Excedentes</th><th scope="col">VAN</th><th scope="col">Retorno descontado</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Conservador</th><td>+15 %</td><td>−10 %</td><td>−15 %</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">Central</th><td>Sin cambio</td><td>Sin cambio</td><td>Sin cambio</td><td>—</td><td>—</td></tr>
+                  <tr><th scope="row">Favorable</th><td>−10 %</td><td>+10 %</td><td>+10 %</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="result-section maturity-section" aria-labelledby="titulo-madurez">
+            <p class="section-index">Madurez técnica</p>
+            <h2 id="titulo-madurez">Lo evaluado y lo que todavía exige proyecto</h2>
+            <ol class="maturity-matrix" id="matriz-madurez">
+              <li><strong>Recurso y energía</strong><span data-confidence="calculado">Calculado</span></li>
+              <li><strong>Encaje e implantación</strong><span data-confidence="estimado">Estimado</span></li>
+              <li><strong>Curva real y condiciones del activo</strong><span data-confidence="dato-pendiente">Dato pendiente</span></li>
+              <li><strong>Diseño eléctrico, proyecto y certificación</strong><span data-confidence="validacion-tecnica">Validación técnica</span></li>
+            </ol>
+          </section>
+
+          <details class="assumptions" id="hipotesis">
+            <summary>Ver hipótesis, reglas y límites del cálculo</summary>
+            <ul id="lista-hipotesis"></ul>
+            <h3>Fórmulas</h3>
+            <ul id="lista-formulas">
+              <li>Autoconsumo por intervalo = mínimo entre generación y consumo.</li>
+              <li>VAN = −CAPEX + suma de cada flujo neto descontado.</li>
+              <li>LCOE = costes descontados divididos por energía descontada.</li>
+            </ul>
+            <h3>Fuentes</h3>
+            <ul id="lista-fuentes">
+              <li>JRC PVGIS 5.3 para recurso solar territorial.</li>
+              <li>Hipótesis económicas CERA editables y pendientes de contraste.</li>
+            </ul>
+            <p class="disclaimer">
+              Resultado preliminar. No sustituye una ingeniería, un estudio de
+              acceso y conexión, un presupuesto, una tramitación ni una certificación.
+            </p>
+          </details>
+
+          <section class="result-section next-step" id="siguiente-paso-audiencia" aria-labelledby="titulo-siguiente-paso">
+            <p class="section-index">Siguiente paso según audiencia</p>
+            <h2 id="titulo-siguiente-paso">Siguiente paso para ayuntamiento</h2>
+            <p id="accion-siguiente-paso">Preparar un inventario municipal de cubiertas y suministros.</p>
+          </section>
+
+          <div class="results-actions">
+            <button class="button button--quiet" type="button" id="imprimir" disabled>Imprimir orientación</button>
+            <button class="button button--primary" type="button" data-view-target="metodo">Preparar el siguiente paso</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="scenario-summary" aria-label="Resumen vivo del escenario" aria-live="polite">
+        <div class="scenario-summary__heading">
+          <span>Escenario en curso</span>
+          <strong>Datos orientativos</strong>
+        </div>
+        <dl class="scenario-summary__list">
+          <div>
+            <dt>Lugar</dt>
+            <dd id="resumen-lugar">200 m² · Cubierta o tejado</dd>
+            <button type="button" data-edit-step="0">Editar</button>
+          </div>
+          <div>
+            <dt>Energía</dt>
+            <dd id="resumen-energia">25.000 kWh/año · 15 kW</dd>
+            <button type="button" data-edit-step="1">Editar</button>
+          </div>
+          <div>
+            <dt>Comunidad</dt>
+            <dd id="resumen-comunidad">12 participantes · equilibrio recomendado</dd>
+            <button type="button" data-edit-step="2">Editar</button>
+          </div>
+        </dl>
+        <div class="privacy-note">
+          <span aria-hidden="true">Local</span>
+          <p>Los datos permanecen en este navegador. CERA no solicita información identificativa.</p>
+        </div>
+        <button class="summary-link" type="button" data-view-target="atlas">
+          Contrastar el recurso solar del territorio
+        </button>
       </aside>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="siguiente" class="banda banda-clara">
-  <div class="banda-int">
-    <p class="banda-eyebrow">Siguiente paso</p>
-    <h2>Del número al proyecto: apoyos reales en Asturias</h2>
-    <p class="banda-sub">CERA da el primer número. A partir de ahí, un proyecto
-    energético rural no se levanta en solitario: existen acompañamiento,
-    financiación y un marco legal que hoy juega a favor. Estos apoyos valen igual
-    para una empresa o explotación, un grupo de vecinos, una cooperativa o un
-    ayuntamiento.</p>
-    <div class="pasos-grid">
-      <article class="paso-card">
-        <h3>Acompañamiento</h3>
-        <p>La <strong>Fundación Asturiana de la Energía (FAEN)</strong>, a través de
-        su Oficina de Transformación Comunitaria, ayuda a constituir la comunidad
-        energética y a dar los primeros pasos técnicos y jurídicos.</p>
-      </article>
-      <article class="paso-card">
-        <h3>Financiación</h3>
-        <p>El Principado convoca cada año <strong>subvenciones a renovables y
-        eficiencia</strong> (edición 2026 abierta a particulares, autónomos,
-        explotaciones, entidades sin ánimo de lucro y ayuntamientos), sumadas a los
-        programas estatales de autoconsumo colectivo con fondos del PRTR.</p>
-      </article>
-      <article class="paso-card">
-        <h3>Marco legal favorable</h3>
-        <p>El <strong>RD-ley 7/2026</strong> amplía el autoconsumo colectivo hasta
-        5 km y crea la figura del gestor de autoconsumo; el <strong>RD 916/2025</strong>
-        reconoce la agrivoltaica como superficie admisible para las ayudas de la PAC:
-        placas y actividad agraria, compatibles.</p>
-      </article>
+  <section
+    class="app-view"
+    id="vista-atlas"
+    data-view="atlas"
+    role="tabpanel"
+    aria-labelledby="tab-atlas"
+    hidden
+  >
+    <div class="view-heading view-heading--atlas">
+      <div>
+        <p class="view-location">Recurso territorial · PVGIS</p>
+        <h1 id="titulo-atlas" tabindex="-1">Lee el territorio antes de dimensionar.</h1>
+      </div>
+      <p class="view-intro">
+        Compara el recurso fotovoltaico de los concejos asturianos. Esta lectura
+        aporta contexto y solo cambia el diagnóstico después de una confirmación explícita.
+      </p>
     </div>
-    <p class="pasos-descargo">Referencias orientativas a programas y normativa
-    vigentes en 2026; confirma condiciones y plazos con cada organismo antes de
-    decidir. CERA no gestiona ayudas ni tramita proyectos.</p>
-  </div>
+
+    <div class="atlas-layout">
+      <aside class="atlas-selector" aria-label="Selector territorial">
+        <label for="atlas-busqueda">Buscar concejo o zona</label>
+        <input type="search" id="atlas-busqueda" autocomplete="off" placeholder="Ej. Cangas del Narcea">
+        <p class="atlas-selector__count" id="atlas-resultados">Ocho zonas de referencia</p>
+        <ul class="atlas-zone-list" id="atlas-zonas"></ul>
+        <p class="atlas-selector__note">
+          Cada concejo toma el punto de medida más próximo entre ocho referencias PVGIS.
+        </p>
+      </aside>
+
+      <figure class="atlas-map-panel">
+        <figcaption>
+          <span>Asturias</span>
+          <strong>Producción anual estimada por kWp</strong>
+        </figcaption>
+        <div id="mapa-recurso" role="group" aria-label="Mapa de concejos de Asturias; selecciona uno para consultar su recurso"></div>
+        <div class="map-status" id="mapa-estado" role="status">Cargando mapa territorial…</div>
+        <div class="atlas-legend" aria-label="Escala discreta de recurso solar, de menor a mayor">
+          <span id="atlas-minimo">—</span>
+          <ol class="atlas-legend__steps">
+            <li class="atlas-legend__step" data-level="1"><span>Menor</span></li>
+            <li class="atlas-legend__step" data-level="2"><span>Medio</span></li>
+            <li class="atlas-legend__step" data-level="3"><span>Alto</span></li>
+            <li class="atlas-legend__step" data-level="4"><span>Mayor</span></li>
+          </ol>
+          <span id="atlas-maximo">—</span>
+        </div>
+      </figure>
+
+      <aside class="atlas-reading" aria-live="polite">
+        <p class="atlas-reading__label">Territorio seleccionado</p>
+        <h2 id="rp-nombre">Selecciona un concejo</h2>
+        <p class="atlas-reading__zone" id="rp-zona">—</p>
+        <p class="atlas-reading__value">
+          <strong id="rp-ey">—</strong>
+          <span>kWh/kWp·año</span>
+        </p>
+
+        <figure class="monthly-chart">
+          <figcaption>Producción mensual por kWp</figcaption>
+          <div class="monthly-chart__plot" id="rp-barras"></div>
+          <p id="rp-barras-texto" class="chart-note">Selecciona un territorio para consultar la serie mensual.</p>
+        </figure>
+
+        <figure class="regional-comparison">
+          <figcaption>Comparación con la media regional</figcaption>
+          <div class="regional-comparison__track" aria-hidden="true">
+            <span class="regional-comparison__average"></span>
+            <span class="regional-comparison__value" id="rp-comparacion"></span>
+          </div>
+          <p id="rp-comparacion-texto">Selecciona un territorio para comparar el recurso regional.</p>
+        </figure>
+
+        <dl class="atlas-data">
+          <div>
+            <dt>Punto de referencia</dt>
+            <dd id="rp-punto">—</dd>
+          </div>
+          <div>
+            <dt>Inclinación óptima PVGIS</dt>
+            <dd id="rp-angulo">—</dd>
+          </div>
+          <div>
+            <dt>Coordenadas y azimut</dt>
+            <dd id="rp-vs">—</dd>
+          </div>
+        </dl>
+
+        <button class="button button--primary atlas-use-zone" type="button" id="usar-zona" disabled>
+          Usar en mi diagnóstico
+        </button>
+
+        <p class="source-note">
+          <a id="rp-fuente" href="https://re.jrc.ec.europa.eu/pvg_tools/es/" target="_blank" rel="noreferrer">Fuente JRC PVGIS 5.3</a>.
+          Estimación territorial con pérdidas del 14 %. La cubierta real depende
+          de orientación, inclinación, sombras y condiciones de conexión.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <dialog class="confirmation-dialog" id="confirmar-zona" aria-labelledby="confirmar-zona-titulo">
+    <form method="dialog">
+      <p class="section-index">Confirmar cambio territorial</p>
+      <h2 id="confirmar-zona-titulo">¿Usar esta zona en el diagnóstico?</h2>
+      <p>La transferencia actualizará de forma explícita:</p>
+      <ul>
+        <li>zona solar de referencia: <strong id="cambio-zona">—</strong>;</li>
+        <li>inclinación de referencia: <strong id="cambio-inclinacion">—</strong>;</li>
+        <li>azimut de referencia: <strong id="cambio-azimut">—</strong>.</li>
+      </ul>
+      <p>El resto de consumos, participantes y costes permanecerá sin cambios. Los resultados anteriores se ocultarán hasta que vuelvas a calcular.</p>
+      <div class="confirmation-dialog__actions">
+        <button class="button button--quiet" type="submit" value="cancelar">Cancelar</button>
+        <button class="button button--primary" type="submit" value="confirmar">Confirmar zona</button>
+      </div>
+    </form>
+  </dialog>
+
+  <section
+    class="app-view"
+    id="vista-metodo"
+    data-view="metodo"
+    role="tabpanel"
+    aria-labelledby="tab-metodo"
+    hidden
+  >
+    <div class="view-heading">
+      <div>
+        <p class="view-location">Método, trazabilidad y límites</p>
+        <h1 id="titulo-metodo" tabindex="-1">Saber qué se calcula y qué falta comprobar.</h1>
+      </div>
+      <p class="view-intro">
+        CERA convierte datos e hipótesis en una lectura preliminar. La decisión
+        profesional requiere contraste técnico, económico, jurídico y territorial.
+      </p>
+    </div>
+
+    <div class="method-layout">
+      <section class="method-section method-scope" id="metodo-calculo" aria-labelledby="metodo-calculo-titulo">
+        <div>
+          <p class="section-index">01 · Qué calcula CERA</p>
+          <h2 id="metodo-calculo-titulo">Un escenario energético común, no un proyecto definitivo.</h2>
+        </div>
+        <ul class="scope-list scope-list--yes">
+          <li>Potencia limitada por superficie útil y estrategia de dimensionamiento.</li>
+          <li>Producción, autoconsumo, cobertura, excedentes y compra de red.</li>
+          <li>CAPEX, O&amp;M, VAN, LCOE, retorno simple y retorno descontado.</li>
+          <li>Sensibilidad y madurez con estados de confianza visibles.</li>
+        </ul>
+      </section>
+
+      <section class="method-section method-visual" id="metodo-datos" aria-labelledby="metodo-datos-titulo">
+        <img
+          src="assets/cera-mesa-territorial.png"
+          width="1536"
+          height="1024"
+          loading="lazy"
+          decoding="async"
+          alt="Territorio rural asturiano dividido en parcelas, con cubiertas solares conectadas a una comunidad energética."
+        >
+        <div class="method-visual__copy">
+          <p class="section-index">02 · Datos y cruce temporal</p>
+          <h2 id="metodo-datos-titulo">Territorio, generación y consumo se comparan por mes y hora.</h2>
+          <p>
+            El recurso procede del conjunto local JRC PVGIS 5.3. El consumo anual
+            se distribuye mediante un Perfil sintético CERA en 288 intervalos
+            mes-hora o un CSV local con formato <code>mes,hora,kWh</code>,
+            procesado en este navegador.
+          </p>
+          <p>
+            Densidades iniciales: Cubierta · 5,0 m²/kWp; Aparcamiento ·
+            6,5 m²/kWp; Suelo · 8,0 m²/kWp. Son hipótesis geométricas, no
+            diseño constructivo.
+          </p>
+          <p>
+            En cada intervalo, autoconsumo es el mínimo entre generación y consumo;
+            el resto se separa entre excedente y compra de red.
+          </p>
+        </div>
+      </section>
+
+      <section class="method-section" id="metodo-economia" aria-labelledby="metodo-economia-titulo">
+        <p class="section-index">03 · Economía y escenarios</p>
+        <h2 id="metodo-economia-titulo">Cada comparación muestra qué supuesto cambia.</h2>
+        <p>
+          CERA evalúa ajuste, equilibrio y máximo aprovechamiento. Después contrasta
+          escenarios conservador, central y favorable variando CAPEX y precios de
+          compra y compensación de forma explícita.
+        </p>
+        <dl class="formula-list">
+          <div><dt>VAN</dt><dd>Flujos netos descontados menos la inversión inicial.</dd></div>
+          <div><dt>LCOE</dt><dd>Costes descontados entre energía descontada.</dd></div>
+          <div><dt>O&amp;M inicial</dt><dd>2 % del CAPEX por año, editable.</dd></div>
+        </dl>
+      </section>
+
+      <section class="method-section" id="metodo-regulacion" aria-labelledby="metodo-regulacion-titulo">
+        <p class="section-index">04 · Lista de comprobación regulatoria</p>
+        <h2 id="metodo-regulacion-titulo">Condiciones que deben comprobarse para cada proyecto.</h2>
+        <div class="regulatory-notes">
+          <article class="regulatory-note">
+            <h3>Proximidad del autoconsumo colectivo</h3>
+            <p>
+              Regla general de proximidad inferior a 500 m. Posible extensión
+              inferior a 5.000 m para instalaciones fotovoltaicas o eólicas de
+              hasta 5 MW conectadas a través de red de transporte o distribución,
+              sujeta a las condiciones aplicables.
+            </p>
+            <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-6544" target="_blank" rel="noreferrer">
+              Consultar Real Decreto-ley 7/2026 en el BOE
+            </a>
+          </article>
+          <article class="regulatory-note">
+            <h3>Representación y reparto</h3>
+            <p>
+              El gestor de autoconsumo puede representar a consumidores asociados.
+              Deben comprobarse modalidad, conexión, puntos de medida, consumidores
+              asociados y coeficientes de reparto para el caso concreto.
+            </p>
+            <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2026-6544" target="_blank" rel="noreferrer">
+              Revisar condiciones y gestor de autoconsumo en el BOE
+            </a>
+          </article>
+          <article class="regulatory-note">
+            <h3>Agrivoltaica y PAC</h3>
+            <p>
+              La elegibilidad completa se limita a instalaciones agrivoltaicas en
+              tierra de cultivo o cultivo permanente, manteniendo la actividad
+              agraria como principal. No se generaliza a pastos permanentes ni a
+              cualquier suelo agrario.
+            </p>
+            <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-20583" target="_blank" rel="noreferrer">
+              Consultar Real Decreto 916/2025 en el BOE
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="method-section" id="metodo-madurez" aria-labelledby="metodo-madurez-titulo">
+        <p class="section-index">05 · Matriz de madurez</p>
+        <h2 id="metodo-madurez-titulo">Cuatro estados evitan confundir estimación con comprobación.</h2>
+        <ol class="maturity-matrix">
+          <li><strong>Recurso y energía</strong><span data-confidence="calculado">Calculado</span></li>
+          <li><strong>Implantación</strong><span data-confidence="estimado">Estimado</span></li>
+          <li><strong>Datos reales del activo y consumo</strong><span data-confidence="dato-pendiente">Dato pendiente</span></li>
+          <li><strong>Diseño eléctrico y certificación</strong><span data-confidence="validacion-tecnica">Validación técnica</span></li>
+        </ol>
+      </section>
+
+      <section class="method-section route-section" id="metodo-proyecto" aria-labelledby="metodo-proyecto-titulo">
+        <div class="route-section__heading">
+          <p class="section-index">05 · Proyecto y certificación</p>
+          <h2 id="metodo-proyecto-titulo">El diagnóstico abre una ruta; no la sustituye.</h2>
+        </div>
+        <ol class="project-route">
+          <li><span>01</span><div><h3>Acordar el caso</h3><p>Participantes, objetivo, activos y perímetro inicial.</p></div></li>
+          <li><span>02</span><div><h3>Validar implantación</h3><p>Visita, estructura, sombras, acceso y conexión.</p></div></li>
+          <li><span>03</span><div><h3>Desarrollar proyecto</h3><p>Diseño eléctrico, presupuesto, reparto y tramitación.</p></div></li>
+          <li><span>04</span><div><h3>Certificar y operar</h3><p>Firma competente, puesta en servicio, medida y mantenimiento.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="method-section sources-section" id="metodo-privacidad" aria-labelledby="metodo-privacidad-titulo">
+        <div>
+          <p class="section-index">06 · Privacidad y fuentes</p>
+          <h2 id="metodo-privacidad-titulo">Datos locales y procedencia visible.</h2>
+        </div>
+        <dl class="source-list">
+          <div><dt>Recurso solar</dt><dd>JRC PVGIS 5.3, serie local versionada para ocho zonas asturianas.</dd></div>
+          <div><dt>Consumo</dt><dd>Perfil de referencia declarado o CSV local; no se envía ni persiste.</dd></div>
+          <div><dt>Economía</dt><dd>Hipótesis CERA editables; deben contrastarse con tarifa y presupuesto vigentes.</dd></div>
+          <div><dt>Alcance</dt><dd>Análisis preliminar para preparar una revisión profesional.</dd></div>
+        </dl>
+      </section>
+    </div>
+  </section>
+</main>
+
+<nav class="mobile-nav" aria-label="Navegación móvil">
+  <button id="mobile-nav-inicio" class="mobile-nav__button is-active" type="button" data-view-target="inicio" aria-label="Abrir Inicio" aria-current="page">Inicio</button>
+  <button id="mobile-nav-diagnostico" class="mobile-nav__button" type="button" data-view-target="diagnostico" aria-label="Abrir Diagnóstico">Diagnóstico</button>
+  <button id="mobile-nav-atlas" class="mobile-nav__button" type="button" data-view-target="atlas" aria-label="Abrir Atlas solar">Atlas</button>
+  <button id="mobile-nav-metodo" class="mobile-nav__button" type="button" data-view-target="metodo" aria-label="Abrir Método">Método</button>
+</nav>
+
+<section class="print-inputs" aria-hidden="true">
+  <h2>Datos introducidos</h2>
+  <dl id="print-entradas"></dl>
 </section>
 
-<footer class="pie">
-  <div class="pie-int">
-    <p class="marca marca-pie">
-      <svg class="logo logo-mono" viewBox="0 0 48 48" width="26" height="26" role="img"
-           aria-label="Isotipo de CERA: parcela solar" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-        <path d="M33 10a8 8 0 0 1 8 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="33" cy="10" r="4.2"/>
-        <rect x="7" y="15" width="10" height="7.4" rx="1.6"/>
-        <rect x="19.4" y="15" width="10" height="7.4" rx="1.6"/>
-        <rect x="7" y="24.4" width="10" height="7.4" rx="1.6"/>
-        <rect x="19.4" y="24.4" width="10" height="7.4" rx="1.6"/>
-        <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none">
-          <path d="M6 38.5q18-3.6 36 0"/>
-          <path d="M10 44q14-2.8 28 0"/>
-        </g>
-      </svg>
-      <span class="marca-texto">CERA</span>
-    </p>
-    <p>CERA es una herramienta educativa de previabilidad. Los resultados son
-    orientativos y requieren validación profesional y estudio de conexión.</p>
-    <p class="pie-enlaces"><a href="movil.html" target="_top">Ver en marco de móvil</a></p>
-    <p class="pie-fecha">Informe generado el <span class="fecha-doc"></span>.</p>
+<footer class="app-footer">
+  <div class="app-footer__scope">
+    <strong>Procesamiento local</strong>
+    <p>CERA no sube ni conserva los datos del escenario o del CSV.</p>
+  </div>
+  <div class="app-footer__legal">
+    <p>CERA ofrece un análisis preliminar. No garantiza resultados ni sustituye proyecto, presupuesto, tramitación o certificación.</p>
+    <p>Informe actualizado el <span class="fecha-doc"></span>.</p>
   </div>
 </footer>
 

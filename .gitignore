@@ -1,1 +1,8 @@
 .DS_Store
+node_modules/
+.next/
+.vinext/
+.wrangler/
+dist/
+public/cera/
+*.tsbuildinfo
